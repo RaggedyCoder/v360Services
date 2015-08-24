@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/main">
+<head>
+    <title>Labour Lists</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+    <div id="page-wrapper">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Labour List</h1>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div>
+                <a href="#" class="btn btn-info" th:href="@{/labour/create}"> Intake New Labour </a>
+            </div>
+            <hr/>
+
+            <div th:if="${message}" class="alert alert-info">
+                <p th:text="${message}"></p>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Labour List</div>
+
+                <table class="table table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Labour Name</th>
+<!--                         <th>Total Working Project</th> -->
+                        <th>Contact Number</th>
+<!--                         <th>Wage Type</th> -->
+                        <th>gender</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="labour : ${page.content}">
+                        <td><a th:href="@{/labour/show/__${labour.id}__}">Open</a></td>
+                        <td th:text="${labour.fullName}">Labour Name</td>
+                        <td th:text="${labour.contactNumber}">Contact Number</td>
+                        <td th:text="${labour.gender.label}">Gender</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div layout:include="layout/common-fragment :: pagination"></div>
+            
+        </div>
+    </div>
+</section>
+</body>
+</html>

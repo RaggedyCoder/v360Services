@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Log In :: Volume360 Services</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'/>
+        <link href="../../resources/css/bootstrap2.css" th:href="@{/resources/css/bootstrap2.css}" media="screen"
+          rel="stylesheet"/>    
+    <link href="../../resources/css/dashghum.css" th:href="@{/resources/css/dashghum.css}" media="screen"
+          rel="stylesheet"/>
+    <link href="../../resources/css/dashghum-fullstyle.css" th:href="@{/resources/css/dashghum-fullstyle.css}" media="screen"
+          rel="stylesheet"/>         
+          <style type="text/css">       
+        .form-logo {            
+        max-width:auto;
+            padding: 10px 0px 10px 0px;
+            margin: 0 auto 10px;
+        }
+        .copyright{
+        color: #68dff0;
+        }
+    </style>
+</head>
+
+<body >
+    <div class="container">
+    
+            <form  class="form-login" role="form" th:action="@{/j_spring_security_check}" method='POST'>	
+       	    <h2 class="form-login-heading">log In</h2>  
+       	         <div align="center">        
+       		<img class="form-logo"  src="../../resources/images/volume360.png"  th:src="@{/resources/images/volume360.png}"/>			
+               </div>
+                <div class="form-group">
+                    <div th:if="${loginError}" class="alert alert-danger">
+                        <p>Invalid user or password, try again!</p>
+                    </div>
+                    <div align="center" th:if="${logout}" class="alert alert-info">
+                        <p>You have been logged out</p>
+                    </div>
+                </div>
+				<div class="login-wrap">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" id="username"
+                           placeholder="Username"/>                           
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" id="password"
+                           placeholder="Password"/>
+                </div>
+                <div align="center">
+                    <label>
+                        <input type="checkbox" name="remember-me"/> <span
+                            th:text="#{remember.me}">Remember me</span>
+                    </label>
+                </div>                              
+               <button type="submit" class="btn btn-theme btn-block" th:text="#{sign.in}">
+                    <i class="fa fa-lock"></i>SIGN IN</button>
+                </div>
+                <hr></hr>
+                 <div class="footer">
+        <p  align="center">&copy; 2014 sajid shahriar</p>
+    </div>
+            </form>   
+              
+    </div>
+
+    
+<!--    
+    <link href="=../../resources/css/style-responsive.css" 
+    th:href="@{/resources/css/style-responsive.css}" media="screen" rel="stylesheet">
+ -->
+ <!-- js placed at the end of the document so the pages load faster -->
+    <!--BACKSTRETCH-->
+    <script src="../../resources/assets/js/jquery.js" th:src="@{/resources/assets/js/jquery.js}"></script>
+   
+    <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+    <script  type="text/javascript" src="../../resources/assets/js/jquery.backstretch.min.js" th:src="@{/resources/assets/js/jquery.backstretch.min.js}"></script>
+    <script>
+    $.backstretch([
+                   "resources/images/login-bg-1.jpg",
+                   "resources/images/login-bg-2.jpg",
+                   "resources/images/login-bg-3.jpg",
+                   ], {
+                     fade: 1000,
+                     duration: 8000
+               }
+               );
+    </script>
+</body>
+</html>

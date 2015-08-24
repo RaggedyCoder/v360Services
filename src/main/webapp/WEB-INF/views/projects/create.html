@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+<head>
+<title th:text="#{page.tab.header.index.project}">Project ::
+	Create</title>
+<link href="../../../resources/css/datepicker3.css"
+	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
+</head>
+<body>
+	<section layout:fragment="content">
+		<div class="showback">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h3 class="mb">
+						<i class="fa fa-angle-right"></i><span
+							th:text="#{page.header.create.project}">New Project Entry</span>
+					</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading"
+						th:text="#{label.form.title.project.entry}">Project Entry
+						Form</div>
+					<div class="panel-body">
+						<form class="form-horizontal" method="POST"
+							th:object="${projectInfo}" th:action="@{/projects/create}">
+							<fieldset>
+								<legend th:text="#{heading.project.info}">Project
+									Info's</legend>
+								<div class="form-group">
+									<label for="projectName" class="col-sm-2 control-label"
+										th:text="#{label.project.name}">Project Name</label>
+									<div class="col-sm-3">
+										<input type="text" id="projectName" th:field="*{projectName}"
+											maxlength="100" class="form-control input-sm" />
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('projectName')}">
+											<span th:errors="*{projectName}">Project Name must
+												required!</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="workType" class="col-sm-2 control-label"
+										th:text="#{label.district}">Project Work Type</label>
+									<div class="col-sm-3">
+										<select class="form-control" id="workType"
+											th:field="*{workType}">
+											<option value="" th:text="#{common.select.prompt}"></option>
+											<option
+												th:each="workType : ${T(com.thevolume360.domain.enums.WorkType).values()}"
+												th:value="${workType}" th:text="${workType.name}"
+												th:selected="${workType == projectInfo.workType}">
+											</option>
+										</select>
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('workType')}">
+											<span th:errors="*{workType}">Required</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="client" class="col-sm-2 control-label"
+										th:text="#{label.district}">Client</label>
+									<div class="col-sm-3">
+										<select class="form-control" id="client"
+											th:field="*{client.id}">
+											<option value="" th:text="#{common.select.prompt}"></option>
+											<option th:each="client : ${clients}" th:value="${client.id}"
+												th:text="${client.name}"></option>
+											<option value="">Create a new Client</option>
+										</select>
+
+									</div>
+								</div>
+								<div id="clientInfo">
+									<div class="form-group">
+										<label for="client" class="col-sm-2 control-label"
+											th:text="#{label.district}">Client</label>
+										<div class="col-sm-3">
+											<input type="text" id="clientName" th:field="*{client.name}"
+												maxlength="100" class="form-control input-sm" />
+										</div>
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('client.name')}">
+											<span th:errors="*{workType}">Required</span>
+										</p>
+									</div>
+									<div class="form-group">
+										<label for="clientType" class="col-sm-2 control-label"
+											th:text="#{label.district}">Project Work Type</label>
+										<div class="col-sm-3">
+											<select class="form-control" id="clientType"
+												th:field="*{client.clientType}">
+												<option value="" th:text="#{common.select.prompt}"></option>
+												<option
+													th:each="clientType : ${T(com.thevolume360.domain.enums.ClientType).values()}"
+													th:value="${clientType}" th:text="${clientType}"
+													th:selected="${clientType == projectInfo.client.clientType}">
+												</option>
+											</select>
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('client.clientType')}">
+												<span th:errors="*{client.clientType}">Required</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="locationAddress" class="col-sm-2 control-label"
+										th:text="#{label.project.location}">Project Name</label>
+									<div class="col-sm-3">
+										<input type="text" id="locationAddresss"
+											th:field="*{projectAddress.locationAddress}" maxlength="100"
+											class="form-control input-sm" />
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('projectAddress.locationAddress')}">
+											<span th:errors="*{projectAddress.locationAddress}">Project
+												Location must required!</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="projectDistrict" class="col-sm-2 control-label"
+										th:text="#{label.district}">Project District</label>
+									<div class="col-sm-3">
+
+										<select class="form-control" id="projectDistrict"
+											th:field="*{projectAddress.district}">
+											<option
+												th:each="district : ${T(com.thevolume360.domain.enums.District).values()}"
+												th:value="${district}" th:text="${district.name}"
+												th:selected="${district == projectInfo.projectAddress.district}">
+											</option>
+										</select>
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('projectAddress.district')}">
+											<span th:errors="*{projectAddress.district}">Required</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="postalCode" class="col-sm-2 control-label"
+										th:text="#{label.postal.code}">Postal Code</label>
+									<div class="col-sm-3">
+										<input type="text" id="postalCode"
+											th:field="*{projectAddress.postalCode}" maxlength="5"
+											class="form-control input-sm" />
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('projectAddress.postalCode')}">
+											<span th:errors="*{projectAddress.postalCode}">Postal
+												Code must required!</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="projectTakenDate"
+										class="col-sm-2 control-label date"
+										th:text="#{label.project.taken.date}"> Date Taken </label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control input-sm"
+											id="projectTakenDate" th:field="*{dateTaken}" />
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('dateTaken')}">
+											<span th:errors="*{dateTaken}">Required</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="completeDateEstimated"
+										class="col-sm-2 control-label date"
+										th:text="#{label.project.complete.date.estimated}">
+										Date Estimated </label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control input-sm"
+											id="completeDateEstimated"
+											th:field="*{completeDateEstimated}" />
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('completeDateEstimated')}">
+											<span th:errors="*{completeDateEstimated}">Required</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="projectBudget" class="col-sm-2 control-label"
+										th:text="#{label.projects.budget}">Project Name</label>
+									<div class="col-sm-3">
+										<input type="text" id="projectBudget"
+											th:field="*{projectBudget}" maxlength="9"
+											class="form-control input-sm" />
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('projectBudget')}">
+											<span th:errors="*{projectBudget}">Project Budget must
+												required!</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="projectComment" class="col-sm-2 control-label"
+										th:text="#{label.comment}">Project Comment</label>
+									<div class="col-sm-3">
+										<textarea id="projectComment" th:field="*{comment}"
+											maxlength="100" class="form-control input-sm"></textarea>
+										<p class="text-danger" th:if="${#fields.hasErrors('comment')}">
+											<span th:errors="*{comment}">Required!</span>
+										</p>
+									</div>
+								</div>
+								<div style="display: none;" class="form-group">
+									<label for="projectStatus" class="col-sm-2 control-label"
+										th:text="#{label.comment}">Project Comment</label>
+									<div class="col-sm-3">
+										<select class="form-control" id="projectStatus"
+											th:field="*{status}">
+											<option
+												th:each="status : ${T(com.thevolume360.domain.enums.Status).values()}"
+												th:value="${status}" th:text="${status.status}"
+												th:selected="${status == projectInfo.status}"></option>
+										</select>
+										<p class="text-danger" th:if="${#fields.hasErrors('status')}">
+											<span th:errors="*{status}">Required</span>
+										</p>
+									</div>
+								</div>
+							</fieldset>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<a href="#" class="btn btn-danger"
+										th:href="@{/projects/cancel}"> <span
+										th:text="#{label.cancel}">Cancel</span>
+									</a>
+									<button type="submit" class="btn btn-primary"
+										th:text="#{label.create}">Create</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div layout:fragment="custom-scripts">
+		<script src="../../../resources/js/jquery-2.1.3.min.js"
+			th:src="@{/resources/js/jquery-2.1.3.min.js}"></script>
+		<script>
+			if ($("#client option:selected").text() === "-- Select --") {
+				$("#clientInfo").hide();
+			} else if ($("#client option:selected").text() === "Create a new Client") {
+				$("#clientInfo").show();
+			} else {
+				$("#clientInfo").hide();
+			}
+			$(document).ready(
+					function() {
+						$("#client").click(
+								function() {
+									if ($("#client option:selected").text()
+											.match("Create a new Client")) {
+										$("#clientInfo").show();
+
+									} else {
+										$("#clientInfo").hide();
+									}
+								});
+					});
+		</script>
+		<script id="date" src="../../../resources/js/bootstrap-datepicker.js"
+			th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+		<script>
+			$('#projectTakenDate').datepicker({
+				format : "dd/mm/yyyy",
+				startView : 2,
+				autoclose : true
+			});
+			$('#completeDateEstimated').datepicker({
+				format : "dd/mm/yyyy",
+				startView : 2,
+				autoclose : true
+			});
+		</script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+
+<head>
+<title th:text="'Client :: '+${client.name}">Client Name</title>
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<h2 class="page-header" th:text="#{page.header.show.client}">Client
+			Total Information</h2>
+		<div class="showback">
+			<h3 class="mb">
+				<i class="fa fa-angle-right"></i><span
+					th:text="#{page.header.show.client.personal.info}">Client
+					Personal Information</span>
+			</h3>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="col-sm-8 col-md-8">
+								<h3 class="text-primary">
+									<a th:href="@{/client/details/__${client.id}__}"> <span
+										th:text="${client.name}">Client's Name</span></a> <small><a
+										sec:authorize="hasRole('ROLE_ADMIN')"
+										th:href="@{/labour/edit/__${client.id}__}">Edit</a></small>
+								</h3>
+								<h4 class="text-primary">
+									<strong th:text="#{label.client.type}"></strong> <span>:
+									</span> <a> <span th:text="${client.clientType}">Client's
+											Type</span></a>
+								</h4>
+							</div>
+							<div class="col-sm-6 col-md-4">
+								<h3 class="text-right">
+									<i>Client's Total Project: </i> <label class="badge"
+										th:text="${#sets.size(client.projectInfos)}">0</label> <br />
+								</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt">
+			<div class="col-lg-12" th:object="${client}">
+				<div class="showback" th:each="projectInfo : *{projectInfos}">
+					<div th:object="${projectInfo}">
+						<h3 class="mb">
+							<i class="fa fa-angle-right"></i><a
+								th:href="@{/projects/show/__${projectInfo.id}__}"> <span
+								th:text="*{projectWorkId}">Client's Project</span></a>
+						</h3>
+
+						<h4>
+							<span><strong>Project Name: </strong> </span> <span
+								th:text="*{projectName}">Project's Name</span>
+						</h4>
+
+						<h4>
+							<span><strong>Location: </strong> </span> <span
+								th:text="*{projectAddress}"></span>
+						</h4>
+
+						<h4>
+							<strong>Project Taken Date</strong>: <label class="badge"
+								th:text="*{dateTaken}?(*{#dates.format(dateTaken,'dd-MMM-yyyy')})"></label>
+						</h4>
+						<h4>
+							<strong>Complete Date(Est)</strong>: <label class="badge"
+								th:text="*{completeDateEstimated}? *{#dates.format(completeDateEstimated,'dd-MMM-yyyy')}"></label>
+							<br />
+						</h4>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<form th:action="@{/client/investment/create}" method="post">
+									<strong class="text-right">Client
+										Investment&nbsp;&nbsp;</strong> <input th:value="*{id}" type="hidden"
+										name="id" />
+									<button class="btn btn-primary" type="submit">Add new</button>
+								</form>
+							</div>
+							<div class="panel-body">
+								<div class="col-sm-8 col-md-8">
+									<table th:if="*{not #lists.isEmpty(clientInvestments)}"
+										class="table table-condensed">
+										<thead>
+											<tr>
+												<th>Investment Copy</th>
+												<th>Invested Amount</th>
+												<th>Invested Date</th>
+												<th>Type of Investment</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="clientInvestment : *{clientInvestments}">
+												<td><a
+													th:href="@{/client/investment/show/__${clientInvestment.id}__}">Open</a></td>
+												<td th:text="${clientInvestment.investedAmount}"></td>
+												<td
+													th:text="${clientInvestment.investmentDate} ? ${#dates.format(clientInvestment.investmentDate,'dd MMMM yyyy')}"></td>
+												<td th:text="${clientInvestment.investmentType}"></td>
+											</tr>
+										</tbody>
+									</table>
+									<strong th:if="*{#lists.isEmpty(clientInvestments)}">Client
+										didn't invested any amount yet..</strong>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="showback" th:if="*{#sets.isEmpty(projectInfos)}">
+					<h3 class="mb">
+						<i class="fa fa-angle-right"></i><span><strong
+							th:text="#{message.table.client.projectinfo.empty}">This
+								client is not associated with any Project.</strong></span>
+					</h3>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+</body>
+</html>
+

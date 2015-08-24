@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+<head>
+<title>Home Page :: volume360Services</title>
+<link href="../../../resources/css/datepicker3.css"
+	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<div id="page-wrapper">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">New Labour Entry</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">New Labour Entry</div>
+					<div class="panel-body">
+						<form class="form-horizontal" method='POST' th:object="${labour}"
+							th:action="@{/labour/create}">
+							<fieldset>
+								<legend th:text="#{heading.patient.personal.info}">Labour
+									Personal Info</legend>
+								<div class="form-group">
+									<label for="firstName" class="col-sm-2 control-label"
+										th:text="#{label.user.firstName}">First Name</label>
+
+									<div class="col-sm-3">
+										<input type="text" id="firstName"
+											th:field="*{fullName.firstName}" maxlength="100"
+											class="form-control input-sm" />
+
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('fullName.firstName')}">
+											<span th:errors="*{fullName.firstName}">First Name
+												required!</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="lastName" class="col-sm-2 control-label"
+										th:text="#{label.user.lastName}">Last Name</label>
+
+									<div class="col-sm-3">
+										<input type="text" id="lastName"
+											th:field="*{fullName.lastName}" maxlength="100"
+											class="form-control input-sm" />
+
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('fullName.lastName')}">
+											<span th:errors="*{fullName.lastName}">First Name
+												required!</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="patient-contact-no"
+										class="col-sm-2 control-label required-field"
+										th:text="#{label.contact.no}"> Contact Number </label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control input-sm"
+											id="patient-contact-no" pattern="^01(1|5|6|7|8|9)\d{8}$"
+											th:field="*{contactNumber}" />
+
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('contactNumber')}">
+											<span th:errors="*{contactNumber}">Required</span>
+										</p>
+									</div>
+
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" th:text="#{label.sex}">
+										Sex </label>
+									<div class="col-sm-3">
+										<select id="gender-select" class="form-control"
+											th:field="*{gender}">
+											<option value="" th:text="#{common.select.prompt}"></option>
+											<option
+												th:each="gender : ${T(com.thevolume360.domain.enums.Gender).values()}"
+												th:value="${gender}" th:text="${gender.label}"
+												th:selected="${gender == labour.gender}"></option>
+											<option value="others" th:text="others"></option>
+										</select>
+										<p class="text-danger" th:if="${#fields.hasErrors('gender')}">
+											<span th:errors="*{gender}">Required</span>
+										</p>
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<a href="#" class="btn btn-danger" th:href="@{/labour/cancel}">
+										<span th:text="#{label.cancel}">Cancel</span>
+									</a>
+									<button type="submit" class="btn btn-primary"
+										th:text="#{label.add.patient}">Save Labour</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>	
+</body>
+</html>

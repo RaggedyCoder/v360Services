@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+<head>
+<title th:text="#{page.table.header.create.client.investment}">Client
+	Investment :: Create</title>
+<link href="../../../resources/css/datepicker3.css"
+	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<div class="showback">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h3 class="mb">
+						<i class="fa fa-angle-right"></i><span
+							th:text="#{page.header.create.client.investment}">New
+							Client Investment Entry</span>
+					</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading"
+							th:text="#{label.form.title.client.investment.entry}">Client
+							Investment Entry Form</div>
+						<div class="panel-body">
+							<form class="form-horizontal" method='POST'
+								th:object="${clientInvestment}"
+								th:action="@{/client/investment/create/__${projectInfo.id}__}">
+								<fieldset>
+									<legend th:text="#{heading.client.investment.info}">Investment(Client)
+										Info's</legend>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label"><strong>Client's
+												Name:</strong> </label>
+										<div class="col-sm-3">
+											<label class="form-control input-sm"
+												th:text="${projectInfo.client.name}"></label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label"><strong>Project's
+												Name:</strong> </label>
+										<div class="col-sm-3">
+											<label class="form-control input-sm"
+												th:text="${projectInfo.projectName}"></label>
+										</div>
+									</div>
+									<input type="hidden" name="client.id"
+										th:value="${projectInfo.client.id}" /> <input type="hidden"
+										name="projectInfo.id" th:value="${projectInfo.id}" />
+
+									<div class="form-group">
+										<label for="investedAmount"
+											class="col-sm-2 control-label date">Invested Amount</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control input-sm"
+												id="investedAmount" th:field="*{investedAmount}" />
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('investedAmount')}">
+												<span th:errors="*{investedAmount}">Required</span>
+											</p>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="investmentType"
+											class="col-sm-2 control-label date">Invested Amount</label>
+										<div class="col-sm-3">
+											<select class="form-control" id="workType"
+												th:field="*{investmentType}">
+												<option value="" th:text="#{common.select.prompt}"></option>
+												<option
+													th:each="investmentType : ${T(com.thevolume360.domain.enums.InvestmentType).values()}"
+													th:value="${investmentType}"
+													th:text="${investmentType.name}"
+													th:selected="${investmentType == clientInvestment.investmentType}">
+												</option>
+											</select>
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('investmentType')}">
+												<span th:errors="*{investmentType}">Required</span>
+											</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="investmentDate"
+											class="col-sm-2 control-label date">Invested Date</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control input-sm"
+												id="investmentDate" th:field="*{investmentDate}"
+												placeholder="dd/mm/yyyy" />
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('investmentDate')}">
+												<span th:errors="*{investmentDate}">Required</span>
+											</p>
+										</div>
+									</div>
+
+								</fieldset>
+
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<a href="#" class="btn btn-danger" th:href="@{/client/cancel}">
+											<span th:text="#{label.cancel}">Cancel</span>
+										</a>
+										<button type="submit" class="btn btn-primary"
+											th:text="#{label.add.client.investment}">Create
+											Record</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div layout:fragment="custom-scripts">
+		<script src="../../../resources/js/jquery-2.1.3.min.js"
+			th:src="@{/resources/js/jquery-2.1.3.min.js}"></script>
+
+		<script id="date" src="../../../resources/js/bootstrap-datepicker.js"
+			th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+		<script>
+			$('#investmentDate').datepicker({
+				format : "dd/mm/yyyy",
+				startView : 2,
+				autoclose : true
+			});
+		</script>
+	</div>
+</body>
+</html>

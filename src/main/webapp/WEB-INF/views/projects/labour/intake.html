@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+<head>
+<title>Home Page :: volume360Services</title>
+<link href="../../../resources/css/datepicker3.css"
+	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
+</head>
+<body>
+	<section layout:fragment="content">
+		<div id="page-wrapper">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header" th:text="#{page.header.projects.labour}">Intaking
+						Labour to a Project</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div th:if="${labours.size()>0}">
+					<div class="panel panel-default">
+						<div class="panel-heading"
+							th:text="#{panel.heading.projects.labour}">Select Labours
+							for Project</div>
+						<div class="panel-body">
+							<ul>
+								<li th:each="labour: ${labours}"><b
+									th:text="|${labour.fullName} ${labour.gender} ${labour.contactNumber}|">
+										Labours Details</b></li>
+							</ul>
+							<form th:object="${intakeLabours}"
+								th:action="@{/projects/labour/complete/__${projectInfo.id}__}"
+								method="POST">
+								<fieldset>
+									<div class="form-group">
+										<label class="col-sm-2 control-label"
+											th:text="#{label.projects.labours.select}">Select
+											Labours by Name</label>
+										<div class="col-sm-3">
+											<select class="form-control" th:size="15"
+												th:field="*{labours}" multiple="multiple">
+												
+												<option th:each="labour : ${labours}" th:value="${{labour}}"
+													th:text="${labour.fullName}"></option>
+											</select>
+											<p class="text-danger"
+												th:if="${#strings.isEmpty('zeroLabourSelected')}">
+												<span>Required</span>
+											</p>
+										</div>
+										<br />
+									</div>
+								</fieldset>
+								<fieldset>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">Labour Gender:</label>
+										<div class="col-sm-3">
+											<input class="form-control input-sm" th:field="*{wageUnit}" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" th:text="#{label.sex}">
+											Sex </label>
+										<div class="col-sm-3">
+											<select id="gender-select" class="form-control"
+												th:field="*{wageType}">
+												<option value="" th:text="#{common.select.prompt}"></option>
+												<option
+													th:each="wageType : ${T(com.thevolume360.domain.enums.WageType).values()}"
+													th:value="${wageType.name}" th:text="${wageType.name}"
+													th:selected="${wageType == intakeLabours.wageType}"></option>
+											</select>
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('wageType')}">
+												<span th:errors="*{wageType}">Required</span>
+											</p>
+										</div>
+									</div>
+								</fieldset>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<a href="#" class="btn btn-danger"
+											th:href="@{/projects/labour/cancel/__${projectInfo.id}__}">
+											<span th:text="#{label.cancel}">Cancel</span>
+										</a> <input class="btn btn-primary" type="submit" />
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div th:if="${labours.size()==0}">
+					<div class="panel panel-default">
+						<div class="panel-heading">Error</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<h1>No Labours to take in the project</h1>
+									<a href="#" class="btn btn-danger"
+										th:href="@{/projects/labour/cancel/__${projectInfo.id}__}">
+										<span th:text="#{label.cancel}">Cancel</span>
+									</a> <a href="#" class="btn btn-primary"
+										th:href="@{/labour/create}"> <span>Create New
+											Labour</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

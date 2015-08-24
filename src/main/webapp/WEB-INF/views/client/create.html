@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+<head>
+<title th:text="#{page.table.header.create.client}">Client ::
+	Create</title>
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<div class="showback">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h3 class="mb">
+						<i class="fa fa-angle-right"></i><span
+							th:text="#{page.header.create.client}">New Client Entry</span>
+					</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading"
+							th:text="#{label.form.title.client.entry}">Client Entry
+							Form</div>
+						<div class="panel-body">
+							<form class="form-horizontal" method='POST' th:object="${client}"
+								th:action="@{/client/create}">
+								<fieldset>
+									<legend th:text="#{heading.client.info}">Client Info's</legend>
+									<div class="form-group">
+										<label for="name" class="col-sm-2 control-label"
+											th:text="#{label.client.name}">Client's name</label>
+
+										<div class="col-sm-3">
+											<input type="text" id="name" th:field="*{name}"
+												maxlength="100" class="form-control input-sm" />
+
+											<p class="text-danger" th:if="${#fields.hasErrors('name')}">
+												<span th:errors="*{name}">Client's name is required!</span>
+											</p>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="clientType-select"
+											th:text="#{label.client.type}"> Client's Type</label>
+										<div class="col-sm-3">
+											<select id="clientType-select" class="form-control"
+												th:field="*{clientType}">
+												<option value="" th:text="#{common.select.prompt}"></option>
+												<option
+													th:each="clientType : ${T(com.thevolume360.domain.enums.ClientType).values()}"
+													th:value="${clientType}" th:text="${clientType.label}"
+													th:selected="${clientType == client.clientType}"></option>
+											</select>
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('clientType')}">
+												<span th:errors="*{clientType}">Client's type must
+													required!</span>
+											</p>
+										</div>
+									</div>
+								</fieldset>
+
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<a href="#" class="btn btn-danger" th:href="@{/client/cancel}">
+											<span th:text="#{label.cancel}">Cancel</span>
+										</a>
+										<button type="submit" class="btn btn-primary"
+											th:text="#{label.add.client}">Save Client</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

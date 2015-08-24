@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+
+<head>
+
+<title th:text="${projectInfo.projectWorkId}">Project ID</title>
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<div id="page-wrapper">
+			<div class="row">
+				<div th:if="${message}" class="alert alert-info">
+					<p th:text="${message}"></p>
+				</div>
+				<div class="col-sm-12 col-md-12">
+					<h2 class="page-header">Project Short Information</h2>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="col-sm-8 col-md-8">
+								<h3 class="text-primary">
+									<a th:href="@{/projects/details/__${projectInfo.id}__}"> <span
+										th:text="${projectInfo.projectName}">Project Name</span></a> <small><a
+										sec:authorize="hasRole('ROLE_ADMIN')"
+										th:href="@{/projects/edit/__${projectInfo.id}__}">Edit</a></small>
+								</h3>
+								<h4 class="text-primary">
+									<strong th:text="${projectInfo.projectWorkId}"></strong>
+								</h4>
+								<h4 class="text-primary">
+									<a>Budget(Est.) : </a> <strong
+										th:text="${projectInfo.projectBudget}"></strong> <a> Taka
+									</a>
+								</h4>
+								<h4 class="text-primary">
+									<a>Client : </a> <a
+										th:href="@{/client/show/__${projectInfo.client.id}__}"><strong
+										th:text="${projectInfo.client.name}"> </strong> </a>
+								</h4>
+								<h4 class="text-primary">
+									<strong th:text="${projectInfo.projectAddress}"></strong>
+								</h4>
+								<h5 class="text-primary">
+									<strong th:text="${projectInfo.comment}"></strong>
+								</h5>
+							</div>
+							<div class="col-sm-6 col-md-4">
+								<h3 class="text-right">
+									<i>Project Taken Date</i>: <label class="badge"
+										th:text="${projectInfo.dateTaken}?(${#dates.format(projectInfo.dateTaken,'dd-MMM-yyyy')})"></label>
+									<br /> <i>Complete Date(Est)</i>: <label class="badge"
+										th:text="${projectInfo.completeDateEstimated}?${#dates.format(projectInfo.completeDateEstimated,'dd-MMM-yyyy')}"></label>
+									<br />
+								</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<strong class="text-right">Working Labours&nbsp;&nbsp;</strong>
+								<a class="btn btn-primary"
+									th:href="@{/projects/labour/intake/__${projectInfo.id}__}"><span
+									class="text-right">Add new</span></a>
+							</div>
+							<div class="panel-body">
+								<div class="col-sm-8 col-md-8">
+									<table th:if="${not #sets.isEmpty(projectInfo.projectLabours)}"
+										class="table table-condensed">
+										<thead>
+											<tr>
+												<th>Labour Info</th>
+												<th>Labour Name</th>
+												<th>project Joining Date</th>
+												<th>project Leave Date</th>
+												<th>Current Wage</th>
+												<th>Current Wage Type</th>
+												<th>Show Wage Details</th>
+												<th>Pay Wage</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="projectLabour : ${projectInfo.projectLabours}">
+												<td><a
+													th:href="@{/labour/show/__${projectLabour.labour.id}__}">Open</a></td>
+												<td th:text="${projectLabour.labour.fullName}"></td>
+												<td
+													th:text="${projectLabour.projectJoinDate} ? ${#dates.format(projectLabour.projectJoinDate,'dd MMMM yyyy')}"></td>
+												<td
+													th:text="${projectLabour.projectEndDate} ? ${#dates.format(projectLabour.projectEndDate,'dd MMMM yyyy')}: 'Still Working'"></td>
+												<td
+													th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><strong
+													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
+													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageType}"></strong></td>
+												<td
+													th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><strong
+													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
+													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageUnit}"></strong></td>
+												<td><a
+													th:href="@{projects/labour/show/__${projectLabour.labour.id}__}">Show</a></td>
+												<td><a
+													th:href="@{projects/labour/wage/__${projectLabour.labour.id}__}">Pay</a></td>
+											</tr>
+										</tbody>
+									</table>
+									<strong th:if="${#sets.isEmpty(projectInfo.projectLabours)}">No
+										Project Labour is selected yet. :(</strong>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<strong class="text-right">Bought Materials&nbsp;&nbsp;</strong>
+								<a class="btn btn-primary" th:href="@{/projects/buyings/create}"><span
+									class="text-right">Add new</span></a>
+							</div>
+							<div class="panel-body">
+								<div class="col-sm-8 col-md-8">
+									<table th:if="${not #lists.isEmpty(projectBuyings)}"
+										class="table table-condensed">
+										<thead>
+											<tr>
+												<th>Bills Copy</th>
+												<th>Bought Date</th>
+												<th>Total Cost(In Taka)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="projectBuying : ${projectBuyings}">
+												<td><a
+													th:href="@{/projects/buyings/show/__${projectBuying.id}__}">Open</a></td>
+												<td
+													th:text="${projectBuying.boughtDate} ? ${#dates.format(projectBuying.boughtDate,'dd MMMM yyyy')}"></td>
+												<td th:text="${projectBuying.billsCost}"></td>
+											</tr>
+										</tbody>
+									</table>
+									<strong th:if="${#lists.isEmpty(projectLabours)}">No
+										Project Labour is selected yet.</strong>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<form th:action="@{/client/investment/create}" method="post">
+
+									<strong class="text-right">Client
+										Investment&nbsp;&nbsp;</strong> <input th:value="*{id}" type="hidden"
+										name="id" />
+
+									<button class="btn btn-primary" type="submit">Add new</button>
+								</form>
+							</div>
+							<div class="panel-body">
+								<div class="col-sm-8 col-md-8">
+									<table
+										th:if="${not #lists.isEmpty(projectInfo.clientInvestments)}"
+										class="table table-condensed">
+										<thead>
+											<tr>
+												<th>Investment Copy</th>
+												<th>Invested Amount</th>
+												<th>Invested Date</th>
+												<th>Type of Investment</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr
+												th:each="clientInvestment : ${projectInfo.clientInvestments}">
+												<td><a
+													th:href="@{/projects/investment/client/show/__${clientInvestment.id}__}">Open</a></td>
+												<td th:text="${clientInvestment.investedAmount}"></td>
+												<td
+													th:text="${clientInvestment.investmentDate} ? ${#dates.format(clientInvestment.investmentDate,'dd MMMM yyyy')}"></td>
+												<td th:text="${clientInvestment.investmentType}"></td>
+											</tr>
+										</tbody>
+									</table>
+									<strong
+										th:if="${#lists.isEmpty(projectInfo.clientInvestments)}">Client
+										didn't invested any amount yet..</strong>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<strong class="text-right">Bank Withdrawal&nbsp;&nbsp;</strong>
+								<a class="btn btn-primary"
+									th:href="@{/projects/investment/company/create}"><span
+									class="text-right">Add new</span></a>
+							</div>
+							<div class="panel-body">
+								<div class="col-sm-8 col-md-8">
+									<table th:if="${not #lists.isEmpty(bankWithdraws)}"
+										class="table table-condensed">
+										<thead>
+											<tr>
+												<th>Withdrawal Copy</th>
+												<th>Issued By</th>
+												<th>Withdrawed By</th>
+												<th>Withdrawal Amount</th>
+												<th>Withdrawal Date</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="bankWithdraw : ${bankWithdraws}">
+												<td><a
+													th:href="@{/projects/investment/company/show/__${bankWithdraw.id}__}">Open</a></td>
+												<td th:text="${bankWithdraw.issuedBy.fullName}"></td>
+												<td th:text="${bankWithdraw.withdrawnBy.fullName}"></td>
+												<td th:text="${bankWithdraw.amount}"></td>
+												<td
+													th:text="${bankWithdraw.withdrawnDate} ? ${#dates.format(bankWithdraw.withdrawnDate,'dd MMMM yyyy')}"></td>
+											</tr>
+										</tbody>
+									</table>
+									<strong th:if="${#lists.isEmpty(projectLabours)}">No
+										Bank withdrawal action done yet...</strong>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
