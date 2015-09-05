@@ -1,49 +1,55 @@
 package com.thevolume360.web.controller;
 
+import javax.persistence.Embedded;
+
+import com.thevolume360.domain.FullName;
+import com.thevolume360.domain.enums.Gender;
+
 public class LabourSearchCmd {
-    private String healthId;
-    private String phoneNumber;
-    private String name;
-    private String registerId;
+	@Embedded
+	private FullName fullName;
+	private String contactNumber;
+	private Gender gender;
 
-    public String getHealthId() {
-        return healthId;
-    }
+	public LabourSearchCmd() {
+		this(new FullName(), "", null);
+	}
 
-    public void setHealthId(String healthId) {
-        this.healthId = healthId;
-    }
+	public LabourSearchCmd(FullName fullName, String contactNumber, Gender gender) {
+		super();
+		this.fullName = fullName;
+		this.contactNumber = contactNumber;
+		this.gender = gender;
+	}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+	public FullName getFullName() {
+		return fullName;
+	}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+	public void setFullName(FullName fullName) {
+		this.fullName = fullName;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getContactNumber() {
+		return contactNumber;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
 
-    public String getRegisterId() {
-        return registerId;
-    }
+	public Gender getGender() {
+		return gender;
+	}
 
-    public void setRegisterId(String registerId) {
-        this.registerId = registerId;
-    }
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
 
-    @Override
-    public String toString() {
-        return "PatientSearchCmd{" +
-                "healthId='" + healthId + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "LabourSearchCmd [fullName=" + fullName + ", contactNumber=" + contactNumber + ", gender=" + gender
+				+ "]";
+	}
+
 }

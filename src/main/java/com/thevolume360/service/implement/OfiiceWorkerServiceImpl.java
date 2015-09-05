@@ -1,4 +1,4 @@
-package com.thevolume360.service;
+package com.thevolume360.service.implement;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.thevolume360.dao.OfficeWorkerDao;
 import com.thevolume360.domain.OfficeWorker;
+import com.thevolume360.service.OfficeWorkerService;
 
 @Service
 public class OfiiceWorkerServiceImpl implements OfficeWorkerService {

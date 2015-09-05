@@ -34,8 +34,7 @@ import com.thevolume360.web.editor.GenderEditor;
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
 @RequestMapping("/labour")
 public class LabourController {
-	private static final Logger log = LoggerFactory
-			.getLogger(LabourController.class);
+	private static final Logger log = LoggerFactory.getLogger(LabourController.class);
 
 	@Autowired
 	private LabourService labourService;
@@ -44,8 +43,7 @@ public class LabourController {
 	public void initBinder(WebDataBinder binder) {
 
 		binder.registerCustomEditor(Gender.class, new GenderEditor());
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("dd/MM/yyyy"), true));
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("dd/MM/yyyy"), true));
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -55,16 +53,14 @@ public class LabourController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String save(@Valid Labour labour, BindingResult result,
-			RedirectAttributes redirectAttributes) {
+	public String save(@Valid Labour labour, BindingResult result, RedirectAttributes redirectAttributes) {
 		validateLabour(labour, result);
 		if (result.hasErrors()) {
 
 			return "labour/create";
 		}
 		labourService.create(labour);
-		redirectAttributes.addFlashAttribute("message",
-				String.format("Labour successfully created"));
+		redirectAttributes.addFlashAttribute("message", String.format("Labour successfully created"));
 		return "redirect:/labour/show/" + labour.getId().toString();
 	}
 
@@ -78,8 +74,7 @@ public class LabourController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String update(@Valid Labour labour, BindingResult result,
-			RedirectAttributes redirectAttributes) {
+	public String update(@Valid Labour labour, BindingResult result, RedirectAttributes redirectAttributes) {
 
 		validateLabour(labour, result);
 
@@ -90,8 +85,7 @@ public class LabourController {
 
 		labourService.update(labour);
 
-		redirectAttributes.addFlashAttribute("message",
-				String.format("Labour successfully updated"));
+		redirectAttributes.addFlashAttribute("message", String.format("Labour successfully updated"));
 
 		return "redirect:/labour/show/" + labour.getId().toString();
 	}
@@ -140,28 +134,28 @@ public class LabourController {
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public String display(
-			@ModelAttribute("labourSearchCmd") LabourSearchCmd labourSearchCmd,
-			Pageable pageable, Model uiModel, HttpServletRequest request) {
+	public String display(@ModelAttribute("labourSearchCmd") LabourSearchCmd labourSearchCmd, Pageable pageable,
+			Model uiModel, HttpServletRequest request) {
 		log.info("display() labourSearchCmd ={}", labourSearchCmd);
 
-		if (isEmpty(labourSearchCmd.getHealthId())
-				&& isEmpty(labourSearchCmd.getPhoneNumber())
-				&& isEmpty(labourSearchCmd.getName())
-				&& isEmpty(labourSearchCmd.getRegisterId())) {
+		if (isEmpty(labourSearchCmd.getFullName().getFirstName())
+				&& isEmpty(labourSearchCmd.getFullName().getLastName()) && isEmpty(labourSearchCmd.getContactNumber())
+				&& labourSearchCmd.getGender() != null) {
 
 			uiModel.addAttribute("labourSearchCmd", labourSearchCmd);
-			uiModel.addAttribute("error",
-					"Please enter Health Id or Phone Number or Register Id");
+			uiModel.addAttribute("error", "Please enter name or Phone Number or gender");
 
 			return "labour/search";
 		}
+		Page<Labour> labours = labourService.findLabourBySearchCmd(labourSearchCmd, pageable);
+		if (labours == null || labours.getTotalElements() == 0) {
+			uiModel.addAttribute("labourSearchCmd", labourSearchCmd);
+			uiModel.addAttribute("notFound", "The labour Information you are looking for, doesn't exist!");
 
-		/*
-		 * Page labours = labourService.findLabourBySearchCmd(labourSearchCmd,
-		 * pageable);
-		 */
-
+			return "labour/search";
+		}
+		PageWrapper<Labour> page = new PageWrapper<>(labours, "/labour/display?" + request.getQueryString());
+		uiModel.addAttribute("page", page);
 		/*
 		 * if (labours.getTotalElements() == 0) {
 		 * 

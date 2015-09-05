@@ -1,4 +1,4 @@
-package com.thevolume360.service;
+package com.thevolume360.service.implement;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.thevolume360.dao.ProjectLabourDao;
 import com.thevolume360.domain.ProjectLabour;
+import com.thevolume360.service.ProjectLabourService;
 
 @Service
 @Transactional

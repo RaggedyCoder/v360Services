@@ -1,4 +1,4 @@
-package com.thevolume360.service;
+package com.thevolume360.service.implement;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.thevolume360.dao.ClientInvestmentDao;
 import com.thevolume360.domain.ClientInvestment;
+import com.thevolume360.service.ClientInvestmentService;
 
 @Service
 public class ClientInvestmentServiceImpl implements ClientInvestmentService {

@@ -164,7 +164,7 @@
 										class="col-sm-2 control-label date"
 										th:text="#{label.project.taken.date}"> Date Taken </label>
 									<div class="col-sm-3">
-										<input type="text" class="form-control input-sm"
+										<input type="date" pattern="dd/mm/yyyy" class="form-control input-sm"
 											id="projectTakenDate" th:field="*{dateTaken}" />
 										<p class="text-danger"
 											th:if="${#fields.hasErrors('dateTaken')}">

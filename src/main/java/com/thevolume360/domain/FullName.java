@@ -30,6 +30,15 @@ public class FullName implements Serializable {
 	@Expose
 	private String lastName;
 
+	public FullName() {
+		this("", "");
+	}
+
+	private FullName(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -48,8 +57,12 @@ public class FullName implements Serializable {
 
 	@Override
 	public String toString() {
-		return new StringBuilder().append(firstName).append(" ")
-				.append(lastName).toString();
+		return new StringBuilder().append(firstName).append(" ").append(lastName).toString();
+	}
+
+	public void trim() {
+		firstName = firstName.trim();
+		lastName = lastName.trim();
 	}
 
 }

@@ -78,20 +78,17 @@ public class Labour extends PersistentObject implements Auditable {
 
 	@Valid
 	@Embedded
-	@Expose
 	private FullName fullName;
 
 	@NotNull
 	@Column(length = 6)
 	@Enumerated(EnumType.STRING)
-	@Expose
 	private Gender gender;
 
 	@NotEmpty
 	@Size(max = 32)
 	@Column(length = 32)
 	@Pattern(regexp = "^01(1|5|6|7|8|9)\\d{8}$", message = "Phone number must be valid.")
-	@Expose
 	private String contactNumber;
 
 	@OneToMany(mappedBy = "labour", fetch = FetchType.LAZY)

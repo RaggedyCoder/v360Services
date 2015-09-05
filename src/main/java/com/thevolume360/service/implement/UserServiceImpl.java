@@ -1,4 +1,4 @@
-package com.thevolume360.service;
+package com.thevolume360.service.implement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.thevolume360.dao.UserDao;
 import com.thevolume360.domain.User;
+import com.thevolume360.service.UserService;
 import com.thevolume360.utils.StringUtils;
 
 import javax.persistence.NoResultException;

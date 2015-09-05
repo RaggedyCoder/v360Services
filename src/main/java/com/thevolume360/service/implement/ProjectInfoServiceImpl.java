@@ -1,4 +1,4 @@
-package com.thevolume360.service;
+package com.thevolume360.service.implement;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.thevolume360.dao.ProjectInfoDao;
 import com.thevolume360.domain.ProjectInfo;
+import com.thevolume360.service.ProjectInfoService;
 import com.thevolume360.utils.ProjectWorkIdGenerator;
 
 @Service

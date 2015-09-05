@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.thevolume360.domain.Labour;
 import com.thevolume360.domain.ProjectInfo;
+import com.thevolume360.web.controller.LabourSearchCmd;
 
 public interface LabourService {
 
@@ -23,4 +24,6 @@ public interface LabourService {
 	public void update(Labour labour);
 
 	public List<Labour> getLaboursNotInThisProject(ProjectInfo projectInfo);
+
+	public Page<Labour> findLabourBySearchCmd(LabourSearchCmd labourSearchCmd, Pageable pageable);
 }
