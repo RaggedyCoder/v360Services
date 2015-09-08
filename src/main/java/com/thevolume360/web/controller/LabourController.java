@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thevolume360.domain.Labour;
 import com.thevolume360.domain.enums.Gender;
+import com.thevolume360.domain.search.LabourSearchCmd;
 import com.thevolume360.service.LabourService;
 import com.thevolume360.utils.PageWrapper;
 import com.thevolume360.web.editor.GenderEditor;

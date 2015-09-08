@@ -36,7 +36,6 @@ public class LabourWorkInfo extends PersistentObject implements Auditable {
 	@ManyToOne
 	private ProjectLabour projectLabour;
 
-	@NotNull
 	private boolean isPaid;
 
 	@NotNull
@@ -79,7 +78,7 @@ public class LabourWorkInfo extends PersistentObject implements Auditable {
 		this.projectLabour = projectLabour;
 	}
 
-	public boolean isPaid() {
+	public boolean getIsPaid() {
 		return isPaid;
 	}
 

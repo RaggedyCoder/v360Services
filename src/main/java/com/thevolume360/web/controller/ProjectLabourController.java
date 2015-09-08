@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.thevolume360.domain.IntakeLabours;
 import com.thevolume360.domain.Labour;
 import com.thevolume360.domain.LabourWageInfo;
+import com.thevolume360.domain.LabourWorkInfo;
 import com.thevolume360.domain.ProjectInfo;
 import com.thevolume360.domain.ProjectLabour;
 import com.thevolume360.domain.enums.WageType;
@@ -36,8 +37,7 @@ import com.thevolume360.web.editor.WageTypeEditor;
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
 @RequestMapping("/projects/labour")
 public class ProjectLabourController {
-	static final Logger LOG = LoggerFactory
-			.getLogger(ProjectLabourController.class);
+	static final Logger LOG = LoggerFactory.getLogger(ProjectLabourController.class);
 
 	@Autowired
 	private LabourService labourService;
@@ -54,8 +54,7 @@ public class ProjectLabourController {
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(WageType.class, new WageTypeEditor());
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("dd/MM/yyyy"), true));
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("dd/MM/yyyy"), true));
 	}
 
 	@RequestMapping(value = "intake/{id}", method = RequestMethod.GET)
@@ -82,8 +81,7 @@ public class ProjectLabourController {
 	}
 
 	@RequestMapping(value = "complete/{id}", method = RequestMethod.POST)
-	public String create(@PathVariable Long id, IntakeLabours intakeLabours,
-			BindingResult result, Model uiModel) {
+	public String create(@PathVariable Long id, IntakeLabours intakeLabours, BindingResult result, Model uiModel) {
 		System.out.println(intakeLabours.getLabours().size());
 		if (intakeLabours.getLabours().size() <= 0) {
 			ProjectInfo projectInfo = null;
@@ -112,17 +110,15 @@ public class ProjectLabourController {
 
 				ProjectLabour projectLabour = new ProjectLabour();
 				projectLabour.setLabour(labour);
-				projectLabour.setProjectJoinDate(new Date(System
-						.currentTimeMillis()));
+				projectLabour.setProjectJoinDate(new Date(System.currentTimeMillis()));
 				projectInfo.setProjectLabours(null);
 				projectLabour.setProjectInfo(projectInfo);
 				System.out.println("project labour-");
 
 				LabourWageInfo labourWageInfo = new LabourWageInfo();
 				System.out.println(1);
-				labourWageInfo
-						.setWageType((intakeLabours.getWageType() == null) ? WageType.DAILY_TYPE
-								: intakeLabours.getWageType());
+				labourWageInfo.setWageType(
+						(intakeLabours.getWageType() == null) ? WageType.DAILY_TYPE : intakeLabours.getWageType());
 				System.out.println(2);
 				labourWageInfo.setWageUnit(intakeLabours.getWageUnit());
 				System.out.println(3);
@@ -141,8 +137,7 @@ public class ProjectLabourController {
 
 			}
 		} catch (Exception e) {
-			System.out.println(e.getClass().getSimpleName() + " "
-					+ e.getMessage());
+			System.out.println(e.getClass().getSimpleName() + " " + e.getMessage());
 		}
 		projectInfo = projectInfoService.findOne(id);
 		uiModel.addAttribute("projectInfo", projectInfo);
@@ -152,5 +147,39 @@ public class ProjectLabourController {
 	@RequestMapping(value = "cancel/{id}", method = RequestMethod.GET)
 	public String cancel(@PathVariable Long id) {
 		return "redirect:/projects/show/" + id;
+	}
+
+	@RequestMapping(value = "show/{id}", method = RequestMethod.GET)
+	public String show(@PathVariable Long id, Model uiModel) {
+		ProjectLabour projectLabour = projectLabourService.findOne(id);
+		Integer wagePaid = 0;
+		Integer extraPaid = 0;
+		Integer paymentNeeded = 0;
+		Integer netPayment = 0;
+		for (LabourWorkInfo labourWorkInfo : projectLabour.getLabourWorkInfos()) {
+			if (labourWorkInfo.getIsPaid()) {
+				wagePaid += labourWorkInfo.getLabourPaymentInfo().getNormalPaidAmount();
+				extraPaid += labourWorkInfo.getLabourPaymentInfo().getExtraPaidAmount();
+
+			} else {
+				for (LabourWageInfo labourWageInfo : projectLabour.getLabourWageInfos()) {
+					if (labourWageInfo.getLastValidDate() == null) {
+						if (labourWageInfo.getWageType().equals(WageType.MONTHLY_TYPE)) {
+							paymentNeeded += (labourWageInfo.getWageUnit() / 26);
+						} else {
+							paymentNeeded += (labourWageInfo.getWageUnit() * labourWorkInfo.getWorkedHour());
+						}
+					}
+				}
+			}
+			netPayment = wagePaid + extraPaid - paymentNeeded;
+		}
+		uiModel.addAttribute("wagePaid", wagePaid);
+		uiModel.addAttribute("extraPaid", extraPaid);
+		uiModel.addAttribute("paymentNeeded", paymentNeeded);
+		uiModel.addAttribute("netPayment", netPayment);
+		uiModel.addAttribute("projectLabour", projectLabour);
+		return "projects/labour/show";
+
 	}
 }

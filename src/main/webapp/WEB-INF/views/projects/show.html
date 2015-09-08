@@ -104,7 +104,7 @@
 													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
 													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageUnit}"></strong></td>
 												<td><a
-													th:href="@{projects/labour/show/__${projectLabour.labour.id}__}">Show</a></td>
+													th:href="@{/projects/labour/show/__${projectLabour.id}__}">Show</a></td>
 												<td><a
 													th:href="@{projects/labour/wage/__${projectLabour.labour.id}__}">Pay</a></td>
 											</tr>

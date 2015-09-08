@@ -1,4 +1,4 @@
-package com.thevolume360.web.controller;
+package com.thevolume360.domain.search;
 
 import javax.persistence.Embedded;
 

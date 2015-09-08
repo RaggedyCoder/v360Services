@@ -55,43 +55,44 @@
 							Project</span>
 					</h3>
 					<div class="row">
-						<div class="col-sm-8 col-md-8">
+						<div class="col-sm-12 col-md-12">
 							<section id="unseen">
 								<table th:if="${not #sets.isEmpty(labour.projectLabours)}"
 									class="table table-bordered table-striped table-condensed cf">
 									<thead>
 										<tr>
-											<th>Open Project</th>
+
 											<th>project Name</th>
 											<th>Joined Date</th>
 											<th>Leaved Date</th>
-											<th>Current Wage</th>
 											<th>Current Wage Type</th>
-											<th>Show Wage Details</th>
+											<th>Current Wage</th>
+											<th>Show Work Details</th>
 											<th>Pay Wage</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="projectLabour : ${labour.projectLabours}">
 											<td><a
-												th:href="@{/projects/show/__${projectLabour.projectInfo.id}__}">Open</a></td>
-											<td th:text="${projectLabour.projectInfo.projectName}"></td>
+												th:href="@{/projects/show/__${projectLabour.projectInfo.id}__}"><span
+													th:text="${projectLabour.projectInfo.projectName}"></span>
+											</a></td>
 											<td
 												th:text="${projectLabour.projectJoinDate} ? ${#dates.format(projectLabour.projectJoinDate,'dd MMMM yyyy')}"></td>
 											<td
 												th:text="${projectLabour.projectEndDate} ? ${#dates.format(projectLabour.projectEndDate,'dd MMMM yyyy')}: 'Still Working'"></td>
 											<td
-												th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><strong
-												th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
-												th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageType}"></strong></td>
+												th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><p
+													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
+													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageType.name}"></p></td>
 											<td
-												th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><strong
-												th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
-												th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageUnit}"></strong></td>
+												th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><p
+													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
+													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageUnit}"></p></td>
 											<td><a
-												th:href="@{projects/labour/show/__${projectLabour.labour.id}__}">Show</a></td>
+												th:href="@{/projects/labour/show/__${projectLabour.id}__}">Show</a></td>
 											<td><a
-												th:href="@{projects/labour/wage/__${projectLabour.labour.id}__}">Pay</a></td>
+												th:href="@{/projects/labour/wage/__${projectLabour.id}__}">Pay</a></td>
 										</tr>
 									</tbody>
 								</table>

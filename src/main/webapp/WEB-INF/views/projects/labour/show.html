@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+<head>
+<title>Project Labour :: Show</title>
+<link href="../../../resources/css/datepicker3.css"
+	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<h2 class="page-header" th:text="#{page.header.show.project.labour}">Project
+			Labour Total Information</h2>
+		<div class="showback">
+			<h3 class="mb">
+				<i class="fa fa-angle-right"></i><span
+					th:text="#{header.show.project.labour.info}">Labour
+					Information in Project</span>
+			</h3>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="col-sm-8 col-md-8">
+								<h3 class="text-primary">
+									<strong>Project's Name</strong> <span>: </span> <a
+										th:href="@{/projects/show/__${projectLabour.projectInfo.id}__}">
+										<span th:text="${projectLabour.projectInfo.projectName}">Project's
+											Name</span>
+									</a>
+								</h3>
+								<h3 class="text-primary">
+									<strong>Labour's Name</strong> <span>: </span> <a
+										th:href="@{/labour/details/__${projectLabour.labour.id}__}">
+										<span th:text="${projectLabour.labour.fullName}">Client's
+											Name</span>
+									</a>
+								</h3>
+								<h4 class="text-primary">
+									<strong>Gender</strong> <span>: </span> <a> <span
+										th:text="${projectLabour.labour.gender.label}">Gender</span></a> <strong>
+									</strong>
+								</h4>
+								<h4 class="text-primary">
+									<strong>Contact Number</strong> <span>: </span> <a> <span
+										th:text="${projectLabour.labour.contactNumber}">Contact</span></a>
+								</h4>
+								<div
+									th:each="labourWageInfo : ${projectLabour.labourWageInfos}">
+									<div
+										th:if="${labourWageInfo.lastValidDate}!=null">
+										<h4 class="text-primary">
+											<strong>Current Wage <span>: </span>
+											</strong> <span
+												th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageUnit}">Contact</span>
+										</h4>
+										<h4 class="text-primary">
+											<strong>Current Wage Type <span>: </span>
+											</strong> <span
+												th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageType.name}">Contact</span>
+										</h4>
+									</div>
+								</div>
+								<h4 class="text-primary">
+									<strong>Project Joining Date <span>: </span>
+									</strong> <span
+										th:text="${projectLabour.projectJoinDate}?${#dates.format(projectLabour.projectJoinDate,'dd-MMM-yyyy')}">Contact</span>
+								</h4>
+								<h4 class="text-primary">
+									<strong>Project Leaved Date <span>: </span>
+									</strong> <span
+										th:text="${projectLabour.projectEndDate}?${#dates.format(projectLabour.projectEndDate,'dd-MMM-yyyy')}:'Still Working'">Contact</span>
+								</h4>
+							</div>
+							<div class="col-sm-6 col-md-4">
+								<h4 class="text-right">
+									<i>Wage Paid: </i> <label
+										th:text="${wagePaid}">0</label>
+									<br />
+								</h4>
+								<h4 class="text-right">
+									<i>Extra Paid: </i> <label
+										th:text="${extraPaid}">0</label>
+									<br />
+								</h4>
+								<h4 class="text-right">
+									<i>Payment Needed: </i> <label
+										th:text="${paymentNeeded}">0</label>
+									<br />
+								</h4>
+								<hr />
+								<h4 class="text-right">
+									<i >Net Wage: </i> <label  th:class="${netPayment} lt 0? text-danger"
+										th:text="${netPayment}">0</label>
+									<br />
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="showback">
+			<h3 class="mb">
+				<i class="fa fa-angle-right"></i><span
+					th:text="#{header.show.project.labour.wage.info}">Labour
+					Wage and Type Information in Project</span>
+			</h3>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+
+						<div class="panel-heading">
+							<form th:action="@{/labour/wage/info/renew}" method="post">
+
+								<strong class="text-right">Labour All Wage Type
+									Info&nbsp;&nbsp;</strong> <input th:value="${projectLabour.id}"
+									type="hidden" name="id" />
+
+								<button class="btn btn-primary" type="submit">Renew</button>
+							</form>
+						</div>
+						<div class="panel-body">
+							<div class="col-sm-12 col-md-12">
+								<table
+									th:if="${not #lists.isEmpty(projectLabour.labourWageInfos)}"
+									class="table table-condensed">
+									<thead>
+										<tr>
+
+											<th>Wage Type</th>
+											<th>Wage Amount</th>
+											<th>Activation Date</th>
+											<th>Closed Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											th:each="labourWageInfo : ${projectLabour.labourWageInfos}">
+											<td th:text="${labourWageInfo.wageType.name}"></td>
+											<td th:text="${labourWageInfo.wageUnit}"></td>
+											<td
+												th:text="${labourWageInfo.activationDate}?${#dates.format(labourWageInfo.activationDate,'dd-MMMM-yyyy')}"></td>
+											<td
+												th:text="${labourWageInfo.lastValidDate}?${#dates.format(labourWageInfo.lastValidDate,'dd-MMMM-yyyy')}:'Ongoing wage'"></td>
+
+										</tr>
+									</tbody>
+								</table>
+								<strong th:if="${#lists.isEmpty(projectLabour.labourWageInfos)}">Labour
+									wage info for the project isn't assigned yet...</strong>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br />
+		<div class="showback">
+			<h3 class="mb">
+				<i class="fa fa-angle-right"></i><span
+					th:text="#{header.show.project.labour.wage.info}">Labour
+					Work Information in Project</span>
+			</h3>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+
+						<div class="panel-heading">
+							<form th:action="@{/labour/work/info/new}" method="post">
+
+								<strong class="text-right">Labour All Work
+									Info&nbsp;&nbsp;</strong> <input th:value="${projectLabour.id}"
+									type="hidden" name="id" />
+
+								<button class="btn btn-primary" type="submit">Add New</button>
+							</form>
+						</div>
+						<div class="panel-body">
+							<div class="col-sm-12 col-md-12">
+								<table
+									th:if="${not #lists.isEmpty(projectLabour.labourWorkInfos)}"
+									class="table table-condensed">
+									<thead>
+										<tr>
+
+											<th>Worked Date</th>
+											<th>Worked Hour</th>
+											<th>Payment</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											th:each="labourWorkInfo : ${projectLabour.labourWorkInfos}">
+											<td
+												th:text="${labourWorkInfo.workedDate}?${#dates.format(labourWorkInfo.workedDate,'dd-MMMM-yyyy')}"></td>
+											<td th:text="${labourWorkInfo.workedHour}"></td>
+											<td th:if="${labourWorkInfo.isPaid}"><a
+												th:href="@{/labour/wage/info/show/__${labourWorkInfo.id}__}"><span>Paid</span>
+											</a></td>
+											<td th:if="${not labourWorkInfo.isPaid}"><a
+												th:href="@{/labour/wage/info/pay/__${labourWorkInfo.id}__}"><span>Pay</span>
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+								<strong th:if="${#lists.isEmpty(projectLabour.labourWorkInfos)}">Labour
+									didn't worked on this project yet...</strong>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

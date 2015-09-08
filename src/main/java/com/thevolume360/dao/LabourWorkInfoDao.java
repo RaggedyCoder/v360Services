@@ -3,9 +3,9 @@ package com.thevolume360.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.thevolume360.domain.ProjectInfo;
+import com.thevolume360.domain.LabourWorkInfo;
 
 @Repository
-public interface LabourWorkInfoDao extends JpaRepository<ProjectInfo, Long> {
+public interface LabourWorkInfoDao extends JpaRepository<LabourWorkInfo, Long> {
 
 }

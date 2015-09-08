@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import com.thevolume360.dao.LabourDao;
 import com.thevolume360.domain.Labour;
 import com.thevolume360.domain.ProjectInfo;
+import com.thevolume360.domain.search.LabourSearchCmd;
 import com.thevolume360.service.LabourService;
 import com.thevolume360.utils.StringUtils;
-import com.thevolume360.web.controller.LabourSearchCmd;
 
 @Service
 @Transactional
@@ -74,19 +74,25 @@ public class LabourServiceImpl implements LabourService {
 				Predicate predicate = cb.disjunction();
 				try {
 					if (StringUtils.isNotEmpty(labourSearchCmd.getFullName().getFirstName())) {
-						predicate.getExpressions().add(cb.or(cb.like(
+						predicate.getExpressions().add(cb.and(cb.like(
 								cb.upper(labourRoot.get("fullName").get("firstName")),
 								getLikePattern(labourSearchCmd.getFullName().getFirstName().trim().toUpperCase()))));
 					}
 					if (StringUtils.isNotEmpty(labourSearchCmd.getFullName().getLastName())) {
-						predicate.getExpressions().add(cb.or(cb.like(
+						predicate.getExpressions().add(cb.and(cb.like(
 								cb.upper(labourRoot.get("fullName").get("lastName")),
 								getLikePattern(labourSearchCmd.getFullName().getLastName().trim().toUpperCase()))));
 					}
 					if (StringUtils.isNotEmpty(labourSearchCmd.getContactNumber())) {
 						System.out.println("Contact Number- " + labourSearchCmd.getContactNumber());
-						predicate.getExpressions().add(cb.or(
+						predicate.getExpressions().add(cb.and(
 								cb.equal(labourRoot.get("contactNumber"), labourSearchCmd.getContactNumber().trim())));
+					}
+					if (labourSearchCmd != null) {
+						System.out.println("Gender- " + labourSearchCmd.getGender());
+						predicate.getExpressions()
+								.add(cb.and(cb.equal(labourRoot.get("gender"), labourSearchCmd.getGender())));
+
 					}
 				} catch (Exception e) {
 					System.out.println(e.getMessage());

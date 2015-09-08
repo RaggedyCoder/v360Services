@@ -25,97 +25,95 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 @Secured("ROLE_ADMIN")
 public class UserController {
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
 
-        binder.registerCustomEditor(Role.class, new AuthorityEditor());
-    }
+		binder.registerCustomEditor(Role.class, new AuthorityEditor());
+	}
 
-    @RequestMapping(value = "create", method = RequestMethod.GET)
-    public String create(User user) {
+	@RequestMapping(value = "create", method = RequestMethod.GET)
+	public String create(User user) {
 
-        return "user/create";
-    }
+		return "user/create";
+	}
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String save(@Valid User user,
-                       BindingResult result,
-                       RedirectAttributes redirectAttrs) {
+	@RequestMapping(value = "create", method = RequestMethod.POST)
+	public String save(@Valid User user, BindingResult result, RedirectAttributes redirectAttrs) {
 
-        if (result.hasErrors()) {
+		if (result.hasErrors()) {
 
-            return "user/create";
-        }
+			return "user/create";
+		}
 
-        User userFound = userService.findByUserName(user.getUsername());
-        if (userFound != null) {
-            result.rejectValue("username", "error.user.username.already.available", "Its look like someone already has that username. Try another");
-            return "user/create";
-        }
+		User userFound = userService.findByUserName(user.getUsername());
+		if (userFound != null) {
+			result.rejectValue("username", "error.user.username.already.available",
+					"Its look like someone already has that username. Try another");
+			return "user/create";
+		}
 
-        userService.save(user);
-        
-        redirectAttrs.addFlashAttribute("message", "Successfully user created");
+		userService.save(user);
 
-        return "redirect:/user/show/" + user.getId().toString();
-    }
+		redirectAttrs.addFlashAttribute("message", "Successfully user created");
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String index(Model uiModel, Pageable pageable) {
+		return "redirect:/user/show/" + user.getId().toString();
+	}
 
-        Page<User> users = userService.findAll(pageable);
-        PageWrapper<User> page = new PageWrapper<>(users, "/user");
-        uiModel.addAttribute("page", page);
+	@RequestMapping(method = RequestMethod.GET)
+	public String index(Model uiModel, Pageable pageable) {
 
-        return "user/index";
-    }
+		Page<User> users = userService.findAll(pageable);
+		PageWrapper<User> page = new PageWrapper<>(users, "/user");
+		uiModel.addAttribute("page", page);
 
-    @RequestMapping(value = "show/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable("id") Long id, Model uiModel) {
-        log.debug("show() id ={}", id);
+		return "user/index";
+	}
 
-        User user = userService.findById(id);
-        uiModel.addAttribute("user", user);
+	@RequestMapping(value = "show/{id}", method = RequestMethod.GET)
+	public String show(@PathVariable("id") Long id, Model uiModel) {
+		log.debug("show() id ={}", id);
 
-        return "user/show";
-    }
+		User user = userService.findById(id);
+		uiModel.addAttribute("user", user);
 
-    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
-    public String edit(@PathVariable("id") Long id, Model uiModel) {
-        log.debug("edit() id ={}", id);
+		return "user/show";
+	}
 
-        User user = userService.findById(id);
-        user.setPassword(null);
-        uiModel.addAttribute("user", user);
+	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+	public String edit(@PathVariable("id") Long id, Model uiModel) {
+		log.debug("edit() id ={}", id);
 
-        return "user/edit";
-    }
+		User user = userService.findById(id);
+		user.setPassword(null);
+		uiModel.addAttribute("user", user);
 
-    @RequestMapping(value = "update", method = RequestMethod.POST)
-    public String update(@Valid @ModelAttribute("user") User user,
-                         BindingResult result,
-                         RedirectAttributes redirectAttrs) {
-        log.debug("update() user ={}", user);
+		return "user/edit";
+	}
 
-        if (result.hasErrors()) {
-            return "user/edit";
-        }
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public String update(@Valid @ModelAttribute("user") User user, BindingResult result,
+			RedirectAttributes redirectAttrs) {
+		log.debug("update() user ={}", user);
 
-        userService.save(user);
-        redirectAttrs.addFlashAttribute("message", "Successfully user updated");
+		if (result.hasErrors()) {
+			return "user/edit";
+		}
 
-        return "redirect:/user/show/" + user.getId().toString();
-    }
+		userService.save(user);
+		redirectAttrs.addFlashAttribute("message", "Successfully user updated");
 
-    @RequestMapping(value = "cancel", method = RequestMethod.GET)
-    public String cancel() {
-        log.debug("cancel()");
+		return "redirect:/user/show/" + user.getId().toString();
+	}
 
-        return "redirect:/user";
-    }
+	@RequestMapping(value = "cancel", method = RequestMethod.GET)
+	public String cancel() {
+		log.debug("cancel()");
+
+		return "redirect:/user";
+	}
 }

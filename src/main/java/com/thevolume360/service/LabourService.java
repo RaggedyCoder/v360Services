@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.thevolume360.domain.Labour;
 import com.thevolume360.domain.ProjectInfo;
-import com.thevolume360.web.controller.LabourSearchCmd;
+import com.thevolume360.domain.search.LabourSearchCmd;
 
 public interface LabourService {
 

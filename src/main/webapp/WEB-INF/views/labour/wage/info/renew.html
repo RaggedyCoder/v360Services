@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+<head>
+<title>Project Labour :: Show</title>
+<link href="../../../resources/css/datepicker3.css"
+	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<h2 class="page-header" th:text="#{page.header.show.labourWorkInfo}">Labour
+			Work Info Creation</h2>
+		<div class="showback">
+			<h3 class="mb">
+				<i class="fa fa-angle-right"></i><span
+					th:text="#{header.show.labourWorkInfo.info}">Labour Work
+					Info</span>
+			</h3>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">New Work Info Entry</div>
+						<div class="panel-body">
+							<form class="form-horizontal" method='POST'
+								th:object="${labourWageInfo}"
+								th:action="@{/labour/wage/info/update}">
+								<fieldset>
+									<input type="hidden" name="projectLabourId"
+										th:value="${projectLabourId}" />
+									<div class="form-group">
+										<label for="lastWageInfoExpiredDate"
+											class="col-sm-2 control-label date"> <strong>
+												Exp date of prev wage</strong>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" placeholder="dd/mm/yyyy"
+												class="form-control input-sm" id="lastWageInfoExpiredDate"
+												name="lastWageInfoExpiredDate" 
+												th:value="${lastWageInfoExpiredDate} ? ${#dates.format(lastWageInfoExpiredDate,'dd/MM/yyyy')}" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="activationDate"
+											class="col-sm-2 control-label date"> <strong
+											th:text="#{label.project.taken.date}"> Worked Date</strong>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" placeholder="dd/mm/yyyy"
+												class="form-control input-sm" id="activationDate"
+												th:field="*{activationDate}" />
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('activationDate')}">
+												<span th:errors="*{activationDate}">Required</span>
+											</p>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="wageUnit" class="col-sm-2 control-label date">
+											<strong th:text="#{label.project.taken.date}">
+												Worked Date</strong>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" placeholder="6" maxlength="6"
+												class="form-control input-sm" id="wageUnit"
+												th:field="*{wageUnit}" />
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('wageUnit')}">
+												<span th:errors="*{wageUnit}">Required</span>
+											</p>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-2 control-label" th:text="#{label.sex}">
+											Sex </label>
+										<div class="col-sm-3">
+											<select id="gender-select" class="form-control"
+												th:field="*{wageType}">
+												<option value="" th:text="#{common.select.prompt}"></option>
+												<option
+													th:each="wageType : ${T(com.thevolume360.domain.enums.WageType).values()}"
+													th:value="${wageType.name}" th:text="${wageType.name}"
+													th:selected="${wageType == labourWageInfo.wageType}"></option>
+											</select>
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('wageType')}">
+												<span th:errors="*{wageType}">Required</span>
+											</p>
+										</div>
+									</div>
+								</fieldset>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<a href="#" class="btn btn-danger"
+											th:href="@{/projects/labour/show/__${projectLabourId}__}">
+											<span th:text="#{label.cancel}">Cancel</span>
+										</a> <input class="btn btn-primary" type="submit" />
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div layout:fragment="custom-scripts">
+		<script id="date" src="../../../resources/js/bootstrap-datepicker.js"
+			th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+		<script>
+			$('#activationDate').datepicker({
+				format : "dd/mm/yyyy",
+				startView : 2,
+				autoclose : true
+			});
+			$('#lastWageInfoExpiredDate').datepicker({
+				format : "dd/mm/yyyy",
+				startView : 2,
+				autoclose : true
+			});
+		</script>
+	</div>
+</body>
+</html>
+
