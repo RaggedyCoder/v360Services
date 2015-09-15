@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thevolume360.domain.LabourWageInfo;
-import com.thevolume360.domain.LabourWorkInfo;
 import com.thevolume360.domain.ProjectLabour;
+import com.thevolume360.domain.enums.WageType;
+import com.thevolume360.service.LabourWageInfoService;
 import com.thevolume360.service.ProjectLabourService;
+import com.thevolume360.web.editor.WageTypeEditor;
 
 @Controller
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
@@ -29,9 +31,12 @@ public class LabourWageInfoController {
 
 	@Autowired
 	private ProjectLabourService projectLabourService;
+	@Autowired
+	LabourWageInfoService labourWageInfoService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(WageType.class,new WageTypeEditor());
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("dd/MM/yyyy"), true));
 	}
 
@@ -45,7 +50,7 @@ public class LabourWageInfoController {
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String save(String projectLabourId, String lastWageInfoExpiredDate, LabourWageInfo labourWageInfo,
-			Model uiModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+			BindingResult bindingResult, Model uiModel, RedirectAttributes redirectAttributes) {
 		System.out.println(projectLabourId);
 		System.out.println(labourWageInfo);
 		System.out.println(lastWageInfoExpiredDate);
@@ -58,12 +63,21 @@ public class LabourWageInfoController {
 			e.printStackTrace();
 		}
 		ProjectLabour projectLabour = projectLabourService.findOne(Long.parseLong(projectLabourId));
-		for (LabourWageInfo lWageInfo : projectLabour.getLabourWageInfos()) {
-			if (lWageInfo.getLastValidDate() == null) {
-				labourWageInfo.setLastValidDate(lastValidDate);
-				
+		for (LabourWageInfo oldLabourWageInfo : projectLabour.getLabourWageInfos()) {
+			if (oldLabourWageInfo.getLastValidDate() == null) {
+				oldLabourWageInfo.setLastValidDate(lastValidDate);
+				try {
+					System.out.println(oldLabourWageInfo);
+					labourWageInfoService.update(oldLabourWageInfo);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				break;
 			}
 		}
+		projectLabour.setLabourWageInfos(null);
+		labourWageInfo.setProjectLabour(projectLabour);
+		labourWageInfoService.create(labourWageInfo);
 		return "labour/wage/info/renew";
 	}
 

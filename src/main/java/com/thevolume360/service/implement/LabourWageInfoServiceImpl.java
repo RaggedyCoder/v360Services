@@ -19,15 +19,13 @@ import com.thevolume360.service.LabourWageInfoService;
 @Transactional
 public class LabourWageInfoServiceImpl implements LabourWageInfoService {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(LabourWageInfoServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LabourWageInfoServiceImpl.class);
 	@Autowired
 	private LabourWageInfoDao labourWageInfoDao;
 
 	@Override
 	public LabourWageInfo create(LabourWageInfo labourWageInfo) {
-		LOGGER.debug("creating new labour wage info with info : {}",
-				labourWageInfo);
+		LOGGER.debug("creating new labour wage info with info : {}", labourWageInfo);
 		return labourWageInfoDao.save(labourWageInfo);
 	}
 
@@ -49,7 +47,7 @@ public class LabourWageInfoServiceImpl implements LabourWageInfoService {
 
 	@Override
 	public Page<LabourWageInfo> findAll(Pageable pageable) {
-		return null;
+		return labourWageInfoDao.findAll(pageable);
 	}
 
 	@Override
@@ -58,7 +56,14 @@ public class LabourWageInfoServiceImpl implements LabourWageInfoService {
 	}
 
 	@Override
-	public void update(LabourWageInfo LabourWageInfo) {
+	public void update(LabourWageInfo updateLabourWageInfo) {
+		LabourWageInfo labourWageInfo = labourWageInfoDao.findOne(updateLabourWageInfo.getId());
+		labourWageInfo.setWageType(updateLabourWageInfo.getWageType());
+		labourWageInfo.setWageUnit(updateLabourWageInfo.getWageUnit());
+		labourWageInfo.setProjectLabour(updateLabourWageInfo.getProjectLabour());
+		labourWageInfo.setActivationDate(updateLabourWageInfo.getActivationDate());
+		labourWageInfo.setLastValidDate(updateLabourWageInfo.getLastValidDate());
+		labourWageInfoDao.save(labourWageInfo);
 	}
 
 }

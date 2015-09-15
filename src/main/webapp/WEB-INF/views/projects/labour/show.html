@@ -48,19 +48,16 @@
 									<strong>Contact Number</strong> <span>: </span> <a> <span
 										th:text="${projectLabour.labour.contactNumber}">Contact</span></a>
 								</h4>
-								<div
-									th:each="labourWageInfo : ${projectLabour.labourWageInfos}">
-									<div
-										th:if="${labourWageInfo.lastValidDate}!=null">
+								<div th:each="labourWageInfo : ${projectLabour.labourWageInfos}">
+									<div th:if="${labourWageInfo.lastValidDate}!=null">
 										<h4 class="text-primary">
 											<strong>Current Wage <span>: </span>
-											</strong> <span
-												th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageUnit}">Contact</span>
+											</strong> <span th:text="${labourWageInfo.wageUnit}">Contact</span>
 										</h4>
 										<h4 class="text-primary">
 											<strong>Current Wage Type <span>: </span>
 											</strong> <span
-												th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageType.name}">Contact</span>
+												th:text="${labourWageInfo.wageType.name}">Contact</span>
 										</h4>
 									</div>
 								</div>
@@ -77,25 +74,20 @@
 							</div>
 							<div class="col-sm-6 col-md-4">
 								<h4 class="text-right">
-									<i>Wage Paid: </i> <label
-										th:text="${wagePaid}">0</label>
-									<br />
+									<i>Wage Paid: </i> <label th:text="${wagePaid}">0</label> <br />
 								</h4>
 								<h4 class="text-right">
-									<i>Extra Paid: </i> <label
-										th:text="${extraPaid}">0</label>
-									<br />
+									<i>Extra Paid: </i> <label th:text="${extraPaid}">0</label> <br />
 								</h4>
 								<h4 class="text-right">
-									<i>Payment Needed: </i> <label
-										th:text="${paymentNeeded}">0</label>
+									<i>Payment Needed: </i> <label th:text="${paymentNeeded}">0</label>
 									<br />
 								</h4>
 								<hr />
 								<h4 class="text-right">
-									<i >Net Wage: </i> <label  th:class="${netPayment} lt 0? text-danger"
-										th:text="${netPayment}">0</label>
-									<br />
+									<i>Net Wage: </i> <label
+										th:class="${netPayment} lt 0? text-danger"
+										th:text="${netPayment}">0</label> <br />
 								</h4>
 							</div>
 						</div>

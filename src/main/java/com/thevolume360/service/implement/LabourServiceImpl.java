@@ -2,7 +2,10 @@ package com.thevolume360.service.implement;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -10,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.thevolume360.dao.LabourDao;
@@ -69,42 +73,46 @@ public class LabourServiceImpl implements LabourService {
 	public Page<Labour> findLabourBySearchCmd(final LabourSearchCmd labourSearchCmd, Pageable pageable) {
 		LOGGER.debug("finding patient information with info : {}", labourSearchCmd);
 		try {
-			return labourDao.findAll((labourRoot, query, cb) -> {
+			return labourDao.findAll(new Specification<Labour>() {
 
-				Predicate predicate = cb.disjunction();
-				try {
-					if (StringUtils.isNotEmpty(labourSearchCmd.getFullName().getFirstName())) {
-						predicate.getExpressions().add(cb.and(cb.like(
-								cb.upper(labourRoot.get("fullName").get("firstName")),
-								getLikePattern(labourSearchCmd.getFullName().getFirstName().trim().toUpperCase()))));
-					}
-					if (StringUtils.isNotEmpty(labourSearchCmd.getFullName().getLastName())) {
-						predicate.getExpressions().add(cb.and(cb.like(
-								cb.upper(labourRoot.get("fullName").get("lastName")),
-								getLikePattern(labourSearchCmd.getFullName().getLastName().trim().toUpperCase()))));
-					}
-					if (StringUtils.isNotEmpty(labourSearchCmd.getContactNumber())) {
-						System.out.println("Contact Number- " + labourSearchCmd.getContactNumber());
-						predicate.getExpressions().add(cb.and(
-								cb.equal(labourRoot.get("contactNumber"), labourSearchCmd.getContactNumber().trim())));
-					}
-					if (labourSearchCmd != null) {
-						System.out.println("Gender- " + labourSearchCmd.getGender());
-						predicate.getExpressions()
-								.add(cb.and(cb.equal(labourRoot.get("gender"), labourSearchCmd.getGender())));
+				@Override
+				public Predicate toPredicate(Root<Labour> labourRoot, CriteriaQuery<?> query, CriteriaBuilder cb) {
+					Predicate predicate = cb.disjunction();
+					try {
+						if (StringUtils.isNotEmpty(labourSearchCmd.getFullName().getFirstName())) {
+							predicate.getExpressions().add(cb
+									.and(cb.like(cb.upper(labourRoot.get("fullName").get("firstName")), getLikePattern(
+											labourSearchCmd.getFullName().getFirstName().trim().toUpperCase()))));
+						}
+						if (StringUtils.isNotEmpty(labourSearchCmd.getFullName().getLastName())) {
+							predicate.getExpressions()
+									.add(cb.and(cb.like(cb.upper(
+											labourRoot.get("fullName").get("lastName")),
+									getLikePattern(labourSearchCmd.getFullName().getLastName().trim().toUpperCase()))));
+						}
+						if (StringUtils.isNotEmpty(labourSearchCmd.getContactNumber())) {
+							System.out.println("Contact Number- " + labourSearchCmd.getContactNumber());
+							predicate.getExpressions().add(cb.and(cb.equal(labourRoot.get("contactNumber"),
+									labourSearchCmd.getContactNumber().trim())));
+						}
+						if (labourSearchCmd != null) {
+							System.out.println("Gender- " + labourSearchCmd.getGender());
+							predicate.getExpressions()
+									.add(cb.and(cb.equal(labourRoot.get("gender"), labourSearchCmd.getGender())));
 
+						}
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
 					}
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
+
+					try {
+						return predicate;
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+					return cb.disjunction();
 				}
-
-				try {
-					return predicate;
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-				return cb.disjunction();
-			} , pageable);
+			}, pageable);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

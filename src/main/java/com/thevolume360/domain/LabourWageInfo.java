@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.google.gson.annotations.Expose;
 import com.thevolume360.domain.enums.WageType;
 
 @Entity
@@ -32,24 +31,20 @@ public class LabourWageInfo extends PersistentObject implements Auditable {
 	static final Logger LOG = LoggerFactory.getLogger(LabourWageInfo.class);
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Expose
 	private Long id;
 
 	@Version
 	private Long version;
 	@ManyToOne
-	@Expose
 	private ProjectLabour projectLabour;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Expose
 	private WageType wageType;
 
 	@Max(999999)
 	@Min(1)
 	@NotNull
-	@Expose
 	private Integer wageUnit;
 
 	@NotNull
@@ -59,7 +54,7 @@ public class LabourWageInfo extends PersistentObject implements Auditable {
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date lastValidDate;
+	private Date lastValidDate = null;
 
 	public LabourWageInfo() {
 	}

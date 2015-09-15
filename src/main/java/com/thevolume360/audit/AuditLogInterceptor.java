@@ -28,9 +28,9 @@ public class AuditLogInterceptor extends EmptyInterceptor {
 
 	private static final Logger log = LoggerFactory.getLogger(AuditLogInterceptor.class);
 
-	private Set inserts = new HashSet();
-	private Set updates = new HashSet();
-	private Set deletes = new HashSet();
+	private Set<Object> inserts = new HashSet<Object>();
+	private Set<Object> updates = new HashSet<Object>();
+	private Set<Object> deletes = new HashSet<Object>();
 
 	@Override
 	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
