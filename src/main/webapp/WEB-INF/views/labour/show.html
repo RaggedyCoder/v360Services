@@ -74,7 +74,7 @@
 									<tbody>
 										<tr th:each="projectLabour : ${labour.projectLabours}">
 											<td><a
-												th:href="@{/projects/show/__${projectLabour.projectInfo.id}__}"><span
+												th:href="@{/project/show/__${projectLabour.projectInfo.id}__}"><span
 													th:text="${projectLabour.projectInfo.projectName}"></span>
 											</a></td>
 											<td
@@ -90,9 +90,9 @@
 												th:if="${labourWageInfo.lastValidDate}==null"><p
 													th:text="${labourWageInfo.wageUnit}"></p></td>
 											<td><a
-												th:href="@{/projects/labour/show/__${projectLabour.id}__}">Show</a></td>
+												th:href="@{/project/labour/show/__${projectLabour.id}__}">Show</a></td>
 											<td><a
-												th:href="@{/projects/labour/wage/__${projectLabour.id}__}">Pay</a></td>
+												th:href="@{/project/labour/wage/__${projectLabour.id}__}">Pay</a></td>
 										</tr>
 									</tbody>
 								</table>

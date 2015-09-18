@@ -155,22 +155,16 @@ public class LabourController {
 
 			return "labour/search";
 		}
-		PageWrapper<Labour> page = new PageWrapper<>(labours, "/labour/display?" + request.getQueryString());
-		uiModel.addAttribute("page", page);
-		/*
-		 * if (labours.getTotalElements() == 0) {
-		 * 
-		 * uiModel.addAttribute("labourSearchCmd", labourSearchCmd);
-		 * uiModel.addAttribute("notFound",
-		 * "The labour Information you are looking for, doesn't exist!");
-		 * 
-		 * return "labour/search"; }
-		 * 
-		 * PageWrapper<Labour> page = new PageWrapper<>(labours,
-		 * "/labour/display?" + request.getQueryString());
-		 * uiModel.addAttribute("page", page);
-		 */
+		PageWrapper<Labour> pageWrapper = new PageWrapper<>(labours, "/labour/display?" + request.getQueryString());
+		uiModel.addAttribute("page", pageWrapper);
 
+		if (labours.getTotalElements() == 0) {
+
+			uiModel.addAttribute("labourSearchCmd", labourSearchCmd);
+			uiModel.addAttribute("notFound", "The labour Information you are looking for, doesn't exist!");
+
+			return "labour/search";
+		}
 		return "labour/index";
 	}
 

@@ -36,7 +36,7 @@ import com.thevolume360.web.editor.WorkTypeEditor;
 
 @Controller
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
-@RequestMapping("/projects")
+@RequestMapping("/project")
 public class ProjectController {
 	private static final Logger log = LoggerFactory
 			.getLogger(ProjectController.class);
@@ -60,7 +60,7 @@ public class ProjectController {
 
 		Page<ProjectInfo> projectInfos = projectInfoService.findAll(pageable);
 		PageWrapper<ProjectInfo> page = new PageWrapper<>(projectInfos,
-				"/projects/list");
+				"/project/list");
 		uiModel.addAttribute("page", page);
 		return "projects/index";
 	}
@@ -121,7 +121,7 @@ public class ProjectController {
 		}
 		redirectAttributes.addFlashAttribute("message",
 				String.format("Project successfully created"));
-		return "redirect:/projects/list";
+		return "redirect:/project/list";
 	}
 
 	@RequestMapping(value = "show/{id}", method = RequestMethod.GET)
@@ -143,7 +143,7 @@ public class ProjectController {
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
 	public String cancel() {
 		log.debug("cancel()");
-		return "redirect:/projects/list";
+		return "redirect:/project/list";
 	}
 
 	private void validateProjectInfo(ProjectInfo projectInfo,

@@ -31,7 +31,7 @@
 										Labours Details</b></li>
 							</ul>
 							<form th:object="${intakeLabours}"
-								th:action="@{/projects/labour/complete/__${projectInfo.id}__}"
+								th:action="@{/project/labour/complete/__${projectInfo.id}__}"
 								method="POST">
 								<fieldset>
 									<div class="form-group">
@@ -82,7 +82,7 @@
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
 										<a href="#" class="btn btn-danger"
-											th:href="@{/projects/labour/cancel/__${projectInfo.id}__}">
+											th:href="@{/project/labour/cancel/__${projectInfo.id}__}">
 											<span th:text="#{label.cancel}">Cancel</span>
 										</a> <input class="btn btn-primary" type="submit" />
 									</div>
@@ -99,7 +99,7 @@
 								<div class="col-sm-offset-2 col-sm-10">
 									<h1>No Labours to take in the project</h1>
 									<a href="#" class="btn btn-danger"
-										th:href="@{/projects/labour/cancel/__${projectInfo.id}__}">
+										th:href="@{/project/labour/cancel/__${projectInfo.id}__}">
 										<span th:text="#{label.cancel}">Cancel</span>
 									</a> <a href="#" class="btn btn-primary"
 										th:href="@{/labour/create}"> <span>Create New

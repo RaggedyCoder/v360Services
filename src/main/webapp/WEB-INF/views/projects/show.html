@@ -23,10 +23,10 @@
 						<div class="panel-body">
 							<div class="col-sm-8 col-md-8">
 								<h3 class="text-primary">
-									<a th:href="@{/projects/details/__${projectInfo.id}__}"> <span
+									<a th:href="@{/project/details/__${projectInfo.id}__}"> <span
 										th:text="${projectInfo.projectName}">Project Name</span></a> <small><a
 										sec:authorize="hasRole('ROLE_ADMIN')"
-										th:href="@{/projects/edit/__${projectInfo.id}__}">Edit</a></small>
+										th:href="@{/project/edit/__${projectInfo.id}__}">Edit</a></small>
 								</h3>
 								<h4 class="text-primary">
 									<strong th:text="${projectInfo.projectWorkId}"></strong>
@@ -67,7 +67,7 @@
 							<div class="panel-heading">
 								<strong class="text-right">Working Labours&nbsp;&nbsp;</strong>
 								<a class="btn btn-primary"
-									th:href="@{/projects/labour/intake/__${projectInfo.id}__}"><span
+									th:href="@{/project/labour/intake/__${projectInfo.id}__}"><span
 									class="text-right">Add new</span></a>
 							</div>
 							<div class="panel-body">
@@ -104,7 +104,7 @@
 													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
 													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageUnit}"></strong></td>
 												<td><a
-													th:href="@{/projects/labour/show/__${projectLabour.id}__}">Show</a></td>
+													th:href="@{/project/labour/show/__${projectLabour.id}__}">Show</a></td>
 												<td><a
 													th:href="@{projects/labour/wage/__${projectLabour.labour.id}__}">Pay</a></td>
 											</tr>
@@ -123,7 +123,7 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<strong class="text-right">Bought Materials&nbsp;&nbsp;</strong>
-								<a class="btn btn-primary" th:href="@{/projects/buyings/create}"><span
+								<a class="btn btn-primary" th:href="@{/project/buyings/create}"><span
 									class="text-right">Add new</span></a>
 							</div>
 							<div class="panel-body">
@@ -140,7 +140,7 @@
 										<tbody>
 											<tr th:each="projectBuying : ${projectBuyings}">
 												<td><a
-													th:href="@{/projects/buyings/show/__${projectBuying.id}__}">Open</a></td>
+													th:href="@{/project/buyings/show/__${projectBuying.id}__}">Open</a></td>
 												<td
 													th:text="${projectBuying.boughtDate} ? ${#dates.format(projectBuying.boughtDate,'dd MMMM yyyy')}"></td>
 												<td th:text="${projectBuying.billsCost}"></td>
@@ -185,7 +185,7 @@
 											<tr
 												th:each="clientInvestment : ${projectInfo.clientInvestments}">
 												<td><a
-													th:href="@{/projects/investment/client/show/__${clientInvestment.id}__}">Open</a></td>
+													th:href="@{/project/investment/client/show/__${clientInvestment.id}__}">Open</a></td>
 												<td th:text="${clientInvestment.investedAmount}"></td>
 												<td
 													th:text="${clientInvestment.investmentDate} ? ${#dates.format(clientInvestment.investmentDate,'dd MMMM yyyy')}"></td>
@@ -208,7 +208,7 @@
 							<div class="panel-heading">
 								<strong class="text-right">Bank Withdrawal&nbsp;&nbsp;</strong>
 								<a class="btn btn-primary"
-									th:href="@{/projects/investment/company/create}"><span
+									th:href="@{/project/investment/company/create}"><span
 									class="text-right">Add new</span></a>
 							</div>
 							<div class="panel-body">
@@ -227,7 +227,7 @@
 										<tbody>
 											<tr th:each="bankWithdraw : ${bankWithdraws}">
 												<td><a
-													th:href="@{/projects/investment/company/show/__${bankWithdraw.id}__}">Open</a></td>
+													th:href="@{/project/investment/company/show/__${bankWithdraw.id}__}">Open</a></td>
 												<td th:text="${bankWithdraw.issuedBy.fullName}"></td>
 												<td th:text="${bankWithdraw.withdrawnBy.fullName}"></td>
 												<td th:text="${bankWithdraw.amount}"></td>

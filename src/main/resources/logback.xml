@@ -30,24 +30,6 @@
         </encoder>
     </appender>
 
-    <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
-        <smtpHost>smtp.gmail.com</smtpHost>
-        <smtpPort>587</smtpPort>
-        <STARTTLS>true</STARTTLS>
-        <username>donotreplyvolume360@gmail.com</username>
-        <password>so gmail 3825 me right</password>
-        <asynchronousSending>true</asynchronousSending>
-        <to>donotreplyvolume360@gmail.com</to>
-        <subject>volume360 App Alert %m</subject>
-
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date{ISO8601} %-5level [%thread] S:%X{sid} U:%X{user} IP:%X{ipAddress} %class.%method\(%file:%line\) - %msg %n</Pattern>
-        </layout>
-
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
-        </filter>
-    </appender>
 
     <root level="ERROR">
         <appender-ref ref="ASYNC"/>

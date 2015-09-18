@@ -35,7 +35,7 @@ import com.thevolume360.web.editor.WageTypeEditor;
 
 @Controller
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
-@RequestMapping("/projects/labour")
+@RequestMapping("/project/labour")
 public class ProjectLabourController {
 	static final Logger LOG = LoggerFactory.getLogger(ProjectLabourController.class);
 
@@ -93,7 +93,7 @@ public class ProjectLabourController {
 			} catch (Exception e) {
 				System.out.println("error");
 			}
-			return "redirect:/projects/labour/intake/" + id;
+			return "redirect:/project/labour/intake/" + id;
 		}
 		try {
 			System.out.println(intakeLabours);
@@ -141,12 +141,12 @@ public class ProjectLabourController {
 		}
 		projectInfo = projectInfoService.findOne(id);
 		uiModel.addAttribute("projectInfo", projectInfo);
-		return "redirect:/projects/show/" + id;
+		return "redirect:/project/show/" + id;
 	}
 
 	@RequestMapping(value = "cancel/{id}", method = RequestMethod.GET)
 	public String cancel(@PathVariable Long id) {
-		return "redirect:/projects/show/" + id;
+		return "redirect:/project/show/" + id;
 	}
 
 	@RequestMapping(value = "show/{id}", method = RequestMethod.GET)
