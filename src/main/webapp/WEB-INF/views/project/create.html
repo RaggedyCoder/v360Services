@@ -4,7 +4,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/main">
 <head>
-<title th:text="#{page.tab.header.index.project}">Project ::
+<title th:text="#{page.tab.header.index.projectInfo}">Project ::
 	Create</title>
 <link href="../../../resources/css/datepicker3.css"
 	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
@@ -17,7 +17,7 @@
 				<div class="col-lg-12">
 					<h3 class="mb">
 						<i class="fa fa-angle-right"></i><span
-							th:text="#{page.header.create.project}">New Project Entry</span>
+							th:text="#{page.header.create.projectInfo}">New Project Entry</span>
 					</h3>
 				</div>
 			</div>
@@ -25,17 +25,17 @@
 			<div class="row">
 				<div class="panel panel-default">
 					<div class="panel-heading"
-						th:text="#{label.form.title.project.entry}">Project Entry
+						th:text="#{label.form.title.projectInfo.entry}">Project Entry
 						Form</div>
 					<div class="panel-body">
 						<form class="form-horizontal" method="POST"
 							th:object="${projectInfo}" th:action="@{/project/create}">
 							<fieldset>
-								<legend th:text="#{heading.project.info}">Project
+								<legend th:text="#{heading.projectInfo}">Project
 									Info's</legend>
 								<div class="form-group">
 									<label for="projectName" class="col-sm-2 control-label"
-										th:text="#{label.project.name}">Project Name</label>
+										th:text="#{label.projectInfo.name}">Project Name</label>
 									<div class="col-sm-3">
 										<input type="text" id="projectName" th:field="*{projectName}"
 											maxlength="100" class="form-control input-sm" />
@@ -48,7 +48,7 @@
 								</div>
 								<div class="form-group">
 									<label for="workType" class="col-sm-2 control-label"
-										th:text="#{label.district}">Project Work Type</label>
+										th:text="#{label.projectInfo.workeType}">Project Work Type</label>
 									<div class="col-sm-3">
 										<select class="form-control" id="workType"
 											th:field="*{workType}">
@@ -67,7 +67,7 @@
 								</div>
 								<div class="form-group">
 									<label for="client" class="col-sm-2 control-label"
-										th:text="#{label.district}">Client</label>
+										th:text="#{label.projectInfo.client}">Client's Name</label>
 									<div class="col-sm-3">
 										<select class="form-control" id="client"
 											th:field="*{client.id}">
@@ -82,7 +82,7 @@
 								<div id="clientInfo">
 									<div class="form-group">
 										<label for="client" class="col-sm-2 control-label"
-											th:text="#{label.district}">Client</label>
+											th:text="#{label.projectInfo.client.name}">New Client's Name</label>
 										<div class="col-sm-3">
 											<input type="text" id="clientName" th:field="*{client.name}"
 												maxlength="100" class="form-control input-sm" />
@@ -94,7 +94,7 @@
 									</div>
 									<div class="form-group">
 										<label for="clientType" class="col-sm-2 control-label"
-											th:text="#{label.district}">Project Work Type</label>
+											th:text="#{label.projectInfo.client.clientType}">New Client's Type</label>
 										<div class="col-sm-3">
 											<select class="form-control" id="clientType"
 												th:field="*{client.clientType}">
@@ -114,7 +114,7 @@
 								</div>
 								<div class="form-group">
 									<label for="locationAddress" class="col-sm-2 control-label"
-										th:text="#{label.project.location}">Project Name</label>
+										th:text="#{label.projectInfo.location}">Project Name</label>
 									<div class="col-sm-3">
 										<input type="text" id="locationAddresss"
 											th:field="*{projectAddress.locationAddress}" maxlength="100"
@@ -128,7 +128,7 @@
 								</div>
 								<div class="form-group">
 									<label for="projectDistrict" class="col-sm-2 control-label"
-										th:text="#{label.district}">Project District</label>
+										th:text="#{label.projectInfo.district}">Project District</label>
 									<div class="col-sm-3">
 
 										<select class="form-control" id="projectDistrict"
@@ -147,7 +147,7 @@
 								</div>
 								<div class="form-group">
 									<label for="postalCode" class="col-sm-2 control-label"
-										th:text="#{label.postal.code}">Postal Code</label>
+										th:text="#{label.projectInfo.postalCode}">Postal Code</label>
 									<div class="col-sm-3">
 										<input type="text" id="postalCode"
 											th:field="*{projectAddress.postalCode}" maxlength="5"
@@ -162,7 +162,7 @@
 								<div class="form-group">
 									<label for="projectTakenDate"
 										class="col-sm-2 control-label date"
-										th:text="#{label.project.taken.date}"> Date Taken </label>
+										th:text="#{label.projectInfo.projectTakenDate}"> Date Taken </label>
 									<div class="col-sm-3">
 										<input type="text" pattern="dd/mm/yyyy" class="form-control input-sm"
 											id="projectTakenDate" th:field="*{dateTaken}" />
@@ -175,7 +175,7 @@
 								<div class="form-group">
 									<label for="completeDateEstimated"
 										class="col-sm-2 control-label date"
-										th:text="#{label.project.complete.date.estimated}">
+										th:text="#{label.projectInfo.completeDateEstimated}">
 										Date Estimated </label>
 									<div class="col-sm-3">
 										<input type="text" class="form-control input-sm"
@@ -189,7 +189,7 @@
 								</div>
 								<div class="form-group">
 									<label for="projectBudget" class="col-sm-2 control-label"
-										th:text="#{label.projects.budget}">Project Name</label>
+										th:text="#{label.projectInfo.budget}">Project Name</label>
 									<div class="col-sm-3">
 										<input type="text" id="projectBudget"
 											th:field="*{projectBudget}" maxlength="9"
@@ -203,7 +203,7 @@
 								</div>
 								<div class="form-group">
 									<label for="projectComment" class="col-sm-2 control-label"
-										th:text="#{label.comment}">Project Comment</label>
+										th:text="#{label.projectInfo.comment}">Project Comment</label>
 									<div class="col-sm-3">
 										<textarea id="projectComment" th:field="*{comment}"
 											maxlength="100" class="form-control input-sm"></textarea>
@@ -214,7 +214,7 @@
 								</div>
 								<div style="display: none;" class="form-group">
 									<label for="projectStatus" class="col-sm-2 control-label"
-										th:text="#{label.comment}">Project Comment</label>
+										th:text="#{label.projectInfo.comment}">Project Comment</label>
 									<div class="col-sm-3">
 										<select class="form-control" id="projectStatus"
 											th:field="*{status}">

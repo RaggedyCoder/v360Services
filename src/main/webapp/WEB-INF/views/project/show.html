@@ -122,9 +122,14 @@
 					<div class="col-sm-12 col-md-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<strong class="text-right">Bought Materials&nbsp;&nbsp;</strong>
-								<a class="btn btn-primary" th:href="@{/project/buyings/create}"><span
-									class="text-right">Add new</span></a>
+								<form th:action="@{/project/buying/create}" method="post">
+
+									<strong class="text-right">Bought
+										Materials&nbsp;&nbsp;</strong> <input th:value="*{id}" type="hidden"
+										name="id" />
+
+									<button class="btn btn-primary" type="submit">Add new</button>
+								</form>
 							</div>
 							<div class="panel-body">
 								<div class="col-sm-8 col-md-8">

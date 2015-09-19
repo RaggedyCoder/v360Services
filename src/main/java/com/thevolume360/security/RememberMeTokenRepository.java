@@ -48,7 +48,7 @@ public class RememberMeTokenRepository implements PersistentTokenRepository {
     public void removeUserTokens(String username) {
         CriteriaBuilder cb = this.em.getCriteriaBuilder();
         CriteriaDelete<RememberMeToken> delete = cb.createCriteriaDelete(RememberMeToken.class);
-        Root e = delete.from(RememberMeToken.class);
+        Root<?> e = delete.from(RememberMeToken.class);
         delete.where(cb.equal(e.get("username"), username));
         em.createQuery(delete).executeUpdate();
     }

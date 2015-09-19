@@ -29,7 +29,7 @@ public class AdminController {
 	private OfficeWorkerService officeWorkerService;
 
 	@RequestMapping(value = { "admin/index", "/" }, method = RequestMethod.GET)
-	public String index(Model uiModel) {
+	private String index(Model uiModel) {
 
 		uiModel.addAttribute("totalUser", userService.count());
 		uiModel.addAttribute("totalProject", projectInfoService.count());

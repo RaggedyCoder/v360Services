@@ -77,7 +77,7 @@ public class ProjectLabourController {
 		uiModel.addAttribute("projectInfo", projectInfo);
 		IntakeLabours intakeLabours = new IntakeLabours();
 		uiModel.addAttribute("intakeLabours", intakeLabours);
-		return "projects/labour/intake";
+		return "project/labour/intake";
 	}
 
 	@RequestMapping(value = "complete/{id}", method = RequestMethod.POST)
@@ -179,7 +179,7 @@ public class ProjectLabourController {
 		uiModel.addAttribute("paymentNeeded", paymentNeeded);
 		uiModel.addAttribute("netPayment", netPayment);
 		uiModel.addAttribute("projectLabour", projectLabour);
-		return "projects/labour/show";
+		return "project/labour/show";
 
 	}
 }

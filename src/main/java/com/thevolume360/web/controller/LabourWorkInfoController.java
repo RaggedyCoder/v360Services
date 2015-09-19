@@ -49,7 +49,7 @@ public class LabourWorkInfoController {
 		labourWorkInfo.setProjectLabour(projectLabourService.findOne(Long.parseLong(projectLabourId)));
 		System.out.println(labourWorkInfo);
 		labourWorkInfoService.create(labourWorkInfo);
-		return "redirect:/projects/labour/show/" + projectLabourId;
+		return "redirect:/project/labour/show/" + projectLabourId;
 	}
 
 }

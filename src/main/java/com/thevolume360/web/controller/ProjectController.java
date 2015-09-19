@@ -62,7 +62,7 @@ public class ProjectController {
 		PageWrapper<ProjectInfo> page = new PageWrapper<>(projectInfos,
 				"/project/list");
 		uiModel.addAttribute("page", page);
-		return "projects/index";
+		return "project/index";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -76,7 +76,7 @@ public class ProjectController {
 		}
 
 		System.out.println("ok get");
-		return "projects/create";
+		return "project/create";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -96,7 +96,7 @@ public class ProjectController {
 				}
 				List<Client> clients = clientService.findAll();
 				uiModel.addAttribute("clients", clients);
-				return "projects/create";
+				return "project/create";
 			}
 		} else {
 			System.err.println(projectInfo);
@@ -109,7 +109,7 @@ public class ProjectController {
 				System.err.println("3" + projectInfo);
 				List<Client> clients = clientService.findAll();
 				uiModel.addAttribute("clients", clients);
-				return "projects/create";
+				return "project/create";
 			}
 		}
 		try {
@@ -137,7 +137,7 @@ public class ProjectController {
 		System.out.println("data got");
 		System.err.println(projectInfo.getProjectLabours().size());
 		uiModel.addAttribute("projectInfo", projectInfo);
-		return "projects/show";
+		return "project/show";
 	}
 
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
