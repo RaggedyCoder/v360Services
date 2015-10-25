@@ -8,7 +8,7 @@ public class WorkTypeEditor extends PropertyEditorSupport {
 	@Override
 	public void setAsText(String text) {
 		for (WorkType workType : WorkType.values()) {
-			if (workType.getName().equalsIgnoreCase(text)) {
+			if (workType.name().equalsIgnoreCase(text)) {
 				setValue(workType);
 				break;
 			}

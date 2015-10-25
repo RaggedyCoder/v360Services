@@ -71,7 +71,7 @@
 									class="text-right">Add new</span></a>
 							</div>
 							<div class="panel-body">
-								<div class="col-sm-8 col-md-8">
+								<div class="col-sm-12 col-md-12">
 									<table th:if="${not #sets.isEmpty(projectInfo.projectLabours)}"
 										class="table table-condensed">
 										<thead>
@@ -98,7 +98,7 @@
 												<td
 													th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><strong
 													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
-													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageType}"></strong></td>
+													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageType.name}"></strong></td>
 												<td
 													th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><strong
 													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
@@ -133,7 +133,8 @@
 							</div>
 							<div class="panel-body">
 								<div class="col-sm-8 col-md-8">
-									<table th:if="${not #lists.isEmpty(projectBuyings)}"
+									<table
+										th:if="${not #lists.isEmpty(projectInfo.projectBuyings)}"
 										class="table table-condensed">
 										<thead>
 											<tr>
@@ -143,7 +144,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="projectBuying : ${projectBuyings}">
+											<tr th:each="projectBuying : ${projectInfo.projectBuyings}">
 												<td><a
 													th:href="@{/project/buyings/show/__${projectBuying.id}__}">Open</a></td>
 												<td
@@ -152,7 +153,7 @@
 											</tr>
 										</tbody>
 									</table>
-									<strong th:if="${#lists.isEmpty(projectLabours)}">No
+									<strong th:if="${#lists.isEmpty(projectInfo.projectBuyings)}">No
 										Project Labour is selected yet.</strong>
 								</div>
 							</div>

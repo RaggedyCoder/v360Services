@@ -1,4 +1,4 @@
-package com.thevolume360.web.controller;
+package com.thevolume360.web.controller.client.investment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,19 +22,17 @@ import com.thevolume360.domain.ClientInvestment;
 import com.thevolume360.domain.ProjectInfo;
 import com.thevolume360.domain.enums.InvestmentType;
 import com.thevolume360.service.ClientInvestmentService;
-import com.thevolume360.service.ClientService;
 import com.thevolume360.service.ProjectInfoService;
+import com.thevolume360.utils.NonChequeInvestmentIdGenerator;
 import com.thevolume360.web.editor.InvestmentTypeEditor;
 
-@Controller
+@Controller("clientInvestmentCreationController")
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
 @RequestMapping("/client/investment")
-public class ClientInvestmentController {
-	private static final Logger log = LoggerFactory
-			.getLogger(ClientInvestmentController.class);
-	@Autowired
-	private ClientService clientService;
+public class CreationController {
 
+	private static final Logger log = LoggerFactory.getLogger(CreationController.class);
+	
 	@Autowired
 	private ClientInvestmentService clientInvestmentService;
 
@@ -44,34 +42,29 @@ public class ClientInvestmentController {
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		log.debug("initBinder(WebDataBinder binder)");
-		binder.registerCustomEditor(InvestmentType.class,
-				new InvestmentTypeEditor());
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("dd/MM/yyyy"), true));
+		binder.registerCustomEditor(InvestmentType.class, new InvestmentTypeEditor());
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("dd/MM/yyyy"), true));
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = { "id" })
-	public String create(ClientInvestment clientInvestment, Model uiModel,
-			@RequestParam("id") String projectId) {
-		ProjectInfo projectInfo = projectInfoService.findOne(Long
-				.parseLong(projectId));
+	public String create(ClientInvestment clientInvestment, Model uiModel, @RequestParam("id") String projectId) {
+		ProjectInfo projectInfo = projectInfoService.findOne(Long.parseLong(projectId));
 		uiModel.addAttribute("projectInfo", projectInfo);
 		log.debug("create(ClientInvestment clientInvestment, Model uiModel)");
 		return "client/investment/create";
 	}
 
 	@RequestMapping(value = "/create/{id}", method = RequestMethod.POST)
-	public String create(@PathVariable Long id,
-			ClientInvestment clientInvestment, Model uiModel,
+	public String create(@PathVariable Long id, ClientInvestment clientInvestment, Model uiModel,
 			RedirectAttributes redirectAttributes) {
 		log.debug("create(ClientInvestment clientInvestment, Model uiModel,RedirectAttributes redirectAttributes)");
-		System.out.println(clientInvestment.getClient().getId());
-		clientInvestment.setProjectInfo(projectInfoService
-				.findOne(clientInvestment.getProjectInfo().getId()));
-		clientInvestment.setClient(clientService.findOne(clientInvestment
-				.getClient().getId()));
-		clientInvestment.getClient().setClientInvestments(null);
-		clientInvestment.getProjectInfo().setClientInvestments(null);
+		System.out.println(clientInvestment.getClient());
+		clientInvestment.setProjectInfo(projectInfoService.findOne(clientInvestment.getProjectInfo().getId()));
+		if (clientInvestment.getInvestmentType().equals(InvestmentType.CASH)) {
+			clientInvestment.setUniqueInvestmentCode(
+					NonChequeInvestmentIdGenerator.generate(clientInvestment.getClient().getName(),
+							clientInvestment.getClient().getClientType(), clientInvestment.getInvestmentDate()));
+		}
 		try {
 			clientInvestmentService.create(clientInvestment);
 		} catch (Exception e) {

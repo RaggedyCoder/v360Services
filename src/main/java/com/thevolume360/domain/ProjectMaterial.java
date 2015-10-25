@@ -36,7 +36,6 @@ public class ProjectMaterial extends PersistentObject implements Auditable {
 	@NotNull
 	private Integer unit;
 
-	@NotNull
 	private Long totalCost;
 
 	public Long getId() {
@@ -97,13 +96,10 @@ public class ProjectMaterial extends PersistentObject implements Auditable {
 
 	@Override
 	public String toString() {
-		return "ProjectMaterial [id=" + id + ", version=" + version
-				+ ", projectBuying=" + projectBuying + ", material=" + material
-				+ ", unitCost=" + unitCost + ", unit=" + unit + ", totalCost="
-				+ totalCost + ", getCreatedDate()=" + getCreatedDate()
-				+ ", getLastModifiedDate()=" + getLastModifiedDate()
-				+ ", getCreatedBy()=" + getCreatedBy()
-				+ ", getLastModifiedBy()=" + getLastModifiedBy() + "]";
+		return "ProjectMaterial [id=" + id + ", version=" + version + ", projectBuying=" + projectBuying + ", material="
+				+ material + ", unitCost=" + unitCost + ", unit=" + unit + ", totalCost=" + totalCost
+				+ ", getCreatedDate()=" + getCreatedDate() + ", getLastModifiedDate()=" + getLastModifiedDate()
+				+ ", getCreatedBy()=" + getCreatedBy() + ", getLastModifiedBy()=" + getLastModifiedBy() + "]";
 	}
 
 }

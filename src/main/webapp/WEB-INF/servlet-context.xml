@@ -11,10 +11,12 @@
 		http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<context:component-scan base-package="com.thevolume360.web" />
+	<context:annotation-config></context:annotation-config>
 	<security:global-method-security
 		pre-post-annotations="enabled" secured-annotations="enabled">
 		<security:protect-pointcut
-			expression="execution(* com.thevolume360.service.*Service.*(..))" access="ROLE_USER,ROLE_ADMIN" />
+			expression="execution(* com.thevolume360.service.*Service.*(..))"
+			access="ROLE_USER,ROLE_ADMIN" />
 	</security:global-method-security>
 	<mvc:annotation-driven conversion-service="conversionService">
 		<mvc:argument-resolvers>
@@ -24,6 +26,11 @@
 			</bean>
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
+
+	<bean name="viewResolver"
+		class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+	<bean name="jsonTemplate"
+		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 
 	<bean id="customFormatterRegistrar"
 		class="com.thevolume360.web.formatter.registry.FormatterRegistrars">
@@ -64,7 +71,7 @@
 		<property name="cacheable" value="false" />
 		<!-- Just for hot-deployment purpose; shouldn't be in production -->
 		<property name="characterEncoding" value="UTF-8"></property>
-		
+
 	</bean>
 
 	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">

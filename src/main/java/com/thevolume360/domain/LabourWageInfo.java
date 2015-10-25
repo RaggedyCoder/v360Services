@@ -3,8 +3,6 @@ package com.thevolume360.domain;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,8 +17,6 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.thevolume360.domain.enums.WageType;
 
 @Entity
 public class LabourWageInfo extends PersistentObject implements Auditable {
@@ -39,7 +35,7 @@ public class LabourWageInfo extends PersistentObject implements Auditable {
 	private ProjectLabour projectLabour;
 
 	@NotNull
-	@Enumerated(EnumType.STRING)
+	@ManyToOne
 	private WageType wageType;
 
 	@Max(999999)

@@ -17,8 +17,8 @@
 				<div class="col-lg-12">
 					<h3 class="mb">
 						<i class="fa fa-angle-right"></i><span
-							th:text="#{page.header.create.projectMaterial}">New Project
-							Material Entry</span>
+							th:text="#{page.header.create.projectMaterial}">New
+							Project Material Entry</span>
 					</h3>
 				</div>
 			</div>
@@ -30,10 +30,117 @@
 							th:text="#{label.form.title.projectMaterial.entry}">Project
 							Material Entry Form</div>
 
-						<div class="panel-body"></div>
+						<div class="panel-body">
+							<form class="form-horizontal" method="POST"
+								th:object="${projectMaterial}"
+								th:action="@{/project/material/save}">
+								<fieldset>
+									<legend th:text="#{heading.projectInfo}">Project
+										Info's</legend>
+									<input type="hidden" id="projectBuyingId"
+										name="projectBuyingId" th:value="${projectBuying.id}"
+										maxlength="100" class="form-control input-sm" />
+									<div class="form-group">
+										<label for="client" class="col-sm-2 control-label"
+											th:text="#{label.projectInfo.client}">Material's Name</label>
+										<div class="col-sm-3">
+											<select class="form-control" id="material"
+												th:field="*{material.id}">
+												<option value="" th:text="#{common.select.prompt}"></option>
+												<option th:each="material : ${materials}"
+													th:value="${material.id}"
+													th:text="${material.materialName}"></option>
+												<option value="">Add a New Material</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="unitCost" class="col-sm-2 control-label"
+											th:text="#{label.projectInfo.name}">Project Name</label>
+										<div class="col-sm-3">
+											<input type="text" id="unitCost" th:field="*{unitCost}"
+												maxlength="100" class="form-control input-sm" />
+											<p class="text-danger"
+												th:if="${#fields.hasErrors('unitCost')}">
+												<span th:errors="*{unitCost}">Project Name must
+													required!</span>
+											</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="unit" class="col-sm-2 control-label"
+											th:text="#{label.projectInfo.name}">Project Name</label>
+										<div class="col-sm-3">
+											<input type="text" id="unit" th:field="*{unit}"
+												maxlength="100" class="form-control input-sm" />
+											<p class="text-danger" th:if="${#fields.hasErrors('unit')}">
+												<span th:errors="*{unit}">Project Name must required!</span>
+											</p>
+										</div>
+									</div>
+								</fieldset>
+
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<a href="#" class="btn btn-danger"
+											th:href="@{/project/buying/cancel}"> <span
+											th:text="#{label.cancel}">Cancel</span>
+										</a>
+										<button id="create" type="submit" value="false"
+											name="addMaterial" class="btn btn-primary"
+											th:text="#{label.projectBuying.create}">Create</button>
+
+										<button id="add" type="submit" value="true" name="addMaterial"
+											class="btn btn-primary"
+											th:text="#{label.projectBuying.addMetarial}">Add
+											Materials</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div class="showback">
+			<div class="row">
+
+				<div class="panel-body">
+					<div class="col-sm-12 col-md-12">
+						<h3 class="mb">
+							<i class="fa fa-angle-right"></i><span
+								th:text="#{page.header.create.projectMaterial}">New
+								Project Material Entry</span>
+						</h3>
+						<table th:if="${not #sets.isEmpty(projectMaterials)}"
+							class="table table-condensed">
+							<thead>
+								<tr>
+									<th>Material Name</th>
+									<th>Material Type</th>
+									<th>Unit</th>
+									<th>Unit Cost</th>
+									<th>Total Cost</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="projectMaterial : ${projectMaterials}">
+									<td th:text="${projectMaterial.material.materialName}"></td>
+									<td th:text="${projectMaterial.material.materialType}"></td>
+									<td th:text="${projectMaterial.unit}"></td>
+									<td th:text="${projectMaterial.unitCost}"></td>
+									<td th:text="${projectMaterial.totalCost}"></td>
+
+								</tr>
+							</tbody>
+						</table>
+						<strong th:if="${#sets.isEmpty(projectMaterials)}">No
+							Project Material is added yet. :(</strong>
+					</div>
+				</div>
+			</div> 
 		</div>
 	</section>
 </body>

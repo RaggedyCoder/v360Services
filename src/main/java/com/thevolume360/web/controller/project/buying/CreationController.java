@@ -1,8 +1,10 @@
-package com.thevolume360.web.controller;
+package com.thevolume360.web.controller.project.buying;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.annotation.Secured;
@@ -15,14 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thevolume360.domain.ProjectBuying;
+import com.thevolume360.domain.ProjectInfo;
 import com.thevolume360.service.ProjectBuyingService;
 import com.thevolume360.service.ProjectInfoService;
 
-@Controller
+@Controller("projectBuyingCreationController")
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
 @RequestMapping("/project/buying")
-public class ProjectBuyingController {
-
+public class CreationController {
+	private static final Logger LOG = LoggerFactory.getLogger(CreationController.class);
 	@Autowired
 	private ProjectBuyingService projectBuyingService;
 
@@ -36,26 +39,33 @@ public class ProjectBuyingController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String createReceipt(String id, ProjectBuying projectBuying, Model uiModel) {
-		// projectBuyingService.create(projectBuying);
-		// System.out.println(id);
+		LOG.debug("createReceipt(String id, ProjectBuying projectBuying, Model uiModel)");
+		projectBuying.setBoughtDate(new Date());
+		projectBuying.setProjectInfo(projectInfoService.findOne(Long.parseLong(id)));
 		uiModel.addAttribute("projectBuying", projectBuying);
-		uiModel.addAttribute("projectInfo", projectInfoService.findOne(Long.parseLong(id)));
 		return getViewPath("create");
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String updateReceipt(String projectInfoId, ProjectBuying projectBuying, Model uiModel,
+	public String updateReceipt(Boolean addMaterial, ProjectBuying projectBuying, Model uiModel,
 			RedirectAttributes redirectAttributes) {
-		return "redirect:/project/material/create";
+		ProjectInfo projectInfo = projectInfoService.findOne(projectBuying.getProjectInfo().getId());
+		projectInfo.setProjectBuyings(null);
+		projectBuying.setProjectInfo(projectInfo);
+		try {
+			ProjectBuying newProjectBuying = projectBuyingService.create(projectBuying);
+			if (addMaterial) {
+				return "redirect:/project/material/create/" + newProjectBuying.getId();
+			} else {
+				return "redirect:/project/show/" + projectInfo.getId();
+			}
+		} catch (Exception e) {
+			return "redirect:/project/show/" + projectInfo.getId();
+		}
 	}
-
-	// @RequestMapping(value = "/create", method = RequestMethod.POST)
-	// public String completeReceipt(ProjectBuying projectBuying, Model uiModel)
-	// {
-	// return getViewPath("create");
-	// }
 
 	private String getViewPath(String path) {
 		return String.format("project/buying/%s", path);
 	}
+
 }

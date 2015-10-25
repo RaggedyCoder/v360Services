@@ -31,13 +31,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thevolume360.domain.enums.Designation;
 import com.thevolume360.domain.enums.Role;
 
 @Entity
 @NamedQuery(name = "User.findByUsername", query = "from User u where u.username = ?")
-public class User extends PersistentObject implements UserDetails,
-		Serializable, Auditable {
+
+public class User extends PersistentObject implements UserDetails, Serializable, Auditable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -66,24 +67,28 @@ public class User extends PersistentObject implements UserDetails,
 	@Size(min = 8, max = 32)
 	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+!=])(?=\\S+$).{8,}$", message = "Password must contain at least one special character (@ # $ % ^ & + !), one digit, one lowercase and upper case letter and no whitespace.")
 	@Transient
+	@JsonIgnore
 	private String password;
 
+	@JsonIgnore
 	@Size(max = 280)
 	private String hashedPassword;
 
+	@JsonIgnore
 	@Size(max = 16)
 	private String salt;
 
 	@Email
 	private String email;
 
+	@JsonIgnore
 	@Pattern(regexp = "^01(1|5|6|7|8|9)\\d{8}$")
 	private String phoneNumber;
 
 	@NotEmpty(message = "You must select one role")
 	@ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
 	@Enumerated(EnumType.STRING)
-	@CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+	@CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id") )
 	private List<Role> roles = new ArrayList<Role>();
 
 	// spring security default properties
@@ -241,8 +246,7 @@ public class User extends PersistentObject implements UserDetails,
 			return false;
 		if (!password.equals(user.password))
 			return false;
-		if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber)
-				: user.phoneNumber != null)
+		if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null)
 			return false;
 		if (!username.equals(user.username))
 			return false;
@@ -265,15 +269,11 @@ public class User extends PersistentObject implements UserDetails,
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", version=" + version + ", name=" + fullName
-				+ ", designation=" + designation + ", username=" + username
-				+ ", password=" + password + ", hashedPassword="
-				+ hashedPassword + ", salt=" + salt + ", email=" + email
-				+ ", phoneNumber=" + phoneNumber + ", roles=" + roles
-				+ ", accountNonExpired=" + accountNonExpired
-				+ ", accountNonLocked=" + accountNonLocked
-				+ ", credentialsNonExpired=" + credentialsNonExpired
-				+ ", enabled=" + enabled + "]";
+		return "User [id=" + id + ", version=" + version + ", name=" + fullName + ", designation=" + designation
+				+ ", username=" + username + ", password=" + password + ", hashedPassword=" + hashedPassword + ", salt="
+				+ salt + ", email=" + email + ", phoneNumber=" + phoneNumber + ", roles=" + roles
+				+ ", accountNonExpired=" + accountNonExpired + ", accountNonLocked=" + accountNonLocked
+				+ ", credentialsNonExpired=" + credentialsNonExpired + ", enabled=" + enabled + "]";
 	}
 
 	public Long getVersion() {

@@ -4,9 +4,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/main">
 <head>
-<title>Home Page :: volume360Services</title>
+<title th:text="#{page.tab.header.projectLabour}">ProjectLabour
+	:: Intake</title>
 <link href="../../../resources/css/datepicker3.css"
 	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
+
 </head>
 <body>
 	<section layout:fragment="content">
@@ -14,7 +16,7 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header" th:text="#{page.header.projects.labour}">Intaking
+					<h1 class="page-header" th:text="#{page.header.projectLabour}">Intaking
 						Labour to a Project</h1>
 				</div>
 			</div>
@@ -22,8 +24,8 @@
 				<div th:if="${labours.size()>0}">
 					<div class="panel panel-default">
 						<div class="panel-heading"
-							th:text="#{panel.heading.projects.labour}">Select Labours
-							for Project</div>
+							th:text="#{panel.heading.projectLabour}">Select Labours for
+							Project</div>
 						<div class="panel-body">
 							<ul>
 								<li th:each="labour: ${labours}"><b
@@ -36,12 +38,12 @@
 								<fieldset>
 									<div class="form-group">
 										<label class="col-sm-2 control-label"
-											th:text="#{label.projects.labours.select}">Select
+											th:text="#{label.projectLabour.labour}">Select
 											Labours by Name</label>
 										<div class="col-sm-3">
 											<select class="form-control" th:size="15"
 												th:field="*{labours}" multiple="multiple">
-												
+
 												<option th:each="labour : ${labours}" th:value="${{labour}}"
 													th:text="${labour.fullName}"></option>
 											</select>
@@ -55,22 +57,26 @@
 								</fieldset>
 								<fieldset>
 									<div class="form-group">
-										<label class="col-sm-2 control-label">Labour Gender:</label>
+										<label class="col-sm-2 control-label"
+											th:text="#{label.projectLabour.wageUnit}">Wage(As
+											Unit): </label>
 										<div class="col-sm-3">
 											<input class="form-control input-sm" th:field="*{wageUnit}" />
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 control-label" th:text="#{label.sex}">
-											Sex </label>
+										<label class="col-sm-2 control-label"
+											th:text="#{label.projectLabour.wageType}">Wage Type:
+										</label>
 										<div class="col-sm-3">
-											<select id="gender-select" class="form-control"
+											<select id="wageType" class="form-control"
 												th:field="*{wageType}">
 												<option value="" th:text="#{common.select.prompt}"></option>
-												<option
-													th:each="wageType : ${T(com.thevolume360.domain.enums.WageType).values()}"
-													th:value="${wageType.name}" th:text="${wageType.name}"
+												<option th:each="wageType : ${wageTypes}"
+													th:value="${{wageType}}" th:text="${wageType.name}"
 													th:selected="${wageType == intakeLabours.wageType}"></option>
+												<option value="">Create a new Wage Type</option>
+												<option value="" th:text="#{common.select.prompt}"></option>
 											</select>
 											<p class="text-danger"
 												th:if="${#fields.hasErrors('wageType')}">
@@ -87,7 +93,56 @@
 										</a> <input class="btn btn-primary" type="submit" />
 									</div>
 								</div>
+
+								<div class="modal fade" id="myModal" role="dialog">
+									<div class="modal-dialog">
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" onclick="closeModal()">&times;</button>
+												<h4 class="modal-title">Create New Wage Type</h4>
+											</div>
+											<div class="modal-body">
+												<div class="form-group">
+													<label for="wageType-name" class="col-sm-6 control-label"
+														th:text="#{label.wageType.name}">New Wage Type
+														Name</label>
+													<div class="col-sm-6">
+														<input type="text" id="wageType-name" maxlength="100"
+															class="form-control input-sm" />
+													</div>
+												</div>
+												<br />
+												<div class="form-group">
+													<label for="wageType-wageCategory"
+														class="col-sm-6 control-label"
+														th:text="#{label.wageType.wageCategory}">New Wage
+														Type's Category</label>
+													<div class="col-sm-6">
+														<select class="form-control" id="wageType-wageCategory">
+															<option value="" th:text="#{common.select.prompt}"></option>
+															<option
+																th:each="wageCategory : ${T(com.thevolume360.domain.enums.WageCategory).values()}"
+																th:value="${wageCategory}"
+																th:text="${wageCategory.name}"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													onclick="closeModal()">Close</button>
+
+												<button type="button" class="btn btn-primary"
+													onclick="submitWageTypeData()">Create</button>
+											</div>
+										</div>
+
+									</div>
+								</div>
 							</form>
+
+
 						</div>
 					</div>
 				</div>
@@ -113,5 +168,36 @@
 			</div>
 		</div>
 	</section>
+
+	<div layout:fragment="custom-scripts">
+
+		<script type="text/javascript"
+			src="../../../resources/js/jquery-2.1.3.min.js"
+			th:src="@{/resources/js/jquery-2.1.3.min.js}"></script>
+
+		<script type="text/javascript"
+			src="../../../resources/js/wagetype/creator.js"
+			th:src="@{/resources/js/wagetype/creator.js}"></script>
+
+		<script type="text/javascript"
+			src="../../../resources/js/bootstrap.min.js"
+			th:src="@{/resources/js/bootstrap.min.js}"></script>
+
+		<script>
+			$(document).ready(
+					function() {
+						$("#wageType").click(
+								function() {
+									if ($("#wageType option:selected").text()
+											.match("Create a new Wage Type")) {
+										$('#myModal').modal({
+											backdrop : 'static',
+											keyboard : false
+										});
+									}
+								});
+					});
+		</script>
+	</div>
 </body>
 </html>

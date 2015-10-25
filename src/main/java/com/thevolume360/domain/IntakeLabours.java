@@ -3,16 +3,11 @@ package com.thevolume360.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
-
-import com.thevolume360.domain.enums.WageType;
 
 public class IntakeLabours {
 
 	@NotNull
-	@Enumerated(EnumType.STRING)
 	private WageType wageType;
 
 	@NotNull
@@ -72,8 +67,7 @@ public class IntakeLabours {
 	 */
 	@Override
 	public String toString() {
-		return "IntakeLabours [wageType=" + wageType + ", wageUnit=" + wageUnit
-				+ ", labours=" + labours + "]";
+		return "IntakeLabours [wageType=" + wageType + ", wageUnit=" + wageUnit + ", labours=" + labours + "]";
 	}
 
 }

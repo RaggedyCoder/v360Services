@@ -40,9 +40,9 @@
 										<label for="projectName" class="col-sm-2 control-label"
 											th:text="#{label.project.name}">Project Name</label>
 										<div class="col-sm-3">
-											<label id="projectName" th:text="${projectInfo.projectName}"
+											<label id="projectName" th:text="*{projectInfo.projectName}"
 												class="form-control input-sm"></label> <input type="hidden"
-												th:field="*{projectInfo.id}" class="form-control input-sm" />
+												th:field="*{projectInfo.id}" th:value="${projectInfoId}" class="form-control input-sm" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -50,7 +50,7 @@
 											th:text="#{label.projectBuying.boughtDate}">Bought
 											Date</label>
 										<div class="col-sm-3">
-											<input type="text" pattern="dd/mm/yyyy"
+											<input type="text"
 												class="form-control input-sm" id="boughtDate"
 												th:field="*{boughtDate}" />
 											<p class="text-danger"
@@ -78,11 +78,14 @@
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
 										<a href="#" class="btn btn-danger"
-											th:href="@{/project/cancel}"> <span
+											th:href="@{/project/buying/cancel}"> <span
 											th:text="#{label.cancel}">Cancel</span>
 										</a>
-										<button type="submit" class="btn btn-primary"
-											th:text="#{label.create}">Create</button>
+										<button id="create" type="submit" value="false" name="addMaterial"
+											class="btn btn-primary" th:text="#{label.projectBuying.create}">Create</button>
+										<button id="add" type="submit" value="true" name="addMaterial"
+											class="btn btn-primary" th:text="#{label.projectBuying.addMetarial}">Add
+											Materials</button>
 									</div>
 								</div>
 							</form>
@@ -92,5 +95,16 @@
 			</div>
 		</div>
 	</section>
+	<div layout:fragment="custom-scripts">
+		<script id="date" src="../../../resources/js/bootstrap-datepicker.js"
+			th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+		<script>
+			$('#boughtDate').datepicker({
+				format : "dd/mm/yyyy",
+				startView : 2,
+				autoclose : true
+			});
+		</script>
+	</div>
 </body>
 </html>

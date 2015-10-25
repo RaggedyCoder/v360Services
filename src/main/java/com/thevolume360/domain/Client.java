@@ -19,6 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thevolume360.domain.enums.ClientType;
 
 @Entity
@@ -31,29 +32,25 @@ public class Client extends PersistentObject implements Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	
 	private Long id;
 
 	@NotEmpty
 	@Size(min = 4, max = 100)
-	
 	private String name;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	
 	private ClientType clientType;
 
 	@Version
-	
 	private Long version;
 
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-	
+	@JsonIgnore
 	private Set<ProjectInfo> projectInfos = new HashSet<>();
 
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-	
+	@JsonIgnore
 	private Set<ClientInvestment> clientInvestments = new HashSet<>();
 
 	/**
@@ -187,8 +184,7 @@ public class Client extends PersistentObject implements Auditable {
 	 */
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", name=" + name + ", clientType="
-				+ clientType + ", version=" + version + "]";
+		return "Client [id=" + id + ", name=" + name + ", clientType=" + clientType + ", version=" + version + "]";
 	}
 
 }

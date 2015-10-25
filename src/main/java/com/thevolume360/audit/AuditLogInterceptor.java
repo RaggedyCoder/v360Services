@@ -11,14 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.thevolume360.dao.AuditLogDao;
 import com.thevolume360.domain.AuditLog;
 import com.thevolume360.domain.Auditable;
 import com.thevolume360.domain.enums.AuditAction;
 import com.thevolume360.web.ApplicationContextProvider;
 
+@SuppressWarnings("rawtypes")
 @Component
 public class AuditLogInterceptor extends EmptyInterceptor {
 	/**
@@ -117,8 +116,7 @@ public class AuditLogInterceptor extends EmptyInterceptor {
 
 	private String make(Object entity) {
 		try {
-			Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-			return gson.toJson(entity);
+			return ApplicationContextProvider.getObjectWriter().writeValueAsString(entity);
 		} catch (Exception e) {
 			log.error("Can't serialize entity", e);
 		}

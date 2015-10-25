@@ -8,6 +8,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -15,6 +18,7 @@ import java.io.Serializable;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties({ "createdBy", "lastModifiedBy" })
 public abstract class PersistentObject implements Serializable {
 	/**
 	 * 
@@ -24,11 +28,13 @@ public abstract class PersistentObject implements Serializable {
 	@CreatedDate
 	@NotNull
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@JsonIgnore
 	private DateTime createdDate = DateTime.now();
 
 	@LastModifiedDate
 	@NotNull
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@JsonIgnore
 	private DateTime lastModifiedDate = DateTime.now();
 
 	@CreatedBy

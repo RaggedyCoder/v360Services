@@ -18,7 +18,7 @@ public class Material {
 	private Long id;
 
 	@NotNull
-	private String materialName;
+	private String name;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -33,16 +33,26 @@ public class Material {
 	}
 
 	public String getMaterialName() {
-		return materialName;
+		return name;
 	}
 
-	public void setMaterialName(String materialName) {
-		this.materialName = materialName;
+	public void setname(String name) {
+		this.name = name;
+	}
+
+	public MaterialType getMaterialType() {
+		return materialType;
+	}
+
+	public void setMaterialType(MaterialType materialType) {
+		this.materialType = materialType;
 	}
 
 	@Override
 	public String toString() {
-		return "Material [id=" + id + ", materialName=" + materialName + "]";
+		return "Material [id=" + id + ", name=" + name + ", materialType=" + materialType + "]";
 	}
+
+	
 
 }

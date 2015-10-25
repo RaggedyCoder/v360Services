@@ -1,53 +1,43 @@
 package com.thevolume360.web.formatter;
 
+import static com.thevolume360.web.ApplicationContextProvider.getObjectMapper;
+import static com.thevolume360.web.ApplicationContextProvider.getObjectWriter;
+
 import java.text.ParseException;
 import java.util.Locale;
 
 import org.springframework.format.Formatter;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.thevolume360.domain.Labour;
 
 public class LabourFormatter implements Formatter<Labour> {
 
-	@Override
-	public String print(Labour labour, Locale locale) {
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-				.create();
-		System.err.println(labour);
-		// labour.setCreatedDate(null);
-		// labour.setLastModifiedDate(null);
-		// labour.setCreatedBy(null);
-		// labour.setLastModifiedBy(null);
-		try {
-			String json = gson.toJson(labour);
-			System.out.println(json);
-			json = json.replaceAll(",", "`");
-			return json;
-		} catch (Exception e) {
-			System.out.println(e.getClass().getSimpleName() + " "
-					+ e.getMessage());
-			return Long.toString(labour.getId());
-		}
-
+	public LabourFormatter() {
 	}
 
 	@Override
-	public Labour parse(String id, Locale locale) throws ParseException {
-		Labour labour;
-		System.err.println("json before- " + id);
-		id = id.replaceAll("`", ",");
-		System.err.println("json after- " + id);
+	public String print(Labour labour, Locale locale) {	
+		String json = null;
 		try {
-			Gson gson = new GsonBuilder().create();
-			labour = gson.fromJson(id, Labour.class);
+			json = getObjectWriter().writeValueAsString(labour);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		json = json.replaceAll(",", "`");
+		return json;
+	}
+
+	@Override
+	public Labour parse(String json, Locale locale) throws ParseException {
+		Labour labour = null;
+		json = json.replaceAll("`", ",");
+		try {
+			labour = getObjectMapper().readValue(json, Labour.class);
 			System.err.println(labour);
 		} catch (Exception e) {
-			System.out.println(e.getClass().getSimpleName() + " "
-					+ e.getMessage());
-			labour = new Labour();
-			labour.setId(Long.parseLong(id));
+			System.out.println(e.getClass().getSimpleName() + " " + e.getMessage());
 		}
 		return labour;
 	}

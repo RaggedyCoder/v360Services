@@ -59,6 +59,9 @@ public class ClientInvestment extends PersistentObject implements Auditable {
 	@Enumerated(EnumType.STRING)
 	private InvestmentType investmentType;
 
+	@Column(length = 100)
+	private String uniqueInvestmentCode;
+
 	public Long getId() {
 		return id;
 	}
@@ -107,6 +110,14 @@ public class ClientInvestment extends PersistentObject implements Auditable {
 		this.investmentType = investmentType;
 	}
 
+	public String getUniqueInvestmentCode() {
+		return uniqueInvestmentCode;
+	}
+
+	public void setUniqueInvestmentCode(String uniqueInvestmentCode) {
+		this.uniqueInvestmentCode = uniqueInvestmentCode;
+	}
+
 	/**
 	 * @return the client
 	 */
@@ -122,17 +133,13 @@ public class ClientInvestment extends PersistentObject implements Auditable {
 		this.client = client;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "ClientInvestment [id=" + id + ", version=" + version
-				+ ", projectInfo=" + projectInfo + ", client=" + client
-				+ ", investedAmount=" + investedAmount + ", investmentDate="
-				+ investmentDate + ", investmentType=" + investmentType + "]";
+		return "ClientInvestment [id=" + id + ", version=" + version + ", projectInfo=" + projectInfo + ", client="
+				+ client + ", investedAmount=" + investedAmount + ", investmentDate=" + investmentDate
+				+ ", investmentType=" + investmentType + ", uniqueInvestmentCode=" + uniqueInvestmentCode + "]";
 	}
+
+	
 
 }

@@ -1,4 +1,4 @@
-package com.thevolume360.web.controller;
+package com.thevolume360.web.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -13,7 +13,7 @@ import com.thevolume360.service.OfficeWorkerService;
 import com.thevolume360.service.ProjectInfoService;
 import com.thevolume360.service.UserService;
 
-@Controller
+@Controller("userAdminController")
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
 public class AdminController {
 
@@ -30,13 +30,11 @@ public class AdminController {
 
 	@RequestMapping(value = { "admin/index", "/" }, method = RequestMethod.GET)
 	private String index(Model uiModel) {
-
 		uiModel.addAttribute("totalUser", userService.count());
 		uiModel.addAttribute("totalProject", projectInfoService.count());
 		uiModel.addAttribute("totalLabour", labourService.count());
 		uiModel.addAttribute("totalClient", clientService.count());
 		uiModel.addAttribute("totalOfficeWorker", officeWorkerService.count());
-
 		return "admin/index";
 	}
 }

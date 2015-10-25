@@ -11,8 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -43,10 +41,9 @@ public class LabourWorkInfo extends PersistentObject implements Auditable {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date workedDate;
 
-	@Max(24)
-	@Min(1)
-	@Column(length = 2)
-	private Integer workedHour;
+	@NotNull
+	@Column
+	private Integer workedUnit;
 
 	@ManyToOne
 	private LabourPaymentInfo labourPaymentInfo;
@@ -94,12 +91,12 @@ public class LabourWorkInfo extends PersistentObject implements Auditable {
 		this.workedDate = workedDate;
 	}
 
-	public Integer getWorkedHour() {
-		return workedHour;
+	public Integer getWorkedUnit() {
+		return workedUnit;
 	}
 
-	public void setWorkedHour(Integer workedHour) {
-		this.workedHour = workedHour;
+	public void setWorkedUnit(Integer workedUnit) {
+		this.workedUnit = workedUnit;
 	}
 
 	public LabourPaymentInfo getLabourPaymentInfo() {
@@ -118,7 +115,7 @@ public class LabourWorkInfo extends PersistentObject implements Auditable {
 	@Override
 	public String toString() {
 		return "LabourWorkInfo [id=" + id + ", version=" + version + ", projectLabour=" + projectLabour + ", isPaid="
-				+ isPaid + ", workedDate=" + workedDate + ", workedHour=" + workedHour + ", labourPaymentInfo="
+				+ isPaid + ", workedDate=" + workedDate + ", workedUnit=" + workedUnit + ", labourPaymentInfo="
 				+ labourPaymentInfo + "]";
 	}
 

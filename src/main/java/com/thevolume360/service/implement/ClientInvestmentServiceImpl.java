@@ -16,8 +16,7 @@ import com.thevolume360.service.ClientInvestmentService;
 @Service
 public class ClientInvestmentServiceImpl implements ClientInvestmentService {
 
-	static final Logger LOGGER = LoggerFactory
-			.getLogger(ClientInvestmentServiceImpl.class);
+	static final Logger LOGGER = LoggerFactory.getLogger(ClientInvestmentServiceImpl.class);
 
 	@Autowired
 	private ClientInvestmentDao clientInvestmentDao;

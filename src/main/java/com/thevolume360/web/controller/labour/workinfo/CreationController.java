@@ -1,4 +1,4 @@
-package com.thevolume360.web.controller;
+package com.thevolume360.web.controller.labour.workinfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,10 +20,10 @@ import com.thevolume360.domain.LabourWorkInfo;
 import com.thevolume360.service.LabourWorkInfoService;
 import com.thevolume360.service.ProjectLabourService;
 
-@Controller
+@Controller("labourWorkInfoCreationController")
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
 @RequestMapping("/labour/work/info")
-public class LabourWorkInfoController {
+public class CreationController {
 
 	@Autowired
 	private ProjectLabourService projectLabourService;
@@ -51,5 +51,4 @@ public class LabourWorkInfoController {
 		labourWorkInfoService.create(labourWorkInfo);
 		return "redirect:/project/labour/show/" + projectLabourId;
 	}
-
 }

@@ -1,12 +1,14 @@
 package com.thevolume360.domain.enums;
 
 public enum ClientType {
-	COMPANY("Company"), PERSON("person");
+	COMPANY("Company", "CM"), PERSON("person", "PR");
 
 	private String label;
+	private String shortCode;
 
-	private ClientType(String label) {
+	private ClientType(String label, String shortCode) {
 		this.label = label;
+		this.shortCode = shortCode;
 	}
 
 	/**
@@ -22,6 +24,14 @@ public enum ClientType {
 	 */
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public String getShortCode() {
+		return shortCode;
+	}
+
+	public void setShortCode(String shortCode) {
+		this.shortCode = shortCode;
 	}
 
 }

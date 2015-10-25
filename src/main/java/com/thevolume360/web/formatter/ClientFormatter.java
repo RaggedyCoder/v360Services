@@ -1,53 +1,41 @@
 package com.thevolume360.web.formatter;
 
+import static com.thevolume360.web.ApplicationContextProvider.getObjectMapper;
+import static com.thevolume360.web.ApplicationContextProvider.getObjectWriter;
+
 import java.text.ParseException;
 import java.util.Locale;
 
 import org.springframework.format.Formatter;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.thevolume360.domain.Client;
 
 public class ClientFormatter implements Formatter<Client> {
 
 	@Override
 	public String print(Client client, Locale locale) {
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-				.create();
-		System.err.println(client);
-		// client.setCreatedDate(null);
-		// client.setLastModifiedDate(null);
-		// client.setCreatedBy(null);
-		// client.setLastModifiedBy(null);
+		String json = null;
 		try {
-			String json = gson.toJson(client);
-			System.out.println(json);
-			json = json.replaceAll(",", "`");
-			return json;
-		} catch (Exception e) {
-			System.out.println(e.getClass().getSimpleName() + " "
-					+ e.getMessage());
-			return Long.toString(client.getId());
+			json = getObjectWriter().writeValueAsString(client);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		json = json.replaceAll(",", "`");
+		return json;
 
 	}
 
 	@Override
-	public Client parse(String id, Locale locale) throws ParseException {
-		Client client;
-		System.err.println("json before- " + id);
-		id = id.replaceAll("`", ",");
-		System.err.println("json after- " + id);
+	public Client parse(String json, Locale locale) throws ParseException {
+		Client client=null;
+		json = json.replaceAll("`", ",");
 		try {
-			Gson gson = new GsonBuilder().create();
-			client = gson.fromJson(id, Client.class);
+			client = getObjectMapper().readValue(json, Client.class);
 			System.err.println(client);
 		} catch (Exception e) {
-			System.out.println(e.getClass().getSimpleName() + " "
-					+ e.getMessage());
-			client = new Client();
-			client.setId(Long.parseLong(id));
+			System.out.println(e.getClass().getSimpleName() + " " + e.getMessage());
 		}
 		return client;
 	}
