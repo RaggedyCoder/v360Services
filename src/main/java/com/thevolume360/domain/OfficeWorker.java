@@ -63,4 +63,61 @@ public class OfficeWorker extends PersistentObject implements Auditable {
 		this.id = id;
 	}
 
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public FullName getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(FullName fullName) {
+		this.fullName = fullName;
+	}
+
+	public Designation getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(Designation designation) {
+		this.designation = designation;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public Set<BankWithdraw> getIssuedBankWithDrawals() {
+		return issuedBankWithDrawals;
+	}
+
+	public void setIssuedBankWithDrawals(Set<BankWithdraw> issuedBankWithDrawals) {
+		this.issuedBankWithDrawals = issuedBankWithDrawals;
+	}
+
+	public Set<BankWithdraw> getWithrawedWithDrawals() {
+		return withrawedWithDrawals;
+	}
+
+	public void setWithrawedWithDrawals(Set<BankWithdraw> withrawedWithDrawals) {
+		this.withrawedWithDrawals = withrawedWithDrawals;
+	}
+
+	@Override
+	public String toString() {
+		return "OfficeWorker [id=" + id + ", version=" + version + ", fullName=" + fullName + ", designation="
+				+ designation + ", contactNumber=" + contactNumber + ", issuedBankWithDrawals=" + issuedBankWithDrawals
+				+ ", withrawedWithDrawals=" + withrawedWithDrawals + "]";
+	}
+	
+	
+
 }

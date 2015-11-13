@@ -16,11 +16,4 @@ public interface LabourDao extends JpaRepository<Labour, Long>, JpaSpecification
 	@Query("select l from Labour l left join l.projectLabours pl on pl.projectInfo.id=:projectInfoid where pl.projectInfo.id is null")
 	public List<Labour> findLabourNotInProjectByProjectInfoId(@Param("projectInfoid") Long projectInfoId);
 
-	/*
-	 * @Query(
-	 * "select l from Labour l where l.fullName.firstName like %:firstName% or l.fullName.lastName like %:lastName% or l.contactNumber like %:contactNumber%"
-	 * ) public Page<Labour> searchLabour(@Param("firstName") String
-	 * firstName, @Param("lastName") String lastName,
-	 * 
-	 * @Param("contactNumber") String contactNumber, Pageable pageable);
-	 */}
+}

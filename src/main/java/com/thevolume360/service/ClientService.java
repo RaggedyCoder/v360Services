@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.thevolume360.domain.Client;
+import com.thevolume360.domain.search.ClientSearchCmd;
 
 public interface ClientService {
 
@@ -20,4 +21,6 @@ public interface ClientService {
 	public long count();
 
 	public void update(Client client);
+
+	public Page<Client> findClientBySearchCmd(ClientSearchCmd clientSearchCmd, Pageable pageable);
 }

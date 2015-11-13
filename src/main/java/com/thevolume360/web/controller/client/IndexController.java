@@ -21,14 +21,14 @@ import com.thevolume360.utils.PageWrapper;
 @RequestMapping("/client")
 public class IndexController {
 
-	private static final Logger log = LoggerFactory.getLogger(IndexController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);
 
 	@Autowired
 	private ClientService clientService;
 
 	@RequestMapping(value = { "/", "/index", "/list" }, method = RequestMethod.GET)
 	public String index(Model uiModel, Pageable pageable) {
-		log.debug("index(Model uiModel, Pageable pageable)");
+		LOG.debug("index(Model uiModel, Pageable pageable)");
 
 		Page<Client> clients = clientService.findAll(pageable);
 		PageWrapper<Client> page = new PageWrapper<>(clients, "/client/list");
@@ -39,14 +39,14 @@ public class IndexController {
 
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
 	public String cancel() {
-		log.debug("cancel()");
-
+		LOG.debug("cancel()");
 		return "redirect:/client/list";
 	}
 
 	@RequestMapping(value = "show/{id}", method = RequestMethod.GET)
 	public String show(@PathVariable Long id, Model uiModel) {
-
+		LOG.debug("show(@PathVariable Long id, Model uiModel)");
+		LOG.info("display() id ={}", id);
 		Client client = clientService.findOne(id);
 		uiModel.addAttribute("client", client);
 		return "client/show";

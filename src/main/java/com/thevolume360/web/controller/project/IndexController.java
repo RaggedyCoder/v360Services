@@ -39,7 +39,12 @@ public class IndexController {
 	public String show(@PathVariable Long id, Model uiModel) {
 		LOG.debug(DEBUG_METHOD_ENTER, "show(@PathVariable Long id, Model uiModel)", TAG);
 		uiModel.addAttribute("projectInfo", projectInfoService.findOne(id));
+		uiModel.addAttribute("labourWageCost", labourWageCost());
 		return "project/show";
+	}
+
+	private Integer labourWageCost() {
+		return null;
 	}
 
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)

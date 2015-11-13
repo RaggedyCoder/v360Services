@@ -34,7 +34,6 @@ public class AuditLogInterceptor extends EmptyInterceptor {
 	@Override
 	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
 		log.debug("onSave()");
-
 		if (entity instanceof Auditable) {
 			inserts.add(entity);
 		}
@@ -103,7 +102,7 @@ public class AuditLogInterceptor extends EmptyInterceptor {
 	}
 
 	private void logEvent(AuditAction action, Auditable entity, AuditLogDao auditLogDao) {
-		log.debug(" action ={}, entity.getId()={}, entity.getLogDetail()={}", action, entity.getId());
+		log.debug(" action ={}, entity.getId()={}", action, entity.getId());
 
 		AuditLog auditLog = new AuditLog();
 		auditLog.setAction(action);

@@ -1,5 +1,6 @@
 package com.thevolume360.service.implement;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -57,6 +58,19 @@ public class LabourWorkInfoServiceImpl implements LabourWorkInfoService {
 
 	@Override
 	public void update(LabourWorkInfo labourWorkInfo) {
+	}
+
+	@Override
+	public List<LabourWorkInfo> findLabourWorkInfosByActivationDate(Long projectLabourId, Date activationDate) {
+		// TODO Auto-generated method stub
+		return labourWorkInfoDao.findLabourWorkInfosByActivationDate(projectLabourId, activationDate);
+	}
+
+	@Override
+	public List<LabourWorkInfo> findLabourWorkInfosByActivationDateAndLastValidDate(Long projectLabourId,
+			Date activationDate, Date lastValidDate) {
+		return labourWorkInfoDao.findLabourWorkInfosByActivationDateAndLastValidDate(projectLabourId, activationDate,
+				lastValidDate);
 	}
 
 }

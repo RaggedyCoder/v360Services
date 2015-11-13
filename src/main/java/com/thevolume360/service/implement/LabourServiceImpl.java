@@ -95,7 +95,7 @@ public class LabourServiceImpl implements LabourService {
 							predicate.getExpressions().add(cb.and(cb.equal(labourRoot.get("contactNumber"),
 									labourSearchCmd.getContactNumber().trim())));
 						}
-						if (labourSearchCmd != null) {
+						if (labourSearchCmd.getGender() != null) {
 							System.out.println("Gender- " + labourSearchCmd.getGender());
 							predicate.getExpressions()
 									.add(cb.and(cb.equal(labourRoot.get("gender"), labourSearchCmd.getGender())));

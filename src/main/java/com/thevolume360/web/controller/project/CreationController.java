@@ -19,6 +19,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thevolume360.domain.Client;
@@ -30,7 +32,7 @@ import com.thevolume360.service.ProjectInfoService;
 import com.thevolume360.web.editor.ClientTypeEditor;
 import com.thevolume360.web.editor.WorkTypeEditor;
 
-@Controller(value="projectCreationController")
+@Controller(value = "projectCreationController")
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
 @RequestMapping("/project")
 public class CreationController {
@@ -61,8 +63,8 @@ public class CreationController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String save(@Valid ProjectInfo projectInfo, BindingResult result, Model uiModel,
-			RedirectAttributes redirectAttributes) {
+	public String save(@RequestParam("file") MultipartFile[] file, @Valid ProjectInfo projectInfo, BindingResult result,
+			Model uiModel, RedirectAttributes redirectAttributes) {
 		if (projectInfo.getClient().getId() != null) {
 			System.err.println(projectInfo);
 			if (result.hasErrors()) {
@@ -74,16 +76,17 @@ public class CreationController {
 				return "project/create";
 			}
 		} else {
+			System.out.println(file.length);
 			System.err.println(projectInfo);
 			if (!projectInfo.getClient().getName().isEmpty() && projectInfo.getClient().getClientType() != null) {
 				clientService.create(projectInfo.getClient());
 			}
 			if (result.hasErrors()) {
-				return "redirect:/project/create";
+				return "project/create";
 			}
 		}
 		try {
-			projectInfoService.create(projectInfo);
+			// projectInfoService.create(projectInfo);
 			redirectAttributes.addFlashAttribute("message",
 					String.format("Project %s successfully created", projectInfo.getProjectName()));
 		} catch (Exception e) {

@@ -2,12 +2,11 @@
 
 <configuration debug="true" scan="true" scanPeriod="5 seconds">
 
-    <!-- <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/tmp/volume360.log</file>
-
+   <appender name="HTML" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>C:\\tmp/volume360.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             daily rollover
-            <fileNamePattern>/tmp/volume360.log.%d.gz</fileNamePattern>
+            <fileNamePattern>C:\\tmp/volume360.log.%d.gz</fileNamePattern>
 
             keep 180 days' worth of history
             <maxHistory>180</maxHistory>
@@ -16,12 +15,12 @@
         <encoder>
             <pattern>%date %level [%thread] S:%X{sid} U:%X{user} IP:%X{ipAddress} [%file:%line] %msg%n</pattern>
         </encoder>
-    </appender> -->
+    </appender> 
 
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <queueSize>2048</queueSize>
         <includeCallerData>true</includeCallerData>
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="HTML"/>
     </appender>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">

@@ -17,7 +17,7 @@
 <link rel="icon" href="../../../resources/images/logo.ico"
 	th:href="@{/resources/images/logo.ico}" type="image/x-icon" />
 
- 
+
 <!-- Bootstrap Core CSS -->
 <link href="../../../resources/css/bootstrap.min.css"
 	th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" />
@@ -154,6 +154,21 @@
 							<li><a href="#" th:href="@{/user/create}"><i
 									class="fa fa-edit fa-fw"></i><span>Intake</span> </a></li>
 							<li><a href="#" th:href="@{/user/list}"><i
+									class="fa fa-table fa-fw"></i><span>Lists</span></a></li>
+						</ul></li>
+
+
+					<li sec:authorize="hasRole('ROLE_ADMIN')" class="sub-menu"><a
+						href="javascript:;"> <i class="fa fa-users"></i> <strong>Office
+								Worker</strong>
+					</a>
+						<ul class="sub">
+							<li><a href="#" th:href="@{/office/worker/search}"> <i
+									class="fa fa-search fa-fw"></i><span>Search</span>
+							</a></li>
+							<li><a href="#" th:href="@{/office/worker/create}"><i
+									class="fa fa-edit fa-fw"></i><span>Intake</span> </a></li>
+							<li><a href="#" th:href="@{/office/worker/list}"><i
 									class="fa fa-table fa-fw"></i><span>Lists</span></a></li>
 						</ul></li>
 				</ul>

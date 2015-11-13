@@ -31,7 +31,9 @@
 						Entry Form</div>
 					<div class="panel-body">
 						<form class="form-horizontal" method="POST"
-							th:object="${projectInfo}" th:action="@{/project/create}">
+							th:object="${projectInfo}" enctype="multipart/form-data"
+							role="form" data-toggle="validator"
+							th:action="@{/project/create?__${_csrf.parameterName}__=__${_csrf.token}__}">
 							<fieldset>
 								<legend th:text="#{heading.projectInfo}">Project Info's</legend>
 								<div class="form-group">
@@ -40,6 +42,8 @@
 									<div class="col-sm-3">
 										<input type="text" id="projectName" th:field="*{projectName}"
 											maxlength="100" class="form-control input-sm" />
+
+
 										<p class="text-danger"
 											th:if="${#fields.hasErrors('projectName')}">
 											<span th:errors="*{projectName}">Project Name must
@@ -189,6 +193,23 @@
 										</p>
 									</div>
 								</div>
+
+								<div class="form-group">
+									<label for="projectComment" class="col-sm-2 control-label"
+										th:text="#{label.projectInfo.workOrder}">Project
+										Comment</label>
+									<div class="col-sm-3">
+										<input name="file" id="file-photo" type="file"
+											class="form-control input-sm" style="float: left"
+											required="required" maxlength="3145728"
+											multiple="multiple"
+											filetypes="jpg,jpeg,png,png,doc,docx"
+											data-maxlength-error="Photo size exceeded maximum size of 3 MB"
+											data-filetypes-error="Please upload a valid File (JPG / PNG / PDF / DOC / DOCX)" />
+									</div>
+								</div>
+
+
 								<div style="display: none;" class="form-group">
 									<label for="projectStatus" class="col-sm-2 control-label"
 										th:text="#{label.projectInfo.comment}">Project Comment</label>
@@ -205,6 +226,7 @@
 										</p>
 									</div>
 								</div>
+
 							</fieldset>
 
 							<div class="modal fade" id="myModal" role="dialog">

@@ -21,6 +21,7 @@ import com.thevolume360.domain.LabourWageInfo;
 import com.thevolume360.domain.ProjectLabour;
 import com.thevolume360.service.LabourWageInfoService;
 import com.thevolume360.service.ProjectLabourService;
+import com.thevolume360.service.WageTypeService;
 
 @Controller
 @Secured({ "ROLE_ADMIN", "ROLE_USER" })
@@ -32,6 +33,9 @@ public class EditController {
 	@Autowired
 	private LabourWageInfoService labourWageInfoService;
 
+	@Autowired
+	private WageTypeService wageTypeService;
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("dd/MM/yyyy"), true));
@@ -40,6 +44,7 @@ public class EditController {
 	@RequestMapping(value = "/renew", method = RequestMethod.POST)
 	public String renew(@Param("id") String id, Model uiModel) {
 		uiModel.addAttribute("projectLabourId", id);
+		uiModel.addAttribute("wageTypes", wageTypeService.findAll());
 		uiModel.addAttribute("lastWageInfoExpiredDate", new Date());
 		uiModel.addAttribute("labourWageInfo", new LabourWageInfo());
 		return "labour/wage/info/renew";
@@ -69,7 +74,7 @@ public class EditController {
 		projectLabour.setLabourWageInfos(null);
 		labourWageInfo.setProjectLabour(projectLabour);
 		labourWageInfoService.create(labourWageInfo);
-		return "labour/wage/info/renew";
+		return "redirect:/project/labour/show/" + projectLabourId;
 	}
 
 }

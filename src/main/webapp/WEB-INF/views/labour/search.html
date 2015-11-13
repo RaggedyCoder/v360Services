@@ -29,8 +29,7 @@
 						<div th:if="${notFound}" class="alert alert-danger">
 							<p th:text="${notFound}"></p>
 
-							<p sec:authorize="hasRole('ROLE_ADMIN')"
-								style="text-decoration: underline;">
+							<p style="text-decoration: underline;">
 								<a th:href="@{/labour/create}">Create New Labour</a>
 							</p>
 						</div>
@@ -54,8 +53,8 @@
 									th:text="#{label.user.lastName}">Last Name: </label>
 
 								<div class="col-sm-3">
-									<input type="text" class="form-control input-sm"
-										id="lastName" th:field="*{fullName.lastName}" />
+									<input type="text" class="form-control input-sm" id="lastName"
+										th:field="*{fullName.lastName}" />
 								</div>
 							</div>
 
@@ -64,8 +63,8 @@
 									th:text="#{label.contact.no}">Contact Number</label>
 
 								<div class="col-sm-3">
-									<input type="text" class="form-control input-sm" id="contactNumber"
-										th:field="*{contactNumber}" />
+									<input type="text" class="form-control input-sm"
+										id="contactNumber" th:field="*{contactNumber}" />
 								</div>
 							</div>
 
@@ -75,13 +74,13 @@
 
 								<div class="col-sm-3">
 									<select id="gender-select" class="form-control"
-											th:field="*{gender}">
-											<option value="" th:text="#{common.select.prompt}"></option>
-											<option
-												th:each="gender : ${T(com.thevolume360.domain.enums.Gender).values()}"
-												th:value="${gender}" th:text="${gender.label}"
-												th:selected="${gender == labourSearchCmd.gender}"></option>											
-										</select>
+										th:field="*{gender}">
+										<option value="" th:text="#{common.select.prompt}"></option>
+										<option
+											th:each="gender : ${T(com.thevolume360.domain.enums.Gender).values()}"
+											th:value="${gender}" th:text="${gender.label}"
+											th:selected="${gender == labourSearchCmd.gender}"></option>
+									</select>
 								</div>
 							</div>
 

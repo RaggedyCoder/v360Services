@@ -1,5 +1,6 @@
 package com.thevolume360.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -20,4 +21,11 @@ public interface LabourWorkInfoService {
 	public long count();
 
 	public void update(LabourWorkInfo labourWorkInfo);
+
+	public List<LabourWorkInfo> findLabourWorkInfosByActivationDate(Long projectLabourId, Date activationDate);
+
+	public List<LabourWorkInfo> findLabourWorkInfosByActivationDateAndLastValidDate(Long projectLabourId,
+			Date activationDate, Date lastValidDate);
+
+
 }

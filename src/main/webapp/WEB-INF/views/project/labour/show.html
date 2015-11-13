@@ -191,7 +191,7 @@
 											th:each="labourWorkInfo : ${projectLabour.labourWorkInfos}">
 											<td
 												th:text="${labourWorkInfo.workedDate}?${#dates.format(labourWorkInfo.workedDate,'dd-MMMM-yyyy')}"></td>
-											<td th:text="${labourWorkInfo.workedHour}"></td>
+											<td th:text="${labourWorkInfo.workedUnit}"></td>
 											<td th:if="${labourWorkInfo.isPaid}"><a
 												th:href="@{/labour/wage/info/show/__${labourWorkInfo.id}__}"><span>Paid</span>
 											</a></td>
