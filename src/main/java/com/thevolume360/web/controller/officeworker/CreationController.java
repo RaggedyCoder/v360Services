@@ -24,33 +24,38 @@ import com.thevolume360.web.editor.DesignationEditor;
 @Secured("ROLE_ADMIN")
 public class CreationController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CreationController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CreationController.class);
 
 	@Autowired
 	private OfficeWorkerService officeWorkerService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-
+		LOG.debug("initBinder(WebDataBinder binder)");
 		binder.registerCustomEditor(Designation.class, new DesignationEditor());
 	}
 
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String create(OfficeWorker officeWorker) {
+		LOG.debug("create(OfficeWorker officeWorker)");
+		LOG.info("display officeWorker ={}", officeWorker);
 		return "office/worker/create";
 	}
 
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String save(@Valid OfficeWorker officeWorker, BindingResult result, RedirectAttributes redirectAttrs) {
 
-		if (result.hasErrors()) {
+		LOG.debug("create(OfficeWorker officeWorker)");
+		LOG.info("display officeWorker ={}", officeWorker);
+		LOG.info("display errors ={}", result.getAllErrors());
 
+		if (result.hasErrors()) {
 			return "office/worker/create";
 		}
 
 		officeWorkerService.create(officeWorker);
 
-		redirectAttrs.addFlashAttribute("message", "Successfully user created");
+		redirectAttrs.addFlashAttribute("message", "Successfully office worker created");
 
 		return "redirect:/office/worker/show/" + officeWorker.getId().toString();
 	}

@@ -21,14 +21,14 @@ import com.thevolume360.utils.PageWrapper;
 @Secured("ROLE_ADMIN")
 public class IndexController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);
 
 	@Autowired
 	private OfficeWorkerService officeWorkerService;
 
 	@RequestMapping(value = { "/", "/index", "/list" }, method = RequestMethod.GET)
 	public String index(Model uiModel, Pageable pageable) {
-
+		LOG.debug("index(Model uiModel, Pageable pageable)");
 		Page<OfficeWorker> officeWorkers = officeWorkerService.findAll(pageable);
 		PageWrapper<OfficeWorker> page = new PageWrapper<>(officeWorkers, "/office/worker/");
 		uiModel.addAttribute("page", page);
@@ -38,8 +38,9 @@ public class IndexController {
 
 	@RequestMapping(value = "show/{id}", method = RequestMethod.GET)
 	public String show(@PathVariable("id") Long id, Model uiModel) {
-		LOGGER.debug("show() id ={}", id);
-
+		LOG.debug("show(@PathVariable(\"id\") Long id, Model uiModel)");
+		LOG.info("display() id ={}", id);
+		
 		OfficeWorker officeWorker = officeWorkerService.findOne(id);
 		uiModel.addAttribute("officeWorker", officeWorker);
 
@@ -48,8 +49,7 @@ public class IndexController {
 
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
 	public String cancel() {
-		LOGGER.debug("cancel()");
-
+		LOG.debug("cancel()");
 		return "redirect:/office/worker/";
 	}
 }
