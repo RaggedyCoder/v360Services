@@ -24,11 +24,14 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div class="col-sm-8 col-md-8">
+								<div th:if="${updateMessage}" class="alert alert-info">
+									<p th:text="${updateMessage}"></p>
+								</div>
 								<h3 class="text-primary">
 									<a th:href="@{/client/details/__${client.id}__}"> <span
 										th:text="${client.name}">Client's Name</span></a> <small><a
 										sec:authorize="hasRole('ROLE_ADMIN')"
-										th:href="@{/labour/edit/__${client.id}__}">Edit</a></small>
+										th:href="@{/client/edit/__${client.id}__}">Edit</a></small>
 								</h3>
 								<h4 class="text-primary">
 									<strong th:text="#{label.client.type}"></strong> <span>:

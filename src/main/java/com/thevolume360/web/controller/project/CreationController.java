@@ -2,7 +2,9 @@ package com.thevolume360.web.controller.project;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -23,12 +25,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.thevolume360.domain.Attachment;
 import com.thevolume360.domain.Client;
 import com.thevolume360.domain.ProjectInfo;
 import com.thevolume360.domain.enums.ClientType;
 import com.thevolume360.domain.enums.WorkType;
+import com.thevolume360.service.AttachmentService;
 import com.thevolume360.service.ClientService;
 import com.thevolume360.service.ProjectInfoService;
+import com.thevolume360.utils.FileUtils;
 import com.thevolume360.web.editor.ClientTypeEditor;
 import com.thevolume360.web.editor.WorkTypeEditor;
 
@@ -40,10 +45,13 @@ public class CreationController {
 	private static final Logger LOG = LoggerFactory.getLogger(CreationController.class);
 
 	@Autowired
+	private ClientService clientService;
+
+	@Autowired
 	private ProjectInfoService projectInfoService;
 
 	@Autowired
-	private ClientService clientService;
+	private AttachmentService attachmentService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -86,14 +94,35 @@ public class CreationController {
 			}
 		}
 		try {
-			// projectInfoService.create(projectInfo);
+			projectInfo = projectInfoService.create(projectInfo);
 			redirectAttributes.addFlashAttribute("message",
 					String.format("Project %s successfully created", projectInfo.getProjectName()));
 		} catch (Exception e) {
-			LOG.error("%s exception was caught due to % reason.", e.getClass().getName(), e.getMessage());
+			LOG.error("={} exception was caught due to ={} reason.", e.getClass().getName(), e.getMessage());
 			redirectAttributes.addFlashAttribute("message",
 					String.format("Project %s wasn't created successfully.", projectInfo.getProjectName()));
 		}
+		Set<Attachment> attachments = createAttachments(file, projectInfo);
+		for (Attachment attachment : attachments) {
+			attachmentService.create(attachment);
+		}
 		return "redirect:/project/list";
+	}
+
+	private Set<Attachment> createAttachments(MultipartFile[] file, ProjectInfo projectInfo) {
+		Set<Attachment> attachments = new HashSet<>();
+		for (int i = 0; i < file.length; i++) {
+			if (FileUtils.isValidFile(file[i], FileUtils.getFileType())) {
+				Attachment attachment = new Attachment();
+				attachment.setFileName(FileUtils.getFilteredFileName(file[i].getOriginalFilename(), ProjectInfo.class));
+				attachment.setMimeType(FileUtils.getExtensionInLowerCase(file[i].getOriginalFilename()));
+				attachment.setImageCategory(
+						FileUtils.getContentType(FileUtils.getExtensionInLowerCase(file[i].getOriginalFilename())));
+				attachment.setPath("/");
+				attachment.setProjectInfo(projectInfo);
+				attachments.add(attachment);
+			}
+		}
+		return attachments;
 	}
 }

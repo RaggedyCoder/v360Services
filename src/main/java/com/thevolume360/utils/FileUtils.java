@@ -1,14 +1,19 @@
 package com.thevolume360.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.thevolume360.domain.enums.FileType;
 
 public class FileUtils {
 	public static final int FILE_NAME_MAX_SIZE = 60;
-
 	private static final Map<String, String> extensionContentTypeMap;
 
 	static {
@@ -64,5 +69,25 @@ public class FileUtils {
 		String baseName = FilenameUtils.getBaseName(fileName);
 		baseName = baseName.replaceAll(" ", "-");
 		return StringUtils.getTrimmedString(baseName, FILE_NAME_MAX_SIZE - extension.length()) + "." + extension;
+	}
+
+	public static String[] getFileType() {
+		FileType[] values = FileType.values();
+		String[] fileTypes = new String[values.length];
+		int i = 0;
+		for (FileType fileType : values) {
+			fileTypes[i++] = fileType.getExtention();
+		}
+		return fileTypes;
+	}
+
+	public static String getFilteredFileName(String originalFilename, Class<?> class1) {
+		String extension = getExtensionInLowerCase(originalFilename);
+		String baseName = FilenameUtils.getBaseName(originalFilename);
+		String className = class1.getSimpleName().toLowerCase();
+		Date date = new GregorianCalendar().getTime();
+		String uniqueTime = Long.toString(date.getTime());
+		baseName = baseName.replaceAll(" ", "_");
+		return className + "_" + baseName + "_" + uniqueTime + "." + extension;
 	}
 }

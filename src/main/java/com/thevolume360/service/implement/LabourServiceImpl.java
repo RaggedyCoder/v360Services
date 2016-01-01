@@ -59,8 +59,14 @@ public class LabourServiceImpl implements LabourService {
 	}
 
 	@Override
-	public void update(Labour labour) {
-		LOGGER.debug("Updating labour with info : {}", labour);
+	public void update(Labour updateLabour) {
+		LOGGER.debug("Updating labour with info : {}", updateLabour);
+		Labour labour = labourDao.findOne(updateLabour.getId());
+		labour.setFullName(updateLabour.getFullName());
+		labour.setGender(updateLabour.getGender());
+		labour.setContactNumber(updateLabour.getContactNumber());
+		labourDao.save(labour);
+		
 	}
 
 	@Override

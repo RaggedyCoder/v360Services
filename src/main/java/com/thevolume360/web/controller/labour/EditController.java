@@ -44,7 +44,7 @@ public class EditController {
 
 		redirectAttributes.addFlashAttribute("message", String.format("Labour successfully updated"));
 
-		return "redirect:/labour/show/" + labour.getId().toString();
+		return "redirect:/labour/show/" + labour.getId();
 	}
 
 }

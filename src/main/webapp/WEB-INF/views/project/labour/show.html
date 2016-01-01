@@ -5,25 +5,31 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/main">
 <head>
-<title>Project Labour :: Show</title>
+<title th:text="#{page.header.create.projectLabour}">Project
+	Labour :: Show</title>
 <link href="../../../resources/css/datepicker3.css"
 	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
 </head>
 
 <body>
 	<section layout:fragment="content">
-		<h2 class="page-header" th:text="#{page.header.show.project.labour}">Project
+		<h2 class="page-header" th:text="#{page.header.show.projectLabour}">Project
 			Labour Total Information</h2>
 		<div class="showback">
 			<h3 class="mb">
 				<i class="fa fa-angle-right"></i><span
-					th:text="#{header.show.project.labour.info}">Labour
+					th:text="#{header.show.projectLabour.info}">Labour
 					Information in Project</span>
 			</h3>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-body">
+
+							<div th:if="${message}" class="alert alert-info">
+								<p th:text="${message}"></p>
+							</div>
+
 							<div class="col-sm-8 col-md-8">
 								<h3 class="text-primary">
 									<strong>Project's Name</strong> <span>: </span> <a
@@ -48,16 +54,16 @@
 									<strong>Contact Number</strong> <span>: </span> <a> <span
 										th:text="${projectLabour.labour.contactNumber}">Contact</span></a>
 								</h4>
-								<div th:each="labourWageInfo : ${projectLabour.labourWageInfos}">
-									<div th:if="${labourWageInfo.lastValidDate}!=null">
+								<div th:if="${labourWageInfo.lastValidDate}==null"
+									th:each="labourWageInfo : ${projectLabour.labourWageInfos}">
+									<div>
 										<h4 class="text-primary">
 											<strong>Current Wage <span>: </span>
 											</strong> <span th:text="${labourWageInfo.wageUnit}">Contact</span>
 										</h4>
 										<h4 class="text-primary">
 											<strong>Current Wage Type <span>: </span>
-											</strong> <span
-												th:text="${labourWageInfo.wageType.name}">Contact</span>
+											</strong> <span th:text="${labourWageInfo.wageType.name}">Contact</span>
 										</h4>
 									</div>
 								</div>
@@ -99,7 +105,7 @@
 		<div class="showback">
 			<h3 class="mb">
 				<i class="fa fa-angle-right"></i><span
-					th:text="#{header.show.project.labour.wage.info}">Labour
+					th:text="#{header.show.projectLabour.labourWageInfo}">Labour
 					Wage and Type Information in Project</span>
 			</h3>
 			<div class="row">
@@ -107,7 +113,7 @@
 					<div class="panel panel-default">
 
 						<div class="panel-heading">
-							<form th:action="@{/labour/wage/info/renew}" method="post">
+							<form th:action="@{/labour/wage/info/renew}" method="get">
 
 								<strong class="text-right">Labour All Wage Type
 									Info&nbsp;&nbsp;</strong> <input th:value="${projectLabour.id}"
@@ -156,7 +162,7 @@
 		<div class="showback">
 			<h3 class="mb">
 				<i class="fa fa-angle-right"></i><span
-					th:text="#{header.show.project.labour.wage.info}">Labour
+					th:text="#{header.show.projectLabour.labourWageInfo}">Labour
 					Work Information in Project</span>
 			</h3>
 			<div class="row">
@@ -196,7 +202,7 @@
 												th:href="@{/labour/wage/info/show/__${labourWorkInfo.id}__}"><span>Paid</span>
 											</a></td>
 											<td th:if="${not labourWorkInfo.isPaid}"><a
-												th:href="@{/labour/wage/info/pay/__${labourWorkInfo.id}__}"><span>Pay</span>
+												th:href="@{/labour/payment/info/create/__${labourWorkInfo.id}__}"><span>Pay</span>
 											</a></td>
 										</tr>
 									</tbody>

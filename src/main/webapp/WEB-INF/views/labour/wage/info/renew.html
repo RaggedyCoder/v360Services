@@ -5,72 +5,78 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/main">
 <head>
-<title>Project Labour :: Show</title>
+<title th:text="#{page.header.renew.labourWageInfo}">LabourWageInfo
+	:: Renew</title>
 <link href="../../../resources/css/datepicker3.css"
 	th:href="@{/resources/css/datepicker3.css}" rel="stylesheet" />
 </head>
 
 <body>
 	<section layout:fragment="content">
-		<h2 class="page-header" th:text="#{page.header.show.labourWorkInfo}">Labour
-			Work Info Creation</h2>
+		<h2 class="page-header"
+			th:text="#{page.header.show.renew.labourWageInfo}">Renew Wage
+			Info of Labour</h2>
 		<div class="showback">
 			<h3 class="mb">
 				<i class="fa fa-angle-right"></i><span
-					th:text="#{header.show.labourWorkInfo.info}">Labour Work
+					th:text="#{header.show.renew.labourWageInfo}">Renew Wage
 					Info</span>
 			</h3>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-heading">New Work Info Entry</div>
+						<div class="panel-heading"
+							th:text="#{panel.heading.labourWageInfo}">New Wage Info
+							Entry</div>
 						<div class="panel-body">
 							<form class="form-horizontal" method='POST'
-								th:object="${labourWageInfo}"
-								th:action="@{/labour/wage/info/update}">
+								th:object="${renewLabourWageInfo}" role="form"
+								data-toggle="validator" th:action="@{/labour/wage/info/update}">
 								<fieldset>
-									<input type="hidden" name="projectLabourId"
-										th:value="${projectLabourId}" />
+									<input type="hidden" id="projectLabourId"
+										th:field="*{projectLabourId}" th:value="*{projectLabourId}"/>
 									<div class="form-group">
 										<label for="lastWageInfoExpiredDate"
-											class="col-sm-2 control-label date"> <strong>
+											class="col-sm-2 control-label date"> <strong
+											th:text="#{label.previous.labourWageInfo.lastWageInfoExpiredDate}">
 												Exp date of prev wage</strong>
 										</label>
 										<div class="col-sm-3">
 											<input type="text" placeholder="dd/mm/yyyy"
 												class="form-control input-sm" id="lastWageInfoExpiredDate"
-												name="lastWageInfoExpiredDate"
-												th:value="${lastWageInfoExpiredDate} ? ${#dates.format(lastWageInfoExpiredDate,'dd/MM/yyyy')}" />
+												th:field="*{lastWageInfoExpiredDate}"
+												th:value="*{lastWageInfoExpiredDate} ? ${#dates.format(renewLabourWageInfo.lastWageInfoExpiredDate,'dd/MM/yyyy')}" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="activationDate"
 											class="col-sm-2 control-label date"> <strong
-											th:text="#{label.project.taken.date}"> Worked Date</strong>
+											th:text="#{label.new.labourWageInfo.activationDate}">New
+												Wage Info Actv. Date</strong>
 										</label>
 										<div class="col-sm-3">
 											<input type="text" placeholder="dd/mm/yyyy"
 												class="form-control input-sm" id="activationDate"
-												th:field="*{activationDate}" />
+												th:field="*{labourWageInfo.activationDate}" />
 											<p class="text-danger"
-												th:if="${#fields.hasErrors('activationDate')}">
-												<span th:errors="*{activationDate}">Required</span>
+												th:if="${#fields.hasErrors('labourWageInfo.activationDate')}">
+												<span th:errors="*{labourWageInfo.activationDate}">Required</span>
 											</p>
 										</div>
 									</div>
 
 									<div class="form-group">
 										<label for="wageUnit" class="col-sm-2 control-label date">
-											<strong th:text="#{label.project.taken.date}">
-												Worked Date</strong>
+											<strong th:text="#{label.new.labourWageInfo.wageUnit}">New
+												Wage Unit</strong>
 										</label>
 										<div class="col-sm-3">
 											<input type="text" placeholder="6" maxlength="6"
 												class="form-control input-sm" id="wageUnit"
-												th:field="*{wageUnit}" />
+												th:field="*{labourWageInfo.wageUnit}" />
 											<p class="text-danger"
-												th:if="${#fields.hasErrors('wageUnit')}">
-												<span th:errors="*{wageUnit}">Required</span>
+												th:if="${#fields.hasErrors('labourWageInfo.wageUnit')}">
+												<span th:errors="*{labourWageInfo.wageUnit}">Required</span>
 											</p>
 										</div>
 									</div>
@@ -81,17 +87,17 @@
 										</label>
 										<div class="col-sm-3">
 											<select id="wageType" class="form-control"
-												th:field="*{wageType}">
+												th:field="*{labourWageInfo.wageType}">
 												<option value="" th:text="#{common.select.prompt}"></option>
 												<option th:each="wageType : ${wageTypes}"
 													th:value="${{wageType}}" th:text="${wageType.name}"
-													th:selected="${wageType == wageTypes}"></option>
+													th:selected="${renewLabourWageInfo.labourWageInfo.wageType == wageType}"></option>
 												<option value="">Create a new Wage Type</option>
 												<option value="" th:text="#{common.select.prompt}"></option>
 											</select>
 											<p class="text-danger"
-												th:if="${#fields.hasErrors('wageType')}">
-												<span th:errors="*{wageType}">Required</span>
+												th:if="${#fields.hasErrors('labourWageInfo.wageType')}">
+												<span th:errors="*{labourWageInfo.wageType}">Required</span>
 											</p>
 										</div>
 									</div>
@@ -105,53 +111,51 @@
 									</div>
 								</div>
 							</form>
-							
-							<div class="modal fade" id="myModal" role="dialog">
-									<div class="modal-dialog">
-										<!-- Modal content-->
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" onclick="closeModal()">&times;</button>
-												<h4 class="modal-title">Create New Wage Type</h4>
-											</div>
-											<div class="modal-body">
-												<div class="form-group">
-													<label for="wageType-name" class="col-sm-6 control-label"
-														th:text="#{label.wageType.name}">New Wage Type
-														Name</label>
-													<div class="col-sm-6">
-														<input type="text" id="wageType-name" maxlength="100"
-															class="form-control input-sm" />
-													</div>
-												</div>
-												<br />
-												<div class="form-group">
-													<label for="wageType-wageCategory"
-														class="col-sm-6 control-label"
-														th:text="#{label.wageType.wageCategory}">New Wage
-														Type's Category</label>
-													<div class="col-sm-6">
-														<select class="form-control" id="wageType-wageCategory">
-															<option value="" th:text="#{common.select.prompt}"></option>
-															<option
-																th:each="wageCategory : ${T(com.thevolume360.domain.enums.WageCategory).values()}"
-																th:value="${wageCategory}"
-																th:text="${wageCategory.name}"></option>
-														</select>
-													</div>
-												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													onclick="closeModal()">Close</button>
 
-												<button type="button" class="btn btn-primary"
-													onclick="submitWageTypeData()">Create</button>
+							<div class="modal fade" id="myModal" role="dialog">
+								<div class="modal-dialog">
+									<!-- Modal content-->
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" onclick="closeModal()">&times;</button>
+											<h4 class="modal-title">Create New Wage Type</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<label for="wageType-name" class="col-sm-6 control-label"
+													th:text="#{label.wageType.name}">New Wage Type Name</label>
+												<div class="col-sm-6">
+													<input type="text" id="wageType-name" maxlength="100"
+														class="form-control input-sm" />
+												</div>
+											</div>
+											<br />
+											<div class="form-group">
+												<label for="wageType-wageCategory"
+													class="col-sm-6 control-label"
+													th:text="#{label.wageType.wageCategory}">New Wage
+													Type's Category</label>
+												<div class="col-sm-6">
+													<select class="form-control" id="wageType-wageCategory">
+														<option value="" th:text="#{common.select.prompt}"></option>
+														<option
+															th:each="wageCategory : ${T(com.thevolume360.domain.enums.WageCategory).values()}"
+															th:value="${wageCategory}" th:text="${wageCategory.name}"></option>
+													</select>
+												</div>
 											</div>
 										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default"
+												onclick="closeModal()">Close</button>
 
+											<button type="button" class="btn btn-primary"
+												onclick="submitWageTypeData()">Create</button>
+										</div>
 									</div>
+
 								</div>
+							</div>
 						</div>
 					</div>
 				</div>

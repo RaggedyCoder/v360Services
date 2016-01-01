@@ -29,8 +29,11 @@ public class WageTypeFormatter implements Formatter<WageType> {
 
 	@Override
 	public WageType parse(String json, Locale locale) throws ParseException {
-		WageType wageType = null;
+		WageType wageType = new WageType();
 		json = json.replaceAll("`", ",");
+		if (json.isEmpty()) {
+			return wageType;
+		}
 		try {
 			wageType = getObjectMapper().readValue(json, WageType.class);
 			System.err.println(wageType);

@@ -1,149 +1,158 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/main">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/main">
 <head>
-<title>Dashboard :: Admin</title>
+    <title>Dashboard :: Admin</title>
 </head>
 <body>
-	<section layout:fragment="content">
-		<div class="showback">
-			<div class="row">
-				<div class="col-lg-9 main-chart">
+<section layout:fragment="content">
+    <div class="showback">
+        <div class="row">
+            <div class="col-lg-9 main-chart">
 
-					<div class="row">
-						<div class="col-lg-12">
-							<h3 class="mb">
-								<i class="fa fa-angle-right"></i> <span>Welcome to
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="mb">
+                            <i class="fa fa-angle-right"></i> <span>Welcome to
 									Volume360 Work Panel</span>
-							</h3>
-						</div>
-					</div>
-					<div class="row mt">
-						<div class="col-md-4 col-sm-4 mb">
-							<div class="grey-panel pn">
-								<div class="grey-header">
-									<h4>
-										<b>TOTAL LABOURS</b>
-									</h4>
-								</div>
-								<div class="box1">
-									<span class="fa fa-gears"></span>
-									<h1>
-										<strong th:text="${totalLabour}"></strong>
-									</h1>
-								</div>
-								<a href="#" th:href="@{/labour/list}">
-									<div class="grey-footer">
-										<strong>View Details</strong> <span class="pull-right"><strong
-											class="fa fa-arrow-circle-right"></strong></span>
-										<div class="clearfix"></div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-4 mb">
-							<div class="grey-panel pn">
-								<div class="grey-header">
-									<h4>
-										<b>TOTAL CLIENTS</b>
-									</h4>
-								</div>
-								<div class="box1">
-									<span class="fa fa-home"></span>
-									<h1>
-										<strong th:text="${totalClient}"></strong>
-									</h1>
-								</div>
-								<a href="#" th:href="@{/client/list}">
-									<div class="grey-footer">
-										<strong>View Details</strong> <span class="pull-right"><strong
-											class="fa fa-arrow-circle-right"></strong></span>
-										<div class="clearfix"></div>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-4 mb">
-							<div class="grey-panel pn">
-								<div class="grey-header">
-									<h4>
-										<b>TOTAL PROJECTS</b>
-									</h4>
-								</div>
-								<div class="box1">
-									<span class="fa fa-file-o"></span>
-									<h1>
-										<strong th:text="${totalProject}"></strong>
-									</h1>
-								</div>
-								<a href="#" th:href="@{/project/list}">
-									<div class="grey-footer">
-										<strong>View Details</strong> <span class="pull-right"><strong
-											class="fa fa-arrow-circle-right"></strong></span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="row mt">
+                    <div class="col-md-4 col-sm-4 mb">
+                        <div class="grey-panel pn">
+                            <div class="grey-header">
+                                <h4>
+                                    <b>TOTAL LABOURS</b>
+                                </h4>
+                            </div>
+                            <div class="box1">
+                                <span class="fa fa-gears"></span>
 
-										<div class="grey-clearfix"></div>
-									</div>
-								</a>
-							</div>
-						</div>
+                                <h1>
+                                    <strong th:text="${totalLabour}"></strong>
+                                </h1>
+                            </div>
+                            <a href="#" th:href="@{/labour/list}">
+                                <div class="grey-footer">
+                                    <strong>View Details</strong> <span class="pull-right"><strong
+                                        class="fa fa-arrow-circle-right"></strong></span>
 
-						<div class="col-md-4 col-sm-4 mb"
-							sec:authorize="hasRole('ROLE_ADMIN')">
-							<div class="grey-panel pn">
-								<div class="grey-header">
-									<h4>
-										<b>TOTAL USERS</b>
-									</h4>
-								</div>
-								<div class="box1">
-									<span class="fa fa-users fa-5x"></span>
-									<h1>
-										<strong th:text="${totalUser}"></strong>
-									</h1>
-								</div>
-								<a href="#" th:href="@{/user}">
-									<div class="grey-footer">
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 mb">
+                        <div class="grey-panel pn">
+                            <div class="grey-header">
+                                <h4>
+                                    <b>TOTAL CLIENTS</b>
+                                </h4>
+                            </div>
+                            <div class="box1">
+                                <span class="fa fa-home"></span>
 
-										<strong>View Details</strong> <span class="pull-right"><strong
-											class="fa fa-arrow-circle-right"></strong></span>
+                                <h1>
+                                    <strong th:text="${totalClient}"></strong>
+                                </h1>
+                            </div>
+                            <a href="#" th:href="@{/client/list}">
+                                <div class="grey-footer">
+                                    <strong>View Details</strong> <span class="pull-right"><strong
+                                        class="fa fa-arrow-circle-right"></strong></span>
 
-										<div class="clearfix"></div>
-									</div>
-								</a>
-							</div>
-						</div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 mb">
+                        <div class="grey-panel pn">
+                            <div class="grey-header">
+                                <h4>
+                                    <b>TOTAL PROJECTS</b>
+                                </h4>
+                            </div>
+                            <div class="box1">
+                                <span class="fa fa-file-o"></span>
 
-						<div class="col-md-4 col-sm-4 mb"
-							sec:authorize="hasRole('ROLE_ADMIN')">
-							<div class="grey-panel pn">
-								<div class="grey-header">
-									<h4>
-										<b>TOTAL OFFICE WORKERS</b>
-									</h4>
-								</div>
-								<div class="box1">
-									<span class="fa fa-users fa-5x"></span>
-									<h1>
-										<strong th:text="${totalOfficeWorker}"></strong>
-									</h1>
-								</div>
-								<a href="#" th:href="@{/office/worker/}">
-									<div class="grey-footer">
+                                <h1>
+                                    <strong th:text="${totalProject}"></strong>
+                                </h1>
+                            </div>
+                            <a href="#" th:href="@{/project/list}">
+                                <div class="grey-footer">
+                                    <strong>View Details</strong> <span class="pull-right"><strong
+                                        class="fa fa-arrow-circle-right"></strong></span>
 
-										<strong>View Details</strong> <span class="pull-right"><strong
-											class="fa fa-arrow-circle-right"></strong></span>
+                                    <div class="grey-clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
 
-										<div class="clearfix"></div>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+                    <div class="col-md-4 col-sm-4 mb"
+                         sec:authorize="hasRole('ROLE_ADMIN')">
+                        <div class="grey-panel pn">
+                            <div class="grey-header">
+                                <h4>
+                                    <b>TOTAL USERS</b>
+                                </h4>
+                            </div>
+                            <div class="box1">
+                                <span class="fa fa-users fa-5x"></span>
+
+                                <h1>
+                                    <strong th:text="${totalUser}"></strong>
+                                </h1>
+                            </div>
+                            <a href="#" th:href="@{/user}">
+                                <div class="grey-footer">
+
+                                    <strong>View Details</strong> <span class="pull-right"><strong
+                                        class="fa fa-arrow-circle-right"></strong></span>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 mb"
+                         sec:authorize="hasRole('ROLE_ADMIN')">
+                        <div class="grey-panel pn">
+                            <div class="grey-header">
+                                <h4>
+                                    <b>TOTAL OFFICE WORKERS</b>
+                                </h4>
+                            </div>
+                            <div class="box1">
+                                <span class="fa fa-users fa-5x"></span>
+
+                                <h1>
+                                    <strong th:text="${totalOfficeWorker}"></strong>
+                                </h1>
+                            </div>
+                            <a href="#" th:href="@{/office/worker/}">
+                                <div class="grey-footer">
+
+                                    <strong>View Details</strong> <span class="pull-right"><strong
+                                        class="fa fa-arrow-circle-right"></strong></span>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>

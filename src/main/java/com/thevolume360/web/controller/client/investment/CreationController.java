@@ -31,8 +31,8 @@ import com.thevolume360.web.editor.InvestmentTypeEditor;
 @RequestMapping("/client/investment")
 public class CreationController {
 
-	private static final Logger log = LoggerFactory.getLogger(CreationController.class);
-	
+	private static final Logger LOG = LoggerFactory.getLogger(CreationController.class);
+
 	@Autowired
 	private ClientInvestmentService clientInvestmentService;
 
@@ -41,24 +41,25 @@ public class CreationController {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		log.debug("initBinder(WebDataBinder binder)");
+		LOG.debug("initBinder(WebDataBinder binder)");
 		binder.registerCustomEditor(InvestmentType.class, new InvestmentTypeEditor());
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("dd/MM/yyyy"), true));
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = { "id" })
 	public String create(ClientInvestment clientInvestment, Model uiModel, @RequestParam("id") String projectId) {
+		LOG.debug("create(ClientInvestment clientInvestment, Model uiModel)");
+		LOG.info("display() clientInvestment ={}", clientInvestment);
 		ProjectInfo projectInfo = projectInfoService.findOne(Long.parseLong(projectId));
 		uiModel.addAttribute("projectInfo", projectInfo);
-		log.debug("create(ClientInvestment clientInvestment, Model uiModel)");
 		return "client/investment/create";
 	}
 
 	@RequestMapping(value = "/create/{id}", method = RequestMethod.POST)
 	public String create(@PathVariable Long id, ClientInvestment clientInvestment, Model uiModel,
 			RedirectAttributes redirectAttributes) {
-		log.debug("create(ClientInvestment clientInvestment, Model uiModel,RedirectAttributes redirectAttributes)");
-		System.out.println(clientInvestment.getClient());
+		LOG.debug("create(ClientInvestment clientInvestment, Model uiModel,RedirectAttributes redirectAttributes)");
+		LOG.info("display() id ={} clientInvestment ={}", id, clientInvestment);
 		clientInvestment.setProjectInfo(projectInfoService.findOne(clientInvestment.getProjectInfo().getId()));
 		if (clientInvestment.getInvestmentType().equals(InvestmentType.CASH)) {
 			clientInvestment.setUniqueInvestmentCode(
@@ -68,6 +69,7 @@ public class CreationController {
 		try {
 			clientInvestmentService.create(clientInvestment);
 		} catch (Exception e) {
+			LOG.error("Exception: type ={} message ={}", e.getClass().getSimpleName(), e.getMessage());
 			System.out.println(e.getMessage());
 		}
 		return "redirect:/client/show/" + clientInvestment.getClient().getId();

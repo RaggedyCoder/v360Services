@@ -29,8 +29,11 @@ public class ClientFormatter implements Formatter<Client> {
 
 	@Override
 	public Client parse(String json, Locale locale) throws ParseException {
-		Client client=null;
+		Client client = new Client();
 		json = json.replaceAll("`", ",");
+		if (json.isEmpty()) {
+			return client;
+		}
 		try {
 			client = getObjectMapper().readValue(json, Client.class);
 			System.err.println(client);

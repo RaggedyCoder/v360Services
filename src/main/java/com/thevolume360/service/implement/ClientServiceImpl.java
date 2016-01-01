@@ -60,7 +60,10 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public void update(Client client) {
-
+		Client updateClient = findOne(client.getId());
+		updateClient.setName(client.getName());
+		updateClient.setClientType(client.getClientType());
+		clientDao.save(updateClient);
 	}
 
 	@Override

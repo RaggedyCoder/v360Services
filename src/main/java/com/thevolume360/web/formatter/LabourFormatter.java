@@ -17,7 +17,7 @@ public class LabourFormatter implements Formatter<Labour> {
 	}
 
 	@Override
-	public String print(Labour labour, Locale locale) {	
+	public String print(Labour labour, Locale locale) {
 		String json = null;
 		try {
 			json = getObjectWriter().writeValueAsString(labour);
@@ -31,8 +31,11 @@ public class LabourFormatter implements Formatter<Labour> {
 
 	@Override
 	public Labour parse(String json, Locale locale) throws ParseException {
-		Labour labour = null;
+		Labour labour = new Labour();
 		json = json.replaceAll("`", ",");
+		if (json.isEmpty()) {
+			return labour;
+		}
 		try {
 			labour = getObjectMapper().readValue(json, Labour.class);
 			System.err.println(labour);

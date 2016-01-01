@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.thevolume360.domain.OfficeWorker;
+import com.thevolume360.domain.search.OfficeWorkerSearchCmd;
 
 public interface OfficeWorkerService {
 
@@ -20,4 +21,8 @@ public interface OfficeWorkerService {
 	public long count();
 
 	public void update(OfficeWorker officeWorker);
+
+	public Page<OfficeWorker> findOfficeWorkerBySearchCmd(OfficeWorkerSearchCmd officeWorkerSearchCmd,
+			Pageable pageable);
+
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -69,18 +71,18 @@ public class ProjectInfo extends PersistentObject implements Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	
+
 	private Long id;
 
 	@NotEmpty
 	@Size(max = 500, min = 4)
 	@Column(length = 500)
-	
+
 	private String projectName;
 
 	@Size(max = 50)
 	@Column(length = 50)
-	
+
 	private String projectWorkId;
 
 	@NotNull
@@ -92,7 +94,7 @@ public class ProjectInfo extends PersistentObject implements Auditable {
 
 	@Valid
 	@Embedded
-	
+
 	private ProjectAddress projectAddress;
 
 	@NotNull
@@ -110,27 +112,27 @@ public class ProjectInfo extends PersistentObject implements Auditable {
 	@Max(999999999)
 	@Min(1)
 	@Column(length = 9)
-	
+
 	private Long projectBudget;
 
 	@NotNull
 	@Column(length = 10)
 	@Enumerated(EnumType.STRING)
-	
+
 	private Status status;
 
 	@NotNull
 	@Column(length = 10)
 	@Enumerated(EnumType.STRING)
-	
+
 	private WorkType workType;
 
 	@Column(length = 1000)
-	
+
 	private String comment;
 
 	@OneToMany(mappedBy = "projectInfo", fetch = FetchType.LAZY)
-	
+
 	private Set<ProjectLabour> projectLabours = new HashSet<>();
 
 	@OneToMany(mappedBy = "projectInfo")
@@ -141,6 +143,9 @@ public class ProjectInfo extends PersistentObject implements Auditable {
 
 	@OneToMany(mappedBy = "projectInfo")
 	private Set<BankWithdraw> bankWithdraws = new HashSet<>();
+
+	@OneToMany(mappedBy="projectInfo",cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	private Set<Attachment> attachment = new HashSet<>();
 
 	public ProjectInfo() {
 	}
@@ -264,6 +269,16 @@ public class ProjectInfo extends PersistentObject implements Auditable {
 	public void setBankWithdraws(Set<BankWithdraw> bankWithdraws) {
 		this.bankWithdraws = bankWithdraws;
 	}
+	
+	
+
+	public Set<Attachment> getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(Set<Attachment> attachment) {
+		this.attachment = attachment;
+	}
 
 	/**
 	 * @return the client
@@ -287,15 +302,12 @@ public class ProjectInfo extends PersistentObject implements Auditable {
 	 */
 	@Override
 	public String toString() {
-		return "ProjectInfo [id=" + id + ", projectName=" + projectName
-				+ ", projectWorkId=" + projectWorkId + ", client=" + client
-				+ ", version=" + version + ", projectAddress=" + projectAddress
-				+ ", dateTaken=" + dateTaken + ", completeDateEstimated="
-				+ completeDateEstimated + ", projectBudget=" + projectBudget
-				+ ", status=" + status + ", workType=" + workType
-				+ ", comment=" + comment + ", projectLabours=" + projectLabours
-				+ ", projectBuyings=" + projectBuyings + ", clientInvestments="
-				+ clientInvestments + ", bankWithdraws=" + bankWithdraws + "]";
+		return "ProjectInfo [id=" + id + ", projectName=" + projectName + ", projectWorkId=" + projectWorkId
+				+ ", client=" + client + ", version=" + version + ", projectAddress=" + projectAddress + ", dateTaken="
+				+ dateTaken + ", completeDateEstimated=" + completeDateEstimated + ", projectBudget=" + projectBudget
+				+ ", status=" + status + ", workType=" + workType + ", comment=" + comment + ", projectLabours="
+				+ projectLabours + ", projectBuyings=" + projectBuyings + ", clientInvestments=" + clientInvestments
+				+ ", bankWithdraws=" + bankWithdraws + "]";
 	}
 
 }

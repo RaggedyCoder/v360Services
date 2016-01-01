@@ -95,14 +95,12 @@
 													th:text="${projectLabour.projectJoinDate} ? ${#dates.format(projectLabour.projectJoinDate,'dd MMMM yyyy')}"></td>
 												<td
 													th:text="${projectLabour.projectEndDate} ? ${#dates.format(projectLabour.projectEndDate,'dd MMMM yyyy')}: 'Still Working'"></td>
-												<td
-													th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><strong
-													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
-													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageType.name}"></strong></td>
-												<td
-													th:each="labourWageInfo ,stat: ${projectLabour.labourWageInfos}"><strong
-													th:if="${stat.index}==${projectLabour.labourWageInfos.size()}-1"
-													th:text="${projectLabour.labourWageInfos[__${stat.index}__].wageUnit}"></strong></td>
+												<td th:if="${labourWageInfo.lastValidDate==null}"
+													th:each="labourWageInfo : ${projectLabour.labourWageInfos}"><strong
+													th:text="${labourWageInfo.wageUnit}"></strong></td>
+												<td th:if="${labourWageInfo.lastValidDate==null}"
+													th:each="labourWageInfo: ${projectLabour.labourWageInfos}"><strong
+													th:text="${labourWageInfo.wageType.name}"></strong></td>
 												<td><a
 													th:href="@{/project/labour/show/__${projectLabour.id}__}">Show</a></td>
 												<td><a

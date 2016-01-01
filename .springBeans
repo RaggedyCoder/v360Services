@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.7.0.201506251244-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.7.1.201510041102-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>src/main/webapp/WEB-INF/applicationContext-secuirity.xml</config>
 		<config>src/main/webapp/WEB-INF/applicationContext-jpa.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-security.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/applicationContext-service.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-factory.xml</config>
 		<config>src/main/webapp/WEB-INF/servlet-context.xml</config>
 	</autoconfigs>
 	<configSets>

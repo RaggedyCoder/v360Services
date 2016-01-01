@@ -13,8 +13,7 @@ public class ProjectLabourFormatter implements Formatter<ProjectLabour> {
 
 	@Override
 	public String print(ProjectLabour projectLabour, Locale locale) {
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-				.create();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		System.err.println(projectLabour);
 		try {
 			String json = gson.toJson(projectLabour);
@@ -22,27 +21,26 @@ public class ProjectLabourFormatter implements Formatter<ProjectLabour> {
 			json = json.replaceAll(",", "`");
 			return json;
 		} catch (Exception e) {
-			System.out.println(e.getClass().getSimpleName() + " "
-					+ e.getMessage());
+			System.out.println(e.getClass().getSimpleName() + " " + e.getMessage());
 			return Long.toString(projectLabour.getId());
 		}
 	}
 
 	@Override
-	public ProjectLabour parse(String id, Locale locale) throws ParseException {
-		ProjectLabour projectLabour;
-		System.err.println("json before- " + id);
-		id = id.replaceAll("`", ",");
-		System.err.println("json after- " + id);
+	public ProjectLabour parse(String json, Locale locale) throws ParseException {
+		ProjectLabour projectLabour = new ProjectLabour();
+		json = json.replaceAll("`", ",");
+		if (json.isEmpty()) {
+			return projectLabour;
+		}
 		try {
 			Gson gson = new GsonBuilder().create();
-			projectLabour = gson.fromJson(id, ProjectLabour.class);
+			projectLabour = gson.fromJson(json, ProjectLabour.class);
 			System.err.println(projectLabour);
 		} catch (Exception e) {
-			System.out.println(e.getClass().getSimpleName() + " "
-					+ e.getMessage());
+			System.out.println(e.getClass().getSimpleName() + " " + e.getMessage());
 			projectLabour = new ProjectLabour();
-			projectLabour.setId(Long.parseLong(id));
+			projectLabour.setId(Long.parseLong(json));
 		}
 		return projectLabour;
 	}

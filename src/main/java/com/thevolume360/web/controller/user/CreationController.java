@@ -37,7 +37,7 @@ public class CreationController {
 
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String create(User user) {
-
+		
 		return "user/create";
 	}
 

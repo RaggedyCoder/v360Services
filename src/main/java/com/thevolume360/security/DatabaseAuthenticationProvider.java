@@ -64,7 +64,6 @@ public class DatabaseAuthenticationProvider extends AbstractUserDetailsAuthentic
 				throw new BadCredentialsException(
 						"No password for " + username + " set in database, contact administrator");
 			}
-
 			if (!encryptedPassword.equals(expectedPassword)) {
 				throw new BadCredentialsException("Invalid Password");
 			}
