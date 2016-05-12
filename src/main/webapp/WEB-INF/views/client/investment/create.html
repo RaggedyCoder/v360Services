@@ -95,7 +95,7 @@
 									</div>
 
 
-									<div class="form-group">
+									<div class="form-group" id="chequeNumberHolder">
 										<label for="uniqueInvestmentCode"
 											class="col-sm-2 control-label date"><strong>Cheque
 												Number</strong></label>
@@ -149,11 +149,27 @@
 		<script id="date" src="../../../resources/js/bootstrap-datepicker.js"
 			th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
 		<script>
+			if ($('#workType').val() === null || $('#workType').val() === ''
+					|| $('#workType').val() === 'CASH') {
+				$('#chequeNumberHolder').hide();
+			} else {
+				$('#chequeNumberHolder').show();
+			}
 			$('#investmentDate').datepicker({
 				format : "dd/mm/yyyy",
 				startView : 2,
 				autoclose : true
 			});
+			$("#workType").change(
+					function() {
+						if ($('#workType').val() === null
+								|| $('#workType').val() === ''
+								|| $('#workType').val() === 'CASH') {
+							$('#chequeNumberHolder').hide();
+						} else {
+							$('#chequeNumberHolder').show();
+						}
+					});
 		</script>
 	</div>
 </body>

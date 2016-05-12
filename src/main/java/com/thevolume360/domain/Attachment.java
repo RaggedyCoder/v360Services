@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -22,6 +23,9 @@ public class Attachment extends PersistentObject implements Auditable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Version
+	private Long version;
+	
 	@NotNull
 	private String fileName;
 

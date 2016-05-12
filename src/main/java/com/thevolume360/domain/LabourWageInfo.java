@@ -31,6 +31,7 @@ public class LabourWageInfo extends PersistentObject implements Auditable {
 
 	@Version
 	private Long version;
+
 	@ManyToOne
 	private ProjectLabour projectLabour;
 
@@ -46,7 +47,7 @@ public class LabourWageInfo extends PersistentObject implements Auditable {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date activationDate = new Date(System.currentTimeMillis());;
+	private Date activationDate = new Date(System.currentTimeMillis());
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")

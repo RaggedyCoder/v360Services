@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -56,10 +55,9 @@ public class BankWithdraw extends PersistentObject implements Auditable {
 	private Long amount;
 
 	@NotNull
-	@Future(message = "date must have to be a future date.")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
-	private Date withdrawnDate;
+	private Date withdrawnDate = new Date();
 
 	@NotNull
 	private String chequeNumber;
@@ -130,13 +128,10 @@ public class BankWithdraw extends PersistentObject implements Auditable {
 
 	@Override
 	public String toString() {
-		return "BankWithdraw [id=" + id + ", version=" + version
-				+ ", projectInfo=" + projectInfo + ", issuedBy=" + issuedBy
-				+ ", withdrawnBy=" + withdrawnBy + ", amount=" + amount
-				+ ", withdrawnDate=" + withdrawnDate + ", chequeNumber="
-				+ chequeNumber + ", getCreatedDate()=" + getCreatedDate()
-				+ ", getLastModifiedDate()=" + getLastModifiedDate()
-				+ ", getCreatedBy()=" + getCreatedBy()
+		return "BankWithdraw [id=" + id + ", version=" + version + ", projectInfo=" + projectInfo + ", issuedBy="
+				+ issuedBy + ", withdrawnBy=" + withdrawnBy + ", amount=" + amount + ", withdrawnDate=" + withdrawnDate
+				+ ", chequeNumber=" + chequeNumber + ", getCreatedDate()=" + getCreatedDate()
+				+ ", getLastModifiedDate()=" + getLastModifiedDate() + ", getCreatedBy()=" + getCreatedBy()
 				+ ", getLastModifiedBy()=" + getLastModifiedBy() + "]";
 	}
 

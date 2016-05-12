@@ -1,5 +1,10 @@
 package com.thevolume360.web.controller.project;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -23,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thevolume360.domain.Attachment;
@@ -71,8 +77,9 @@ public class CreationController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String save(@RequestParam("file") MultipartFile[] file, @Valid ProjectInfo projectInfo, BindingResult result,
-			Model uiModel, RedirectAttributes redirectAttributes) {
+	public String save(@RequestParam("files") MultipartFile[] file, @Valid ProjectInfo projectInfo,
+			BindingResult result, Model uiModel, RedirectAttributes redirectAttributes) {
+		System.out.println(file.length);
 		if (projectInfo.getClient().getId() != null) {
 			System.err.println(projectInfo);
 			if (result.hasErrors()) {
@@ -104,6 +111,7 @@ public class CreationController {
 		}
 		Set<Attachment> attachments = createAttachments(file, projectInfo);
 		for (Attachment attachment : attachments) {
+			System.out.println("saving...");
 			attachmentService.create(attachment);
 		}
 		return "redirect:/project/list";
@@ -111,7 +119,9 @@ public class CreationController {
 
 	private Set<Attachment> createAttachments(MultipartFile[] file, ProjectInfo projectInfo) {
 		Set<Attachment> attachments = new HashSet<>();
+		System.out.println(file.length);
 		for (int i = 0; i < file.length; i++) {
+			System.out.println(i);
 			if (FileUtils.isValidFile(file[i], FileUtils.getFileType())) {
 				Attachment attachment = new Attachment();
 				attachment.setFileName(FileUtils.getFilteredFileName(file[i].getOriginalFilename(), ProjectInfo.class));
@@ -121,8 +131,28 @@ public class CreationController {
 				attachment.setPath("/");
 				attachment.setProjectInfo(projectInfo);
 				attachments.add(attachment);
+				saveFile(file, i, attachment);
 			}
 		}
 		return attachments;
+	}
+
+	private void saveFile(MultipartFile[] file, int i, Attachment attachment) {
+		try {
+			InputStream inputStream = file[i].getInputStream();
+			File newFile = new File("C:\\Users\\User\\Desktop\\files\\" + attachment.getFileName());
+			if (!newFile.exists()) {
+				newFile.createNewFile();
+			}
+			OutputStream outputStream = new FileOutputStream(newFile);
+			int read = 0;
+			byte[] bytes = new byte[1024];
+			System.out.println("uploading...");
+			while ((read = inputStream.read(bytes)) != -1) {
+				outputStream.write(bytes, 0, read);
+			}
+		} catch (IOException e) {
+
+		}
 	}
 }

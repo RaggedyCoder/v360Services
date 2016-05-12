@@ -15,16 +15,138 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">New Labour Entry</h1>
+					<h1 class="page-header">Labour Payment Entry</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="panel panel-default">
-					<div class="panel-heading">New Labour Entry</div>
-					<div class="panel-body"></div>
+					<div class="panel-heading">Payment Clearance Entry</div>
+					<div class="panel-body">
+						<form class="form-horizontal" method='POST'
+							th:object="${labourPaymentInfo}"
+							th:action="@{/labour/payment/info/save}">
+							<fieldset>
+								<legend>Labour Payment Info</legend>
+								<div class="form-group">
+									<label for="firstName" class="col-sm-2 control-label"
+										th:text="'Labour Name'">Labour Name</label>
+
+									<div class="col-sm-3">
+										<span class="form-control input-sm"
+											th:text="${labourWorkInfo.projectLabour.labour.fullName}"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="firstName" class="col-sm-2 control-label"
+										th:text="'Total Worked Unit'">Total Worked Unit</label>
+
+									<div class="col-sm-3">
+										<span class="form-control input-sm"
+											th:text="${labourWorkInfo.workedUnit}"></span>
+
+									</div>
+								</div>
+								<input type="hidden" name="labourWorkInfoId" th:value="${labourWorkInfo.id}" />
+								<div class="form-group">
+									<label for="firstName" class="col-sm-2 control-label"
+										th:text="'Labour Payment Unit'">Labour Payment Unit</label>
+
+									<!-- <div class="col-sm-3">
+										<span class="form-control input-sm"
+											th:text="${labourWageInfo.wageUnit}"></span>
+									</div> -->
+								</div>
+								<div class="form-group">
+									<label for="firstName" class="col-sm-2 control-label"
+										th:text="'Labour Payment Type'">Labour Payment Type</label>
+
+									<!-- <div class="col-sm-3">
+										<span class="form-control input-sm"
+											th:text="${labourWageInfo.wageType.name}"></span>
+									</div> -->
+								</div>
+								<div class="form-group">
+									<label for="normalPaidAmount" class="col-sm-2 control-label"
+										th:text="'Normal Payment'">Normal Payment</label>
+
+									<div class="col-sm-3">
+										<input type="text" id="normalPaidAmount"
+											th:field="*{normalPaidAmount}" maxlength="100"
+											class="form-control input-sm" />
+
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('normalPaidAmount')}">
+											<span th:errors="*{normalPaidAmount}">Required!</span>
+										</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="overtimePaidAmount" class="col-sm-2 control-label"
+										th:text="'Overtime Payment'">Overtime Payment</label>
+
+									<div class="col-sm-3">
+										<input type="text" id="overtimePaidAmount"
+											th:field="*{overtimePaidAmount}" maxlength="100"
+											class="form-control input-sm" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="extraPaidAmount" class="col-sm-2 control-label"
+										th:text="'Extra Payment'">Extra Payment</label>
+
+									<div class="col-sm-3">
+										<input type="text" id="extraPaidAmount"
+											th:field="*{extraPaidAmount}" maxlength="100"
+											class="form-control input-sm" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="paidDate" class="col-sm-2 control-label date"
+										th:text="'Payment Date'"> Payment Date</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control input-sm" id="paidDate"
+											th:field="*{paidDate}" />
+										<p class="text-danger"
+											th:if="${#fields.hasErrors('paidDate')}">
+											<span th:errors="*{paidDate}">Required</span>
+										</p>
+									</div>
+								</div>
+							</fieldset>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<a href="#" class="btn btn-danger"
+										th:href="@{/project/labour/show/__${labourWorkInfo.projectLabour.id}__}">
+										<span th:text="#{label.cancel}">Cancel</span>
+									</a>
+									<button type="submit" class="btn btn-primary"
+										th:text="#{label.submit}">Save Payment</button>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
+	<div layout:fragment="custom-scripts">
+		<script type="text/javascript"
+			src="../../../resources/js/jquery-2.1.3.min.js"
+			th:src="@{/resources/js/jquery-2.1.3.min.js}"></script>
+		<script type="text/javascript"
+			src="../../../resources/js/bootstrap.min.js"
+			th:src="@{/resources/js/bootstrap.min.js}"></script>
+		<script id="date" src="../../../resources/js/bootstrap-datepicker.js"
+			th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+		<script>
+			$('#paidDate').datepicker({
+				format : "dd/mm/yyyy",
+				startView : 2,
+				autoclose : true
+			});
+		</script>
+	</div>
 </body>
 </html>

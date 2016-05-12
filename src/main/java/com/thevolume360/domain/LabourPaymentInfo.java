@@ -1,6 +1,7 @@
 package com.thevolume360.domain;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,16 +35,16 @@ public class LabourPaymentInfo extends PersistentObject implements Auditable {
 	@Version
 	private Long version;
 
-	@Max(999999)
+	@Max(99999)
 	@Min(1)
 	@NotNull
 	private Integer normalPaidAmount;
 
-	@Max(999999)
+	@Max(99999)
 	@Min(1)
 	private Integer overtimePaidAmount;
 
-	@Max(999999)
+	@Max(99999)
 	@Min(1)
 	private Integer extraPaidAmount;
 
@@ -54,7 +55,7 @@ public class LabourPaymentInfo extends PersistentObject implements Auditable {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date paidDate;
+	private Date paidDate = new GregorianCalendar().getTime();
 
 	@OneToMany(mappedBy = "labourPaymentInfo")
 	private Set<LabourWorkInfo> labourWorkInfos = new HashSet<>();

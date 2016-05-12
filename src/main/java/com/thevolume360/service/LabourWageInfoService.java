@@ -1,5 +1,6 @@
 package com.thevolume360.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -20,4 +21,6 @@ public interface LabourWageInfoService {
 	public long count();
 
 	public void update(LabourWageInfo labourWageInfo);
+
+	public LabourWageInfo getLabourWageInfoByWorkedDate(Date workedDate);
 }

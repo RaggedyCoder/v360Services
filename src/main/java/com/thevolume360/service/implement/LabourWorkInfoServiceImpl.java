@@ -57,7 +57,14 @@ public class LabourWorkInfoServiceImpl implements LabourWorkInfoService {
 	}
 
 	@Override
-	public void update(LabourWorkInfo labourWorkInfo) {
+	public void update(LabourWorkInfo updatedLabourWorkInfo) {
+		LabourWorkInfo labourWorkInfo = labourWorkInfoDao.findOne(updatedLabourWorkInfo.getId());
+		labourWorkInfo.setPaid(updatedLabourWorkInfo.getIsPaid());
+		labourWorkInfo.setLabourPaymentInfo(updatedLabourWorkInfo.getLabourPaymentInfo());
+		labourWorkInfo.setProjectLabour(updatedLabourWorkInfo.getProjectLabour());
+		labourWorkInfo.setWorkedDate(updatedLabourWorkInfo.getWorkedDate());
+		labourWorkInfo.setWorkedUnit(labourWorkInfo.getWorkedUnit());
+		labourWorkInfoDao.save(labourWorkInfo);
 	}
 
 	@Override

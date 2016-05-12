@@ -31,7 +31,7 @@
 						Entry Form</div>
 					<div class="panel-body">
 						<form class="form-horizontal" method="POST"
-							th:object="${projectInfo}" enctype="multipart/form-data"
+							enctype="multipart/form-data" th:object="${projectInfo}"
 							role="form" data-toggle="validator"
 							th:action="@{/project/create?__${_csrf.parameterName}__=__${_csrf.token}__}">
 							<fieldset>
@@ -199,11 +199,10 @@
 										th:text="#{label.projectInfo.workOrder}">Project
 										Comment</label>
 									<div class="col-sm-3">
-										<input name="file" id="file-photo" type="file"
-											class="form-control input-sm" style="float: left"
-											required="required" maxlength="3145728"
+										<input type="file" class="form-control input-sm"
+											style="float: left" required="required" maxlength="3145728"
+											name="files"
 											multiple="multiple"
-											filetypes="jpg,jpeg,png,png,doc,docx"
 											data-maxlength-error="Photo size exceeded maximum size of 3 MB"
 											data-filetypes-error="Please upload a valid File (JPG / PNG / PDF / DOC / DOCX)" />
 									</div>

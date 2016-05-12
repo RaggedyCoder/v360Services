@@ -14,7 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -71,13 +70,11 @@ public class ProjectInfo extends PersistentObject implements Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-
 	private Long id;
 
 	@NotEmpty
 	@Size(max = 500, min = 4)
 	@Column(length = 500)
-
 	private String projectName;
 
 	@Size(max = 50)
@@ -118,7 +115,6 @@ public class ProjectInfo extends PersistentObject implements Auditable {
 	@NotNull
 	@Column(length = 10)
 	@Enumerated(EnumType.STRING)
-
 	private Status status;
 
 	@NotNull

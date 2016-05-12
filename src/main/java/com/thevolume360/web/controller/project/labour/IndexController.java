@@ -57,10 +57,16 @@ public class IndexController {
 			}
 			System.out.println(filteredLabourWorkInfo.size());
 			for (LabourWorkInfo labourWorkInfo : filteredLabourWorkInfo) {
-				System.out.println(labourWorkInfo);
+				//System.out.println(labourWorkInfo);
 				if (labourWorkInfo.getIsPaid()) {
 					wagePaid += labourWorkInfo.getLabourPaymentInfo().getNormalPaidAmount();
-					extraPaid += labourWorkInfo.getLabourPaymentInfo().getExtraPaidAmount();
+					//extraPaid += labourWorkInfo.getLabourPaymentInfo().getExtraPaidAmount();
+					if (labourWageInfo.getWageType().getWageCategory().equals(WageCategory.SUMMATION_UNIT)) {
+						paymentNeeded += (labourWageInfo.getWageUnit() / 26);
+					} else {
+						paymentNeeded += (labourWageInfo.getWageUnit() * labourWorkInfo.getWorkedUnit());
+					}
+					
 				} else {
 					if (labourWageInfo.getWageType().getWageCategory().equals(WageCategory.SUMMATION_UNIT)) {
 						paymentNeeded += (labourWageInfo.getWageUnit() / 26);

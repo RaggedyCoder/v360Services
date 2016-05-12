@@ -20,12 +20,11 @@ public interface LabourWorkInfoService {
 
 	public long count();
 
-	public void update(LabourWorkInfo labourWorkInfo);
+	public void update(LabourWorkInfo updatedLabourWorkInfo);
 
 	public List<LabourWorkInfo> findLabourWorkInfosByActivationDate(Long projectLabourId, Date activationDate);
 
 	public List<LabourWorkInfo> findLabourWorkInfosByActivationDateAndLastValidDate(Long projectLabourId,
 			Date activationDate, Date lastValidDate);
-
 
 }

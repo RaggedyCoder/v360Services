@@ -1,6 +1,7 @@
 package com.thevolume360.domain;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,7 +54,7 @@ public class ClientInvestment extends PersistentObject implements Auditable {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date investmentDate;
+	private Date investmentDate = new GregorianCalendar().getTime();
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -139,7 +140,5 @@ public class ClientInvestment extends PersistentObject implements Auditable {
 				+ client + ", investedAmount=" + investedAmount + ", investmentDate=" + investmentDate
 				+ ", investmentType=" + investmentType + ", uniqueInvestmentCode=" + uniqueInvestmentCode + "]";
 	}
-
-	
 
 }

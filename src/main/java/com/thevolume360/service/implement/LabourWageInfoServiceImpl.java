@@ -1,5 +1,6 @@
 package com.thevolume360.service.implement;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -64,6 +65,11 @@ public class LabourWageInfoServiceImpl implements LabourWageInfoService {
 		labourWageInfo.setActivationDate(updateLabourWageInfo.getActivationDate());
 		labourWageInfo.setLastValidDate(updateLabourWageInfo.getLastValidDate());
 		labourWageInfoDao.save(labourWageInfo);
+	}
+
+	@Override
+	public LabourWageInfo getLabourWageInfoByWorkedDate(Date workedDate) {
+		return labourWageInfoDao.findLabourWageInfoByWorkedDate(workedDate);
 	}
 
 }

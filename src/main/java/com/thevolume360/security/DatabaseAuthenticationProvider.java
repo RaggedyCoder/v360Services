@@ -45,7 +45,7 @@ public class DatabaseAuthenticationProvider extends AbstractUserDetailsAuthentic
 
 		try {
 			User targetUser = (User) userService.loadUserByUsername(username);
-			String encryptedPassword = messageDigestPasswordEncoder.encodePassword(password, targetUser.getSalt());
+			String encryptedPassword = messageDigestPasswordEncoder.encodePassword(password, "aqiUIU14bku1JB");
 			String expectedPassword = targetUser.getHashedPassword();
 
 			if (targetUser.getRoles() == null || targetUser.getRoles().size() == 0) {

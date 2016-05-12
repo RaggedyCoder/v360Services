@@ -1,15 +1,16 @@
 package com.thevolume360.domain;
 
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 public class UploadItem {
-	private CommonsMultipartFile fileData;
+	private MultipartFile[] file;
 
-	public CommonsMultipartFile getFileData() {
-		return fileData;
+	public MultipartFile[] getFile() {
+		return file;
 	}
 
-	public void setFileData(CommonsMultipartFile fileData) {
-		this.fileData = fileData;
+	public void setFile(MultipartFile[] file) {
+		this.file = file;
 	}
+
 }
